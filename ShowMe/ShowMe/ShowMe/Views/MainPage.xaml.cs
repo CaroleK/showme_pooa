@@ -17,6 +17,6 @@ namespace ShowMe.Views
         public MainPage()
         {
             InitializeComponent();
-        }            
+        }
     }
 }

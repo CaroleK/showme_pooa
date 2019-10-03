@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using ShowMe.Models;
+using System.Globalization;
 
 namespace ShowMe.Services
 {
@@ -19,54 +20,102 @@ namespace ShowMe.Services
             client = new HttpClient();
         }
 
-        public async Task<Show> GetSeriesAsync(string uri)
+        public async Task<Show> GetShowAsync(string uri)
         {
-            Show serie = null;
+            Show show = null;
             try
             {
                 HttpResponseMessage response = await client.GetAsync(new Uri(uri));
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonString = await response.Content.ReadAsStringAsync();
-                    serie = JsonConvert.DeserializeObject<Show>(jsonString);
+                    show = JsonConvert.DeserializeObject<Show>(jsonString);
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("\tERROR {0}", ex.Message); 
+                Debug.WriteLine("\tERROR {0}", ex.Message);
             }
 
-            return serie;
+            return show;
         }
 
-        public async Task<List<Show>> SearchSeriesAsync(string search)
+        public async Task<List<Show>> SearchShowAsync(string search)
         {
-            List<Show> series = null;
+            List<Show> shows = null;
             try
             {
-                HttpResponseMessage response = await client.GetAsync(new Uri("https://api.tvmaze.com/search/shows?q="+search));
+                HttpResponseMessage response = await client.GetAsync(new Uri("https://api.tvmaze.com/search/shows?q=" + search));
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonString = await response.Content.ReadAsStringAsync();
-                    List<SearchResult>  result = JsonConvert.DeserializeObject<List<SearchResult>>(jsonString);
-                    series = new List<Show>();
+                    List<SearchResult> result = JsonConvert.DeserializeObject<List<SearchResult>>(jsonString);
+                    shows = new List<Show>();
                     for (int i = 0; i < Math.Min(result.Count, 10); i++)
                     {
-                        series.Add(result[i].Serie);
+                        shows.Add(result[i].Serie);
                     }
-                    Show s = series[0]; 
+                    Show s = shows[0];
                 }
             }
             catch (Exception ex)
             {
-                return series;
+                return shows;
             }
 
-            return series;
+            return shows;
         }
+
+        // Not clean method : get the schedule regardless of the favorites then select schedule only if they are part of favorite
+        /*public async Task<List<Show>> GetUpcommingEpisode(ObservableCollection<Show> favorites) 
+        {
+            List<Show> shows = null;
+            DateTime dateTime = DateTime.Now;
+            CultureInfo culture = new CultureInfo("ja-JP");
+            RegionInfo region = new RegionInfo("FR");
+            string regionISO = region.TwoLetterISORegionName;
+                                 
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(new Uri("https://api.tvmaze.com/schedule?country="+regionISO+"&date="+dateTime.ToString(culture)));
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string jsonString = await response.Content.ReadAsStringAsync();
+                        List<Show> results = JsonConvert.DeserializeObject<List<Show>>(jsonString);
+                        shows = new List<Show>();
+                        foreach (Show f in favorites)
+                        {
+                        int id = f.Id; // To change with DB
+                            foreach(Show r in results)
+                            {
+                                if (id == r.Id)
+                                {
+                                    shows.Add(r);
+                                }
+                            }
+                        
+                        }
+                    }   
+            }
+            catch (Exception ex)
+            {
+                return shows;
+            }
+
+            return shows;
+        }*/
     }
 
     public class SearchResult
+    {
+        [JsonProperty("score")]
+        public string Score { get; set; }
+
+        [JsonProperty("show")]
+        public Show Serie { get; set; }
+    }
+
+    public class SearchSchedule
     {
         [JsonProperty("score")]
         public string Score { get; set; }

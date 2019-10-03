@@ -8,22 +8,37 @@ namespace ShowMe.Models
 {
     public class Show
     {
+        [JsonProperty("id")]
+        public int Id { get; set; } = 0;
 
         [JsonProperty("name")]
         public string Title { get; set; } = "No title";
 
-        [JsonProperty("summary")]
-        public string Description { get; set; } = "No description availble";
-
-        [JsonProperty("image")]
-        public Dictionary<string, string> Image { get; set; } = null;
+        [JsonProperty("language")]
+        public string Language { get; set; } = "No language";
 
         [JsonProperty("genres")]
         public string[] Genres { get; set; } = null;
 
-        public string ImageMedium => (Image !=null) ? (Image["medium"]).Replace("http", "https") : "";
+        [JsonProperty("officialSite")]
+        public string Url { get; set; } = "No site";
 
-        public string GenresInString => ((Genres !=null)&&(Genres.Length > 0)) ? string.Join(", ", Genres) : "";
+        /*[JsonProperty("schedule")]
+        public dynamic[] Schedule { get; set; } = null;*/
+
+        /*[JsonProperty("rating")]
+        public double Rating { get; set; } = 0.0;*/
+
+        [JsonProperty("summary")]
+        public string Description { get; set; } = "No description availble";
+
+
+        [JsonProperty("image")]
+        public Dictionary<string, string> Image { get; set; } = null;
+
+        public string ImageMedium => (Image != null) ? (Image["medium"]).Replace("http", "https") : "";
+
+        public string GenresInString => ((Genres != null) && (Genres.Length > 0)) ? string.Join(", ", Genres) : "";
 
         public override string ToString()
         {
