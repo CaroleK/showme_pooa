@@ -11,20 +11,19 @@ using Xamarin.Forms.Xaml;
 namespace ShowMe.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SerieDetailsPage : ContentPage
+    public partial class ShowDetailsPage : ContentPage
     {
-        SerieDetailsViewModel viewModel;
+        ShowDetailsViewModel viewModel;
 
-        public SerieDetailsPage(SerieDetailsViewModel viewModel)
+        public ShowDetailsPage(ShowDetailsViewModel viewModel)
         {
             InitializeComponent();
-
             BindingContext = this.viewModel = viewModel;
         }
 
         void OnClickAddFavorites(object sender, EventArgs e)
         {
-            MessagingCenter.Send(this, "AddFavorite", viewModel.Serie);
+            MessagingCenter.Send(this, "AddFavorite", viewModel.Show);
         }
     }
 }

@@ -3,9 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
+            xmlns:views="clr-namespace:ShowMe.Views"
+            mc:Ignorable="d"
              x:Class="ShowMe.Views.HomeTVPage">
-  <!--Pages can be added as references or inline-->
-  <ContentPage Title="Tab 1" />
-    <ContentPage Title="Tab 2" />
+    <!--Pages can be added as references or inline-->
+    <TabbedPage.Children>
+        <NavigationPage Title="Watch List">
+            <x:Arguments>
+                <views:HomeWatchListPage />
+            </x:Arguments>
+        </NavigationPage>
+
+        <NavigationPage Title="Upcomming">
+            <x:Arguments>
+                <views:HomeUpcommingPage />
+            </x:Arguments>
+        </NavigationPage>
+    </TabbedPage.Children>
 </TabbedPage>

@@ -25,23 +25,23 @@ namespace ShowMe.ViewModels
         }
 
         public async Task ExecuteLoadSeriesCommand()
-        {          
-            for (int i= counter*10 - 9; i<counter*10 + 1; i++)
+        {
+            for (int i = counter * 10 - 9; i < counter * 10 + 1; i++)
             {
-                Show s = await service.GetSeriesAsync("https://api.tvmaze.com/shows/" + i);
+                Show s = await service.GetShowAsync("https://api.tvmaze.com/shows/" + i);
                 if (s != null)
                 {
                     Series.Add(s);
-                }                
+                }
             }
             counter++;
         }
 
         public async Task ExecuteSearchSeriesCommand(string search)
         {
-            List<Show> s = await service.SearchSeriesAsync(search);
+            List<Show> s = await service.SearchShowAsync(search);
             Series.Clear();
-            if ((s != null)&&(s.Count > 0))
+            if ((s != null) && (s.Count > 0))
             {
                 foreach (Show serie in s)
                 {
