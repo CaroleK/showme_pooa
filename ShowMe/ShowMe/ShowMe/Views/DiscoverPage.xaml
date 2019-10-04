@@ -9,6 +9,8 @@
 
     <ContentPage.Content>
         <StackLayout>
+            
+            
             <SearchBar
                 x:Name="DiscoverSearchBar"
                 Placeholder="Search for shows..."
@@ -16,12 +18,18 @@
                 TextChanged="Discover_TextChanged"
                 Focused="Discover_Focused"
                 Unfocused="Discover_Unfocused"/>
+
+            
+
             <ListView
                 x:Name="DiscoverListView"
                 ItemsSource="{Binding Shows}"
                 HasUnevenRows="true"
+                ItemAppearing="Handle_ItemAppearing"
                 ItemSelected="OnListViewItemSelected">
+
                 <ListView.ItemTemplate>
+
                     <DataTemplate>
                         <ViewCell>
                             <Grid Padding="10">
@@ -49,11 +57,10 @@
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                
             </ListView>
-            <Button x:Name="Btn_LoadMore"
-            Text="Load more"
-            HorizontalOptions="Center"
-            Clicked="OnClickLoadMore"/>
+
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

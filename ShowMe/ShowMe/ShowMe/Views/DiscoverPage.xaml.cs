@@ -41,10 +41,14 @@ namespace ShowMe.Views
             DiscoverListView.SelectedItem = null;
         }
 
-        void OnClickLoadMore(object sender, EventArgs e)
+
+        private void Handle_ItemAppearing (object sender, ItemVisibilityEventArgs e)
         {
-            // Displays shows by incrementing a counter
-            Task.Run(() => viewModel.ExecuteLoadShowCommand());
+            var itemTypeObject = e.Item as Show;
+            if (viewModel.Shows.Last() == itemTypeObject)
+            {
+                Task.Run(() => viewModel.ExecuteLoadShowCommand());
+            }
         }
 
         private void Discover_SearchButtonPressed(object sender, EventArgs e)
@@ -60,19 +64,19 @@ namespace ShowMe.Views
                 // After erasing the search : displays shows by incrementing a counter
                 viewModel.Shows.Clear();
                 Task.Run(() => viewModel.ExecuteLoadShowCommand());
-                Btn_LoadMore.IsVisible = true;
+                // TO DELETE Btn_LoadMore.IsVisible = true;
             }
         }
 
         private void Discover_Focused(object sender, FocusEventArgs e)
         {
             // append when the element receives focus
-            Btn_LoadMore.IsVisible = false;
+            // TO DELETE Btn_LoadMore.IsVisible = false;
         }
 
         private void Discover_Unfocused(object sender, FocusEventArgs e)
         {
-            Btn_LoadMore.IsVisible = true;
+            // TO DELETE Btn_LoadMore.IsVisible = true;
         }
     }
 }
