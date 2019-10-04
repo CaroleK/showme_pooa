@@ -3,7 +3,9 @@ using ShowMe.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ShowMe.ViewModels
@@ -13,6 +15,9 @@ namespace ShowMe.ViewModels
         public ObservableCollection<Show> Shows { get; set; }
 
         TvMazeService service = new TvMazeService();
+
+        //Instantiate a Singleton of the Semaphore with a value of 1. This means that only 1 thread can be granted access at a time.
+        static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
         public int counter = 1;
 
@@ -27,16 +32,26 @@ namespace ShowMe.ViewModels
 
         public async Task ExecuteLoadShowCommand()
         {
-            for (int i = counter * 10 - 9; i < counter * 10; i++)
+            await semaphoreSlim.WaitAsync();
+            try
             {
-                Show s = await service.GetShowAsync("https://api.tvmaze.com/shows/" + i);
-                if (s != null)
+                for (int i = counter * 10 - 9; i < counter * 10; i++)
                 {
-                    Shows.Add(s);
-                }
+                    Show s = await service.GetShowAsync("https://api.tvmaze.com/shows/" + i);
+                    if (s != null)
+                    {
+                        Shows.Add(s);
+                    }
 
+                }
+                counter++;
+                
             }
-            counter++;
+            finally
+            {
+                semaphoreSlim.Release();
+            }
+            
         }
 
         public async Task ExecuteSearchShowCommand(string search)
