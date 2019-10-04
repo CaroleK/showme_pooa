@@ -114,7 +114,7 @@ namespace ShowMe.Views
                 var token = e.Account.Properties["access_token"];
                 App.SaveToken(token);
                 //App.CurrentApp.SuccessfulLoginAction();
-                ToMainPage();
+                ToMainPage(user);
             }
         }
 
@@ -130,9 +130,9 @@ namespace ShowMe.Views
             Debug.WriteLine("Authentication error: " + e.Message);
         }
 
-        async void ToMainPage()
+        async void ToMainPage(User user)
         {
-            await Navigation.PopModalAsync();
+            await Navigation.PushAsync(new MainPage(user));
         }
     }
 }

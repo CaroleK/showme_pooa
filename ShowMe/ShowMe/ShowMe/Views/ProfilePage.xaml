@@ -7,9 +7,12 @@
              x:Class="ShowMe.Views.ProfilePage">
     <ContentPage.Content>
         <StackLayout>
+            <Label Text="{Binding Email}" />
             <Label Text="Welcome to Xamarin.Forms!"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
+            <Image Source="{Binding Picture}"></Image>
+           
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

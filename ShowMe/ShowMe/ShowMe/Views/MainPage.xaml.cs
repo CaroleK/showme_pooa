@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ShowMe.Models;
+using ShowMe.ViewModels;
 using Xamarin.Forms;
 
 namespace ShowMe.Views
@@ -14,8 +15,10 @@ namespace ShowMe.Views
     [DesignTimeVisible(false)]
     public partial class MainPage : TabbedPage
     {
-        public MainPage()
+        MainPageViewModel mainPageViewModel;
+        public MainPage(User user)
         {
+            BindingContext = mainPageViewModel = new MainPageViewModel(user);
             bool test = App.IsLoggedIn; 
             InitializeComponent();
             if (!App.IsLoggedIn)
@@ -23,6 +26,8 @@ namespace ShowMe.Views
                 Navigation.PushModalAsync(new LoginPage());
             }
                          
-        }            
+        }
+
+      
     }
 }
