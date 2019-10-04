@@ -16,7 +16,13 @@ namespace ShowMe.Views
     {
         public MainPage()
         {
+            bool test = App.IsLoggedIn; 
             InitializeComponent();
+            if (!App.IsLoggedIn)
+            {
+                Navigation.PushModalAsync(new LoginPage());
+            }
+                         
         }            
     }
 }

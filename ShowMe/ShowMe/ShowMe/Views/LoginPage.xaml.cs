@@ -26,6 +26,11 @@ namespace ShowMe.Views
             //store = AccountStore.Create();
         }
 
+        protected override bool OnBackButtonPressed()
+        {
+            return false; 
+        }
+
         void OnLoginClicked(object sender, EventArgs e)
         {
             string clientId = Constants.AndroidClientId;
@@ -96,6 +101,10 @@ namespace ShowMe.Views
 
                 //await store.SaveAsync(account = e.Account, Constants.AppName);
                 await DisplayAlert("Email address", user.Email, "OK");
+                //ToMainPage();
+                var token = e.Account.Properties["access_token"];
+                App.SaveToken(token);
+                //App.CurrentApp.SuccessfulLoginAction();
                 ToMainPage();
             }
         }
@@ -114,7 +123,7 @@ namespace ShowMe.Views
 
         async void ToMainPage()
         {
-            await Navigation.PushAsync(new MainPage());
+            await Navigation.PopModalAsync();
         }
     }
 }
