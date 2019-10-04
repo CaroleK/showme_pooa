@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using ShowMe.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,8 +24,8 @@ namespace ShowMe.Models
         [JsonProperty("officialSite")]
         public string Url { get; set; } = "No site";
 
-        /*[JsonProperty("schedule")]
-        public dynamic[] Schedule { get; set; } = null;*/
+        [JsonProperty("schedule")]
+        public SearchSchedule Schedule { get; set; } 
 
         /*[JsonProperty("rating")]
         public double Rating { get; set; } = 0.0;*/
