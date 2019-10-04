@@ -4,12 +4,63 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="ShowMe.Views.DiscoverPage">
+             x:Class="ShowMe.Views.DiscoverPage"
+             Title="{Binding Title}">
+
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            
+            
+            <SearchBar
+                x:Name="DiscoverSearchBar"
+                Placeholder="Search for shows..."
+                SearchButtonPressed="Discover_SearchButtonPressed"
+                TextChanged="Discover_TextChanged"
+                Focused="Discover_Focused"
+                Unfocused="Discover_Unfocused"/>
+
+            
+
+            <ListView
+                x:Name="DiscoverListView"
+                ItemsSource="{Binding Shows}"
+                HasUnevenRows="true"
+                ItemAppearing="Handle_ItemAppearing"
+                ItemSelected="OnListViewItemSelected">
+
+                <ListView.ItemTemplate>
+
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.RowSpan="2"
+                                      Source="{Binding ImageMedium}"
+                                       Aspect="AspectFill"
+                                       HeightRequest="60"
+                                       WidthRequest="60"/>
+                                <Label Grid.Column="1"
+                                       Text="{Binding Title}"
+                                       FontAttributes="Bold"/>
+                                <Label Grid.Row="1"
+                                       Grid.Column="1"
+                                       Text="{Binding GenresInString}"
+                                       VerticalOptions="End"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                
+            </ListView>
+
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

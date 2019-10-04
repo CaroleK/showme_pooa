@@ -18,11 +18,15 @@ namespace ShowMe.Views
         {
             bool test = App.IsLoggedIn; 
             InitializeComponent();
+<<<<<<< HEAD
+        }
+=======
             if (!App.IsLoggedIn)
             {
                 Navigation.PushModalAsync(new LoginPage());
             }
                          
         }            
+>>>>>>> 846d7fb7f36f143df55f17b45c572c601e39f638
     }
 }

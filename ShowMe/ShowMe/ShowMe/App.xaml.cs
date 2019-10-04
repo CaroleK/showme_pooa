@@ -10,13 +10,12 @@ namespace ShowMe
         public App()
         {
             InitializeComponent();
-
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()
         {
-            // Handle when your app starts
+            
         }
 
         protected override void OnSleep()
@@ -27,6 +26,24 @@ namespace ShowMe
         protected override void OnResume()
         {
             // Handle when your app resumes
+        }
+
+        static NavigationPage _NavPage;
+
+        public static bool IsLoggedIn
+        {
+            get { return !string.IsNullOrWhiteSpace(_Token); }
+        }
+
+        static string _Token;
+        public static string Token
+        {
+            get { return _Token; }
+        }
+
+        public static void SaveToken(string token)
+        {
+            _Token = token;
         }
     }
 }

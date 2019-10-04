@@ -4,12 +4,12 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="ShowMe.Views.SerieDetailsPage"
+             x:Class="ShowMe.Views.ShowDetailsPage"
              Title="{Binding Title}">
 
     <StackLayout Spacing="20" Padding="15">
-        <Label Text="{Binding Serie.Title}" d:Text="Series name" FontSize="Medium" />
-        <Label Text="{Binding Serie.Description}" d:Text="Item description" FontSize="Small"/>
+        <Label Text="{Binding Show.Title}" d:Text="Show name" FontSize="Medium" />
+        <Label Text="{Binding Show.Description}" d:Text="Item description" FontSize="Small"/>
         <Button x:Name="Btn_AddFavorites"
             Text="Add to favorites"
             HorizontalOptions="Center"

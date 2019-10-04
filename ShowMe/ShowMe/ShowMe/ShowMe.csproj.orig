@@ -39,13 +39,14 @@
     <EmbeddedResource Update="Views\HomeTVPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\LoginPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
+<<<<<<< HEAD
     <EmbeddedResource Update="Views\HomeUpcommingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\HomeWatchListPage.xaml">
+=======
+    <EmbeddedResource Update="Views\LoginPage.xaml">
+>>>>>>> 846d7fb7f36f143df55f17b45c572c601e39f638
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\MyShowsPage.xaml">

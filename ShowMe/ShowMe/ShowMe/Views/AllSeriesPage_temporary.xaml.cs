@@ -26,7 +26,7 @@ namespace ShowMe.Views
             if (selectedItem == null)
                 return;
 
-            await Navigation.PushAsync(new SerieDetailsPage(new SerieDetailsViewModel(selectedItem)));
+            await Navigation.PushAsync(new ShowDetailsPage(new ShowDetailsViewModel(selectedItem)));
 
             // Manually deselect item.
             AllSeriesListView.SelectedItem = null;
@@ -37,7 +37,7 @@ namespace ShowMe.Views
             Task.Run(() => viewModel.ExecuteLoadSeriesCommand());
         }
 
-        
+
 
         private void AllSeriesSearch_SearchButtonPressed(object sender, EventArgs e)
         {
@@ -52,7 +52,7 @@ namespace ShowMe.Views
                 viewModel.Series.Clear();
                 Task.Run(() => viewModel.ExecuteLoadSeriesCommand());
                 Btn_LoadMore.IsVisible = true;
-            }           
+            }
         }
 
         private void AllSeriesSearch_Focused(object sender, FocusEventArgs e)
@@ -62,7 +62,7 @@ namespace ShowMe.Views
 
         private void AllSeriesSearch_Unfocused(object sender, FocusEventArgs e)
         {
-            
+
         }
     }
 }
