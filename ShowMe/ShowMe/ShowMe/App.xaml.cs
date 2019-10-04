@@ -28,8 +28,6 @@ namespace ShowMe
             // Handle when your app resumes
         }
 
-        static NavigationPage _NavPage;
-
         public static bool IsLoggedIn
         {
             get { return !string.IsNullOrWhiteSpace(_Token); }
