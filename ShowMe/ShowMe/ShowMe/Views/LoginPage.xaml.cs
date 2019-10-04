@@ -17,6 +17,7 @@ namespace ShowMe.Views
     public partial class LoginPage : ContentPage
     {
         Account account;
+        FireBaseHelper fireBaseHelper = new FireBaseHelper();
         //AccountStore store;
 
         public LoginPage()
@@ -92,6 +93,14 @@ namespace ShowMe.Views
                     // The users email address will be used to identify data in SimpleDB
                     string userJson = await response.GetResponseTextAsync();
                     user = JsonConvert.DeserializeObject<User>(userJson);
+                    Task<bool> task = fireBaseHelper.CheckIfUserExists(user.Id);
+                    await task;
+                   
+                    if (!task.Result)
+                    {
+                        await fireBaseHelper.AddUser(user.Id, user.Email , user.Picture); ;
+                    }
+
                 }
 
                 if (account != null)

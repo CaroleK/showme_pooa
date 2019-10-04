@@ -14,7 +14,7 @@
             </x:Arguments>
         </NavigationPage>
 
-        <NavigationPage Title="Upcomming">
+        <NavigationPage Title="Upcoming">
             <x:Arguments>
                 <views:HomeUpcommingPage />
             </x:Arguments>
