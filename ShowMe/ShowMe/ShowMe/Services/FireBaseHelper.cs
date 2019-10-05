@@ -12,7 +12,7 @@ namespace ShowMe.Services
 {
     class FireBaseHelper
     {
-        FirebaseClient Myfirebase = new FirebaseClient("https://showme-pooa.firebaseio.com/", new FirebaseOptions
+        FirebaseClient Myfirebase = new FirebaseClient(Constants.FireBaseUrl, new FirebaseOptions
         {
             OfflineDatabaseFactory = (t, s) => new OfflineDatabase(t, s),
         });

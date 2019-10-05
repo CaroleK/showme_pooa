@@ -27,13 +27,15 @@ namespace ShowMe.Views
         async void OnClickAddToMyShows(object sender, EventArgs e)
         {
             await fireBaseHelper.AddShowToUserList(ShowDetailsViewModel.user.Id, this.viewModel.Show);
+            MessagingCenter.Send<ShowDetailsPage,Show>(this, "AddToMyShows", viewModel.Show);
+
             bool userStartedWatchingShow = await DisplayAlert("Show added to your list!", "Did you start watching this show?", "Yes", "No");
             
             if (userStartedWatchingShow)
             {
                 await PopupNavigation.Instance.PushAsync(new AddShowPopUp());
             }
-            MessagingCenter.Send(this, "AddFavorite", viewModel.Show);
+            
         }
     }
 }

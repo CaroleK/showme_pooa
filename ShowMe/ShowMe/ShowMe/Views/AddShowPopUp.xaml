@@ -8,10 +8,10 @@
              x:Class="ShowMe.Views.AddShowPopUp">
 
     <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand" Padding="20, 20, 20, 20">
-        <StackLayout BackgroundColor="White" Padding="0, 10, 0, 0">
+        <StackLayout BackgroundColor="White" Padding="0, 20, 0, 0">
             <Label Text="Where have you left off?" FontSize="20" HorizontalOptions="Center"></Label>
             <ScrollView>
-                <StackLayout Padding="20, 0, 20, 20">
+                <StackLayout Padding="20, 5, 20, 20">
                     <StackLayout Orientation="Vertical">
                         <Label Text="Enter season"/>
                         <Entry Placeholder="Season" 
