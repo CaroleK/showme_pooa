@@ -8,8 +8,9 @@
     <ContentPage.Content>
         <StackLayout>
             <ListView
-            x:Name="AllSeriesListView"
+            x:Name="MyShowsListView"
             ItemsSource="{Binding MyShowsCollection}"
+            ItemSelected="OnListViewItemSelected"
             HasUnevenRows="true">
                 <ListView.ItemTemplate>
                     <DataTemplate>

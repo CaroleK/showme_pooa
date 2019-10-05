@@ -38,16 +38,23 @@ namespace ShowMe.Views
             
         }
 
-        void OnAboutClicked(object sender, EventArgs e)
+        private void OnAboutClicked(object sender, EventArgs e)
         {
             AboutTab.IsVisible = true;
             EpisodesTab.IsVisible = false;
         }
 
-        void OnEpisodesClicked(object sender, EventArgs e)
+        private void OnEpisodesClicked(object sender, EventArgs e)
         {
             AboutTab.IsVisible = false;
             EpisodesTab.IsVisible = true;
+        }
+
+        private void OnHeartTappedGestureRecognizer(object sender, EventArgs args)
+        {
+            var imageSender = (Image)sender;
+            imageSender.Source = "red_heart.png";
+
         }
     }
 }
