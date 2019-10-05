@@ -23,7 +23,6 @@ namespace ShowMe.Views
         public LoginPage()
         {
             InitializeComponent();
-
             //store = AccountStore.Create();
         }
 
