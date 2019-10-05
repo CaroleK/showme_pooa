@@ -10,9 +10,9 @@
     <StackLayout Spacing="20" Padding="15">
         <Label Text="{Binding Show.Title}" d:Text="Show name" FontSize="Medium" />
         <Label Text="{Binding Show.Description}" d:Text="Item description" FontSize="Small"/>
-        <Button x:Name="Btn_AddFavorites"
-            Text="Add to favorites"
+        <Button x:Name="Btn_AddToMyShows"
+            Text="Add to My Shows"
             HorizontalOptions="Center"
-            Clicked="OnClickAddFavorites"/>
+            Clicked="OnClickAddToMyShows"/>
     </StackLayout>
 </ContentPage>

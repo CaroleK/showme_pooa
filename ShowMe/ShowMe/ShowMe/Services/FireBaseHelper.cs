@@ -37,5 +37,14 @@ namespace ShowMe.Services
               .Child("Users")
               .PostAsync(new User() { Id = userId, Name = name, Picture = picture });
         }
+
+        public async Task AddShowToUserList(String UserId, Show selectedShow)
+        {
+
+            await Myfirebase
+              .Child("Users_Shows_List")
+              .Child(UserId)
+              .PostAsync(selectedShow);
+        }
     }
 }
