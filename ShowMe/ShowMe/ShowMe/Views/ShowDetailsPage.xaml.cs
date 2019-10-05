@@ -37,5 +37,17 @@ namespace ShowMe.Views
             }
             
         }
+
+        void OnAboutClicked(object sender, EventArgs e)
+        {
+            AboutTab.IsVisible = true;
+            EpisodesTab.IsVisible = false;
+        }
+
+        void OnEpisodesClicked(object sender, EventArgs e)
+        {
+            AboutTab.IsVisible = false;
+            EpisodesTab.IsVisible = true;
+        }
     }
 }
