@@ -5,7 +5,53 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="ShowMe.Views.LoginPage">
-    <StackLayout VerticalOptions="Center">
-        <Button Text="Login" Clicked="OnLoginClicked" />
-    </StackLayout>
+
+    <AbsoluteLayout VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand">
+
+        <Image 
+            AbsoluteLayout.LayoutFlags="All" 
+            AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+            Source="bg1.png" 
+            Aspect="AspectFill">
+            <Image.Source>
+                <OnPlatform x:TypeArguments="ImageSource">
+                    <On Platform="Android" 
+                        Value="signin_background_collage.png"/>
+                </OnPlatform>
+            </Image.Source>
+        </Image>
+
+        <StackLayout 
+            AbsoluteLayout.LayoutFlags="All" 
+            AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand">
+
+            <Image
+            HeightRequest="175"
+            Margin="0, 150, 0, 100">
+                    <Image.Source>
+                        <OnPlatform x:TypeArguments="ImageSource">
+                            <On Platform="Android" 
+                        Value="eye_icon_round.png"/>
+                        </OnPlatform>
+                    </Image.Source>
+            </Image>
+            <Button 
+                Margin="20"
+                Text="Sign in with Google" 
+                Clicked="OnLoginClicked"
+                BackgroundColor="White">
+                    <Button.ImageSource>
+                        <OnPlatform x:TypeArguments="ImageSource">
+                            <On Platform="Android" 
+                        Value="signin_google.png"/>
+                        </OnPlatform>
+                    </Button.ImageSource>
+                </Button>
+            </StackLayout>
+
+    </AbsoluteLayout>
+
 </ContentPage>

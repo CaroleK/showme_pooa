@@ -16,7 +16,7 @@ namespace ShowMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
-        Account account;
+        //Account account;
         FireBaseHelper fireBaseHelper = new FireBaseHelper();
         //AccountStore store;
 
@@ -29,7 +29,7 @@ namespace ShowMe.Views
 
         protected override bool OnBackButtonPressed()
         {
-            return false; 
+            return false;
         }
 
         void OnLoginClicked(object sender, EventArgs e)
@@ -103,14 +103,15 @@ namespace ShowMe.Views
 
                 }
 
+                /*
                 if (account != null)
                 {
-                    //store.Delete(account, Constants.AppName);
+                    store.Delete(account, Constants.AppName);
                 }
+                */
 
                 //await store.SaveAsync(account = e.Account, Constants.AppName);
-                await DisplayAlert("Email address", user.Email, "OK");
-                //ToMainPage();
+                //await DisplayAlert("Email address", user.Email, "OK");
                 var token = e.Account.Properties["access_token"];
                 App.SaveToken(token);
                 //App.CurrentApp.SuccessfulLoginAction();
@@ -129,7 +130,6 @@ namespace ShowMe.Views
 
             Debug.WriteLine("Authentication error: " + e.Message);
         }
-
         async void ToMainPage(User user)
         {
             await Navigation.PushAsync(new MainPage(user));

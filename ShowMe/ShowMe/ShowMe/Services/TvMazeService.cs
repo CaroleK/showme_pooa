@@ -60,7 +60,7 @@ namespace ShowMe.Services
             }
             catch (Exception ex)
             {
-                return shows;
+                //TODO
             }
 
             return shows;
