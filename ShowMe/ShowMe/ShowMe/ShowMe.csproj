@@ -16,12 +16,16 @@
   <ItemGroup>
     <PackageReference Include="FirebaseDatabase.net" Version="4.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="1.2.0.223" />
     <PackageReference Include="Xamarin.Auth" Version="1.7.0" />
     <PackageReference Include="Xamarin.Forms" Version="4.1.0.618606" />
     <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\AddShowPopUp.xaml.cs">
+      <DependentUpon>AddShowPopUp.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\FavoriteSeriesPage_temporary.xaml.cs">
       <DependentUpon>FavoriteSeriesPage_temporary.xaml</DependentUpon>
     </Compile>
@@ -34,6 +38,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Views\AddShowPopUp.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\DiscoverPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

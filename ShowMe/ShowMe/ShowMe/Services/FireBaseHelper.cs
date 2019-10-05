@@ -40,7 +40,6 @@ namespace ShowMe.Services
 
         public async Task AddShowToUserList(String UserId, Show selectedShow)
         {
-
             await Myfirebase
               .Child("Users_Shows_List")
               .Child(UserId)

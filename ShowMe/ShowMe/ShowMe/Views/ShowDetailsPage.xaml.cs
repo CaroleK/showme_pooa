@@ -8,6 +8,7 @@ using ShowMe.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using ShowMe.Services;
+using Rg.Plugins.Popup.Services;
 
 namespace ShowMe.Views
 {
@@ -30,7 +31,7 @@ namespace ShowMe.Views
             
             if (userStartedWatchingShow)
             {
-                string action = await DisplayActionSheet("Where have you left off?", null, "Cancel", "Season 2", "Season 3");
+                await PopupNavigation.Instance.PushAsync(new AddShowPopUp());
             }
             MessagingCenter.Send(this, "AddFavorite", viewModel.Show);
         }
