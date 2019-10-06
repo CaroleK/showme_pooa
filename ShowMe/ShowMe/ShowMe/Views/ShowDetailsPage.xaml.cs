@@ -7,6 +7,8 @@ using ShowMe.Models;
 using ShowMe.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using ShowMe.Services;
+using Rg.Plugins.Popup.Services;
 
 namespace ShowMe.Views
 {
@@ -14,6 +16,7 @@ namespace ShowMe.Views
     public partial class ShowDetailsPage : ContentPage
     {
         ShowDetailsViewModel viewModel;
+        FireBaseHelper fireBaseHelper = new FireBaseHelper();
 
         public ShowDetailsPage(ShowDetailsViewModel viewModel)
         {
@@ -21,9 +24,30 @@ namespace ShowMe.Views
             BindingContext = this.viewModel = viewModel;
         }
 
-        void OnClickAddFavorites(object sender, EventArgs e)
+        async void OnClickAddToMyShows(object sender, EventArgs e)
         {
-            MessagingCenter.Send(this, "AddFavorite", viewModel.Show);
+            await fireBaseHelper.AddShowToUserList(ShowDetailsViewModel.user.Id, this.viewModel.Show);
+            MessagingCenter.Send<ShowDetailsPage,Show>(this, "AddToMyShows", viewModel.Show);
+
+            bool userStartedWatchingShow = await DisplayAlert("Show added to your list!", "Did you start watching this show?", "Yes", "No");
+            
+            if (userStartedWatchingShow)
+            {
+                await PopupNavigation.Instance.PushAsync(new AddShowPopUp());
+            }
+            
+        }
+
+        void OnAboutClicked(object sender, EventArgs e)
+        {
+            AboutTab.IsVisible = true;
+            EpisodesTab.IsVisible = false;
+        }
+
+        void OnEpisodesClicked(object sender, EventArgs e)
+        {
+            AboutTab.IsVisible = false;
+            EpisodesTab.IsVisible = true;
         }
     }
 }

@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using ShowMe.Models;
 
 namespace ShowMe.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
         string title = string.Empty;
+        public static User user { set; get; }
+        //protected User User { set { };  get { return _user; } }
+
         public string Title
         {
             get { return title; }

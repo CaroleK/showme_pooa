@@ -29,18 +29,18 @@
                            Aspect="AspectFill"
                            HeightRequest="60"
                            WidthRequest="60" />
-                            <Label Grid.Column="1"
+                                <Label Grid.Column="1"
                            Text="{Binding Title}"
                            FontAttributes="Bold" />
-                            <Label Grid.Row="1"
+                                <Label Grid.Row="1"
                            Grid.Column="1"
                            Text="{Binding GenresInString}"
                            VerticalOptions="End" />
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
     </StackLayout>
 
 </ContentPage>

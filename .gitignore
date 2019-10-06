@@ -360,3 +360,4 @@ ASALocalRun/
 .mfractor/
 
 .vscode/settings.json
+*.orig
