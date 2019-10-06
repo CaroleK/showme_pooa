@@ -4,7 +4,17 @@ using System.Text;
 
 namespace ShowMe.Models
 {
-    class Episode
+    public class Episode
     {
+        public int Season;
+        public int Number;
+        public int ShowId;
+
+        public Episode(int season, int number, int showId)
+        {
+            Season = season;
+            Number = number;
+            ShowId = showId;
+        }
     }
 }

@@ -44,11 +44,5 @@ namespace ShowMe.Models
         {
             return Title;
         }
-
-        public Show(string title, string description)
-        {
-            Title = title;
-            Description = description;
-        }
     }
 }

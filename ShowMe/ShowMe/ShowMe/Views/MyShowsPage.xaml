@@ -34,7 +34,7 @@
                            FontAttributes="Bold" />
                                 <Label Grid.Row="1"
                            Grid.Column="1"
-                           Text="{Binding GenresInString}"
+                           Text="{Binding LastEpisodeInString}"
                            VerticalOptions="End" />
                             </Grid>
                         </ViewCell>
