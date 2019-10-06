@@ -16,14 +16,10 @@ namespace ShowMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
-        //Account account;
-        FireBaseHelper fireBaseHelper = new FireBaseHelper();
-        //AccountStore store;
 
         public LoginPage()
         {
             InitializeComponent();
-            //store = AccountStore.Create();
         }
 
         protected override bool OnBackButtonPressed()
@@ -50,9 +46,6 @@ namespace ShowMe.Views
             }
 
             // TODO: Unable the annoying "customtabs" message
-            
-
-            //account = store.FindAccountsForService(Constants.AppName).FirstOrDefault();
 
             var authenticator = new OAuth2Authenticator(
                 clientId,
@@ -95,12 +88,12 @@ namespace ShowMe.Views
                     // The users email address will be used to identify data in SimpleDB
                     string userJson = await response.GetResponseTextAsync();
                     user = JsonConvert.DeserializeObject<User>(userJson);
-                    Task<bool> task = fireBaseHelper.CheckIfUserExists(user.Id);
+                    Task<bool> task = FireBaseHelper.CheckIfUserExists(user.Id);
                     await task;
                    
                     if (!task.Result)
                     {
-                        await fireBaseHelper.AddUser(user.Id, user.Email , user.Picture); ;
+                        await FireBaseHelper.AddUser(user.Id, user.Email , user.Picture); ;
                     }
 
                 }
