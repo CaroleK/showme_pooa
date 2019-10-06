@@ -26,7 +26,8 @@
                 ItemsSource="{Binding Shows}"
                 HasUnevenRows="true"
                 ItemAppearing="Handle_ItemAppearing"
-                ItemSelected="OnListViewItemSelected">
+                ItemSelected="OnListViewItemSelected"
+                RefreshControlColor="LightSalmon">
 
                 <ListView.ItemTemplate>
 

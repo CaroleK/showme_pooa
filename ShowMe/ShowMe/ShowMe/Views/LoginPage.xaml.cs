@@ -49,6 +49,9 @@ namespace ShowMe.Views
                     break;
             }
 
+            // TODO: Unable the annoying "customtabs" message
+            
+
             //account = store.FindAccountsForService(Constants.AppName).FirstOrDefault();
 
             var authenticator = new OAuth2Authenticator(
