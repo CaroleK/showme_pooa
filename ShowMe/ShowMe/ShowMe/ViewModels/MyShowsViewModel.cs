@@ -19,11 +19,11 @@ namespace ShowMe.ViewModels
         {
             Title = "Browse Favorites";
 
-            MessagingCenter.Subscribe<ShowDetailsPage, Show>(this, "AddFavorite", (obj, item) =>
+            MessagingCenter.Subscribe<ShowDetailsPage, Show>(this, "AddToMyShows", (obj, item) =>
             {
                 Show newFavorite = item as Show;
                 MyShows.Add(newFavorite);
             });
-            Task.Run(() => MyShowsList());
+        }
     }
 }

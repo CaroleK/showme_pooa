@@ -105,18 +105,8 @@ namespace ShowMe.Views
 
                 }
 
-                /*
-                if (account != null)
-                {
-                    store.Delete(account, Constants.AppName);
-                }
-                */
-
-                //await store.SaveAsync(account = e.Account, Constants.AppName);
-                //await DisplayAlert("Email address", user.Email, "OK");
                 var token = e.Account.Properties["access_token"];
                 App.SaveToken(token);
-                //App.CurrentApp.SuccessfulLoginAction();
                 ToMainPage(user);
             }
         }
