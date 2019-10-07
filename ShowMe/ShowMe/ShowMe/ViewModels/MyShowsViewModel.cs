@@ -13,17 +13,32 @@ namespace ShowMe.ViewModels
     class MyShowsViewModel : BaseViewModel
     {
         // TO MODIFY ONCE WE HAVE DATABASE
-        public ObservableCollection<Show> MyShows { get; set; } = new ObservableCollection<Show>();
+        public ObservableCollection<MyShow> MyShows { get; set; } = new ObservableCollection<MyShow>();
+        public ObservableCollection<MyShow> ShowsToDisplay { get; set; } = new ObservableCollection<MyShow>();
+
         TvMazeService service = new TvMazeService();
-        public MyShowsViewModel()
+        public  MyShowsViewModel()
         {
             Title = "Browse Favorites";
 
-            MessagingCenter.Subscribe<ShowDetailsPage, Show>(this, "AddToMyShows", (obj, item) =>
-            {
-                Show newFavorite = item as Show;
-                MyShows.Add(newFavorite);
+            FetchMyShows();
+
+            MessagingCenter.Subscribe<ShowDetailsPage, MyShow>(this, "AddToMyShows", (obj, item) =>
+            {               
+                MyShows.Add(item);
+                ShowsToDisplay.Add(item);
             });
         }
+
+        public async void FetchMyShows()
+        {
+            List<MyShow> s = await FireBaseHelper.GetUserShowList(user.Id);
+            foreach (MyShow myShow in s)
+            {
+                MyShows.Add(myShow);
+                ShowsToDisplay.Add(myShow);
+            }
+        }
+
     }
 }

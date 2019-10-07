@@ -27,7 +27,6 @@ namespace ShowMe.ViewModels
             Shows = new ObservableCollection<Show>();
             // Example must be shown as the user first arrived on the discover page
             Task.Run(() => ExecuteLoadShowCommand());
-            //Show s = Shows[0];
         }
 
         public async Task ExecuteLoadShowCommand()

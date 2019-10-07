@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,10 +7,14 @@ namespace ShowMe.Models
 {
     public class Episode
     {
-        public int Season;
-        public int Number;
-        public int ShowId;
+        [JsonProperty("Season")]
+        public int Season { get; set; }
+        [JsonProperty("Number")]
+        public int Number { get; set; }
+        [JsonProperty("ShowId")]
+        public int ShowId { get; set; }
 
+        [JsonConstructor]
         public Episode(int season, int number, int showId)
         {
             Season = season;

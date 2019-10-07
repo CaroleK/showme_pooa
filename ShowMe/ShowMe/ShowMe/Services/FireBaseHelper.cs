@@ -9,6 +9,7 @@ using ShowMe.Models;
 using System.Linq;
 using System.Collections.ObjectModel;
 using LiteDB;
+using Newtonsoft.Json;
 
 namespace ShowMe.Services
 {
@@ -43,6 +44,30 @@ namespace ShowMe.Services
               .Child("Users_Shows_List")
               .Child(UserId)
               .PostAsync(selectedShow);
+        }
+
+        static public async Task<List<MyShow>> GetUserShowList(string userId)
+        {
+            List<MyShow> showList = new List<MyShow>();
+            var shows = await Myfirebase
+              .Child("Users_Shows_List")
+              .Child(userId)
+              .OnceAsync<MyShow>();
+
+            //var test = shows.ElementAt(0).Object;
+
+
+            foreach (var show in shows)
+            {
+                //MyShow myShow = show.Object as MyShow;
+
+                MyShow newShow = show.Object; 
+                
+                showList.Add(newShow);
+                
+            }
+
+            return showList;
         }
     }
 }

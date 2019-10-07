@@ -26,16 +26,18 @@ namespace ShowMe.Views
 
         async void OnClickAddToMyShows(object sender, EventArgs e)
         {
-            await fireBaseHelper.AddShowToUserList(ShowDetailsViewModel.user.Id, this.viewModel.Show);
-            MessagingCenter.Send<ShowDetailsPage,Show>(this, "AddToMyShows", viewModel.Show);
-
             bool userStartedWatchingShow = await DisplayAlert("Show added to your list!", "Did you start watching this show?", "Yes", "No");
             
             if (userStartedWatchingShow)
             {
                 await PopupNavigation.Instance.PushAsync(new AddShowPopUp());
             }
-            
+
+            //TODO : get last episode from popups, for now default values
+            MyShow myShow = new MyShow(this.viewModel.Show, false, true, new Episode(1, 1, this.viewModel.Show.Id));
+            await FireBaseHelper.AddShowToUserList(ShowDetailsViewModel.user.Id, myShow);
+
+            MessagingCenter.Send<ShowDetailsPage, MyShow>(this, "AddToMyShows", myShow);
         }
 
         void OnAboutClicked(object sender, EventArgs e)
