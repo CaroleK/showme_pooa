@@ -16,19 +16,15 @@ namespace ShowMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
-        Account account;
-        //AccountStore store;
 
         public LoginPage()
         {
             InitializeComponent();
-
-            //store = AccountStore.Create();
         }
 
         protected override bool OnBackButtonPressed()
         {
-            return false; 
+            return false;
         }
 
         void OnLoginClicked(object sender, EventArgs e)
@@ -49,7 +45,7 @@ namespace ShowMe.Views
                     break;
             }
 
-            //account = store.FindAccountsForService(Constants.AppName).FirstOrDefault();
+            // TODO: Unable the annoying "customtabs" message
 
             var authenticator = new OAuth2Authenticator(
                 clientId,
@@ -92,20 +88,19 @@ namespace ShowMe.Views
                     // The users email address will be used to identify data in SimpleDB
                     string userJson = await response.GetResponseTextAsync();
                     user = JsonConvert.DeserializeObject<User>(userJson);
+                    Task<bool> task = FireBaseHelper.CheckIfUserExists(user.Id);
+                    await task;
+                   
+                    if (!task.Result)
+                    {
+                        await FireBaseHelper.AddUser(user.Id, user.Email , user.Picture); ;
+                    }
+
                 }
 
-                if (account != null)
-                {
-                    //store.Delete(account, Constants.AppName);
-                }
-
-                //await store.SaveAsync(account = e.Account, Constants.AppName);
-                await DisplayAlert("Email address", user.Email, "OK");
-                //ToMainPage();
                 var token = e.Account.Properties["access_token"];
                 App.SaveToken(token);
-                //App.CurrentApp.SuccessfulLoginAction();
-                ToMainPage();
+                ToMainPage(user);
             }
         }
 
@@ -120,10 +115,9 @@ namespace ShowMe.Views
 
             Debug.WriteLine("Authentication error: " + e.Message);
         }
-
-        async void ToMainPage()
+        async void ToMainPage(User user)
         {
-            await Navigation.PopModalAsync();
+            await Navigation.PushAsync(new MainPage(user));
         }
     }
 }

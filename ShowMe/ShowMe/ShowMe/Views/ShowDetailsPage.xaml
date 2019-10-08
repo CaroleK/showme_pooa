@@ -7,12 +7,50 @@
              x:Class="ShowMe.Views.ShowDetailsPage"
              Title="{Binding Title}">
 
-    <StackLayout Spacing="20" Padding="15">
-        <Label Text="{Binding Show.Title}" d:Text="Show name" FontSize="Medium" />
-        <Label Text="{Binding Show.Description}" d:Text="Item description" FontSize="Small"/>
-        <Button x:Name="Btn_AddFavorites"
-            Text="Add to favorites"
-            HorizontalOptions="Center"
-            Clicked="OnClickAddFavorites"/>
+    <StackLayout Orientation="Horizontal" Padding="15" HorizontalOptions="Center" VerticalOptions="Center">
+        <Grid RowSpacing="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="180" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <StackLayout Orientation="Horizontal" Spacing="10"  Grid.Row="0" HorizontalOptions="Center">
+                <Image Source="{Binding Show.ImageMedium}" 
+                   HeightRequest="160"
+                   WidthRequest="130"
+                   Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
+                    <Label Text="{Binding Show.Title}" d:Text="Show name" FontSize="Large" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
+                    <Button x:Name="Btn_AddToMyShows"
+                            Text="Add to My Shows"
+                            HorizontalOptions="Center"
+                            Clicked="OnClickAddToMyShows"/>
+                </StackLayout>
+            </StackLayout>
+            
+            <!-- Tab buttons-->
+            <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Spacing="40">
+                <Button BackgroundColor="Transparent" Clicked="OnAboutClicked" Text="About" TextColor="Salmon"/>
+                <Button BackgroundColor="Transparent" Clicked="OnEpisodesClicked" Text="Episodes" TextColor="Salmon"/>
+            </StackLayout>
+
+            <!-- Tab containers -->
+            <StackLayout Grid.Row="2" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <StackLayout x:Name="AboutTab">
+                    <ScrollView>
+                        <StackLayout>
+                            <Label Text="Summary" FontSize="Medium"/>
+                            <Label Text="{Binding Show.Description}" d:Text="Show description" FontSize="Small"/>
+                        </StackLayout>
+                    </ScrollView>
+                </StackLayout>
+                <StackLayout  x:Name="EpisodesTab" IsVisible="false">
+                    <Label Text="Show episodes" FontSize="Medium"/>
+                </StackLayout>
+            </StackLayout>
+            
+        </Grid>
     </StackLayout>
 </ContentPage>

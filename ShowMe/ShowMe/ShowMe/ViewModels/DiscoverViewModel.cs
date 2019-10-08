@@ -27,7 +27,6 @@ namespace ShowMe.ViewModels
             Shows = new ObservableCollection<Show>();
             // Example must be shown as the user first arrived on the discover page
             Task.Run(() => ExecuteLoadShowCommand());
-            //Show s = Shows[0];
         }
 
         public async Task ExecuteLoadShowCommand()
@@ -37,7 +36,7 @@ namespace ShowMe.ViewModels
             {
                 for (int i = counter * 10 - 9; i < counter * 10; i++)
                 {
-                    Show s = await service.GetShowAsync("https://api.tvmaze.com/shows/" + i);
+                    Show s = await service.GetShowAsync(i);
                     if (s != null)
                     {
                         Shows.Add(s);

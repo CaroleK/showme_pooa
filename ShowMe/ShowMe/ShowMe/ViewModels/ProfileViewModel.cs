@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ShowMe.Models;
 
 namespace ShowMe.ViewModels
 {
-    class ProfileViewModel
+    public class ProfileViewModel : BaseViewModel
     {
+   
     }
 }

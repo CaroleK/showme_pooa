@@ -22,5 +22,8 @@ namespace ShowMe
         // Set these to reversed iOS/Android client ids, with :/oauth2redirect appended
         public static string iOSRedirectUrl = "<insert IOS redirect URL here>:/oauth2redirect";
         public static string AndroidRedirectUrl = "com.googleusercontent.apps.160403806470-lnlom070pat3ql392d6ri6jbc86lod6q:/oauth2redirect";
+
+        //For Firebase
+        public static string FireBaseUrl = "https://showme-pooa.firebaseio.com/";
     }
 }

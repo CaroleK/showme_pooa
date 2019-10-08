@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ShowMe.ViewModels;
+using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -11,14 +12,17 @@ using Xamarin.Forms.Xaml;
 namespace ShowMe.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ProfilePage : ContentPage
+    public partial class AddShowPopUp : PopupPage
     {
-        ProfileViewModel viewModel = new ProfileViewModel();
-
-        public ProfilePage()
+        public AddShowPopUp()
         {
             InitializeComponent();
-            BindingContext = ProfileViewModel.user;
+        }
+
+
+        private async void OnSave(object sender, EventArgs e)
+        {
+            await PopupNavigation.Instance.PopAsync();
         }
     }
 }

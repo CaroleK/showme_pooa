@@ -10,7 +10,7 @@ namespace ShowMe
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new MainPage());
+            MainPage = new NavigationPage(new LoginPage());
         }
 
         protected override void OnStart()
@@ -27,8 +27,6 @@ namespace ShowMe
         {
             // Handle when your app resumes
         }
-
-        static NavigationPage _NavPage;
 
         public static bool IsLoggedIn
         {

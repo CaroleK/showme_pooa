@@ -20,12 +20,12 @@ namespace ShowMe.Services
             client = new HttpClient();
         }
 
-        public async Task<Show> GetShowAsync(string uri)
+        public async Task<Show> GetShowAsync(int i)
         {
             Show show = null;
             try
             {
-                HttpResponseMessage response = await client.GetAsync(new Uri(uri));
+                HttpResponseMessage response = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + i));
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonString = await response.Content.ReadAsStringAsync();
@@ -60,7 +60,7 @@ namespace ShowMe.Services
             }
             catch (Exception ex)
             {
-                return shows;
+                //TODO
             }
 
             return shows;

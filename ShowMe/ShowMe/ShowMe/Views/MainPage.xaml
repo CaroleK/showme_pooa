@@ -9,6 +9,7 @@
             android:TabbedPage.BarBackgroundColor="Salmon"
             android:TabbedPage.BarSelectedItemColor="Black"
             android:TabbedPage.ToolbarPlacement="Bottom"
+            NavigationPage.HasNavigationBar="False"
             mc:Ignorable="d"
             xmlns:views="clr-namespace:ShowMe.Views"
             x:Class="ShowMe.Views.MainPage">
