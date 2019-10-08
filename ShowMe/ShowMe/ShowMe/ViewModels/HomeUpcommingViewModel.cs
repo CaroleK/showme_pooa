@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Threading.Tasks;
+using Xamarin.Forms;
+
 
 namespace ShowMe.ViewModels
 {
@@ -15,15 +17,20 @@ namespace ShowMe.ViewModels
         public PageScheduleShow ScheduleTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "Demain" };
         public PageScheduleShow ScheduleAfterTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "Après-demain" };
 
-//        public ObservableCollection<PageScheduleShow> SchedulesShows { get; set; } = new ObservableCollection<PageScheduleShow>();
+        public ObservableCollection<PageScheduleShow> SchedulesShows { get; set; } = new ObservableCollection<PageScheduleShow>();
         public List<Show> Favorites { get; set; }
+
 
 
 
         public HomeUpcommingViewModel() : base()
         {
             Title = "Up Coming Shows";
-            Task.Run(() => ExecuteUpCommingCommand());
+            Task.Run(() =>
+            Device.BeginInvokeOnMainThread(() =>
+            {
+            ExecuteUpCommingCommand();
+            }));
             Task.WaitAll();
         }
 
@@ -46,21 +53,21 @@ namespace ShowMe.ViewModels
             {
                 ScheduleToday.Add(schedule);
             }
-            //SchedulesShows.Add(ScheduleToday);
+            SchedulesShows.Add(ScheduleToday);
 
             List<ScheduleShow> sTomorrow = await service.GetUpCommingEpisode(Favorites, dateTimeTomorrow, regionISO);
             foreach (ScheduleShow schedule in sToday)
             {
                 ScheduleTomorrow.Add(schedule);
             }
-            //SchedulesShows.Add(ScheduleTomorrow);
+            SchedulesShows.Add(ScheduleTomorrow);
 
             List<ScheduleShow> sAfterTomorrow = await service.GetUpCommingEpisode(Favorites, dateTimeAfterTomorrow, regionISO);
             foreach (ScheduleShow schedule in sToday)
             {
                 ScheduleAfterTomorrow.Add(schedule);
             }
-            //SchedulesShows.Add(ScheduleAfterTomorrow);
+            SchedulesShows.Add(ScheduleAfterTomorrow);
 
         }
 

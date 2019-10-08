@@ -8,7 +8,9 @@
     <ContentPage.Content>
         <StackLayout>
             <ListView
-                ItemsSource="{Binding ScheduleToday}"
+                ItemsSource="{Binding SchedulesShows}"
+                IsGroupingEnabled="True"
+                GroupDisplayBinding="{Binding TitleDate}"
                 HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -22,36 +24,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <ListView
-                ItemsSource="{Binding ScheduleTomorrow}"
-                HasUnevenRows="True">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ImageCell
-                            Text="{Binding Show.Title}"
-                            Detail="{Binding TitleEpisode}"
-                            ImageSource="{Binding Show.ImageMedium}"
-                            >
-                        </ImageCell>
-
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <ListView
-                ItemsSource="{Binding ScheduleAfterTomorrow}"
-                HasUnevenRows="True">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ImageCell
-                            Text="{Binding Show.Title}"
-                            Detail="{Binding TitleEpisode}"
-                            ImageSource="{Binding Show.ImageMedium}"
-                            >
-                        </ImageCell>
-
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+           
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
