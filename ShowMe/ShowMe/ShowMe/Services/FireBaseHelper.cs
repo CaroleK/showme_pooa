@@ -6,7 +6,9 @@ using Firebase.Database.Offline;
 using Firebase.Database.Query;
 using System.Threading.Tasks;
 using ShowMe.Models;
+using Xamarin.Forms;
 using System.Linq;
+using ShowMe.ViewModels;
 using System.Collections.ObjectModel;
 using LiteDB;
 using Newtonsoft.Json;
@@ -20,6 +22,14 @@ namespace ShowMe.Services
             OfflineDatabaseFactory = (t, s) => new OfflineDatabase(t, s),
         });
 
+        //public FireBaseHelper()
+        //{
+        //    MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "ChangeToFavorite", (obj, item) => {
+
+        //        UpdateMyShow(item);
+        //    };
+
+
         static public async Task<bool> CheckIfUserExists(string userId)
         {
             var toCheckUser = (await Myfirebase
@@ -30,6 +40,9 @@ namespace ShowMe.Services
 
             return false;
         }
+
+       
+
         static public async Task AddUser(string userId, string name, string picture)
         {
 
@@ -54,20 +67,21 @@ namespace ShowMe.Services
               .Child(userId)
               .OnceAsync<MyShow>();
 
-            //var test = shows.ElementAt(0).Object;
-
-
             foreach (var show in shows)
             {
-                //MyShow myShow = show.Object as MyShow;
-
                 MyShow newShow = show.Object; 
-                
                 showList.Add(newShow);
-                
             }
 
             return showList;
+        }
+
+        internal static async Task DeleteShowFromUserList(string UserId, MyShow myShowToDelete)
+        {
+            await Myfirebase
+              .Child("Users_Shows_List")
+              .Child(UserId)
+              .DeleteAsync();
         }
     }
 }

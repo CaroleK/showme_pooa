@@ -32,10 +32,11 @@ namespace ShowMe.Models
 
         [JsonProperty("summary")]
         public string Description { get; set; } = "No description availble";
-
-
+        
         [JsonProperty("image")]
         public Dictionary<string, string> Image { get; set; } = null;
+
+        public Dictionary<string,int> LastEpisode { get; set; }
 
         public string ImageMedium => (Image != null) ? (Image["medium"]).Replace("http", "https") : "";
 
