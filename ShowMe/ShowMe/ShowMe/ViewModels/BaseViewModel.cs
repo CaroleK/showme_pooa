@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using ShowMe.Models;
+using ShowMe.Services;
 
 namespace ShowMe.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
         string title = string.Empty;
+        public ObservableCollection<MyShow> MyShows { get; set; } = new ObservableCollection<MyShow>();
+
         public static User user { set; get; }
         //protected User User { set { };  get { return _user; } }
 
@@ -18,6 +22,8 @@ namespace ShowMe.ViewModels
             get { return title; }
             set { SetProperty(ref title, value); }
         }
+
+        
 
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName]string propertyName = "",
@@ -30,6 +36,19 @@ namespace ShowMe.ViewModels
             onChanged?.Invoke();
             OnPropertyChanged(propertyName);
             return true;
+        }
+         public BaseViewModel()
+        {
+            FetchMyShows();
+        }
+
+        public async void FetchMyShows()
+        {
+            List<MyShow> s = await FireBaseHelper.GetUserShowList(user.Id);
+            foreach (MyShow myShow in s)
+            {
+                MyShows.Add(myShow);
+            }
         }
 
         #region INotifyPropertyChanged
