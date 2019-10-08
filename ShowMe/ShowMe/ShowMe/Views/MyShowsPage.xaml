@@ -8,6 +8,12 @@
              Title="{Binding Title}">
     <ContentPage.Content>
     <StackLayout>
+        <Picker x:Name="ShowPicker"
+                ItemsSource="{Binding FilterOptions}" 
+                SelectedItem="{Binding SelectedFilter}" 
+                VerticalOptions="Center" 
+                HorizontalOptions="FillAndExpand" 
+                SelectedIndexChanged="ShowPicker_SelectedIndexChanged"/>
         <ListView
             x:Name="MyShowsListView"
             ItemsSource="{Binding MyShows}"

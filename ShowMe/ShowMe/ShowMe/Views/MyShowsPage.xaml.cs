@@ -34,5 +34,10 @@ namespace ShowMe.Views
             // Manually deselecy item
             MyShowsListView.SelectedItem = null;
         }
+
+        private void ShowPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
