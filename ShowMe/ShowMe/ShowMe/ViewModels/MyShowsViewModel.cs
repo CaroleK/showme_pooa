@@ -16,15 +16,11 @@ namespace ShowMe.ViewModels
         public ObservableCollection<MyShow> ShowsToDisplay { get; set; } = new ObservableCollection<MyShow>();
 
         TvMazeService service = new TvMazeService();
-        public  MyShowsViewModel()
+        public  MyShowsViewModel():base()
         {
             Title = "Browse Favorites";
 
-            MessagingCenter.Subscribe<ShowDetailsPage, MyShow>(this, "AddToMyShows", (obj, item) =>
-            {               
-                MyShows.Add(item);
-                ShowsToDisplay.Add(item);
-            });
+            
         }
 
         

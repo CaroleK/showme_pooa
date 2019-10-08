@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using ShowMe.Models;
 using ShowMe.Services;
+using ShowMe.Views;
+using Xamarin.Forms;
 
 namespace ShowMe.ViewModels
 {
@@ -40,6 +42,10 @@ namespace ShowMe.ViewModels
          public BaseViewModel()
         {
             FetchMyShows();
+            MessagingCenter.Subscribe<ShowDetailsPage, MyShow>(this, "AddToMyShows", (obj, item) =>
+            {
+                MyShows.Add(item);
+            });
         }
 
         public async void FetchMyShows()

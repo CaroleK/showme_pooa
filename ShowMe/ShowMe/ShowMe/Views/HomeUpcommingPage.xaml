@@ -7,9 +7,41 @@
              x:Class="ShowMe.Views.HomeUpcommingPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <ListView
+                x:Name="SchedulesShows"
+                ItemsSource="{Binding ScheduleToday}"
+                HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.RowSpan="3"
+                                      Source="{Binding Show.ImageMedium}"
+                                       Aspect="AspectFill"
+                                       HeightRequest="60"
+                                       WidthRequest="60"/>
+                        <Label Grid.Column="1"
+                                       Text="{Binding Show.Title}"
+                                       FontAttributes="Bold"/>
+                        <Label Grid.Column="1"
+                                       Grid.Row="1"
+                                       Text="{Binding TitleEpisode}"/>
+                        <Label Grid.Row="2"
+                                       Grid.Column="1"
+                                       Text="{Binding Airtime}"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="End"/>
+                    </Grid>
+                </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
