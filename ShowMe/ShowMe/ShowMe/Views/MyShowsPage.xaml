@@ -4,27 +4,28 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="ShowMe.Views.MyShowsPage">
+             x:Class="ShowMe.Views.MyShowsPage"
+             Title="{Binding Title}">
     <ContentPage.Content>
-        <StackLayout>
-            <ListView
+    <StackLayout>
+        <ListView
             x:Name="MyShowsListView"
-            ItemsSource="{Binding MyShowsCollection}"
+            ItemsSource="{Binding ShowsToDisplay}"
             ItemSelected="OnListViewItemSelected"
             HasUnevenRows="true">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid Padding="10">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Image Grid.RowSpan="2"
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.RowSpan="2"
                            Source="{Binding ImageMedium}"
                            Aspect="AspectFill"
                            HeightRequest="60"
@@ -34,13 +35,13 @@
                            FontAttributes="Bold" />
                                 <Label Grid.Row="1"
                            Grid.Column="1"
-                           Text="{Binding GenresInString}"
+                           Text="{Binding LastEpisodeInString}"
                            VerticalOptions="End" />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-            </ListView>
+            </ListView>   
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

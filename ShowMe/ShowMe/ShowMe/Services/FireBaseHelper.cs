@@ -7,17 +7,20 @@ using Firebase.Database.Query;
 using System.Threading.Tasks;
 using ShowMe.Models;
 using System.Linq;
+using System.Collections.ObjectModel;
+using LiteDB;
+using Newtonsoft.Json;
 
 namespace ShowMe.Services
 {
     class FireBaseHelper
     {
-        FirebaseClient Myfirebase = new FirebaseClient(Constants.FireBaseUrl, new FirebaseOptions
+        static FirebaseClient Myfirebase = new FirebaseClient(Constants.FireBaseUrl, new FirebaseOptions
         {
             OfflineDatabaseFactory = (t, s) => new OfflineDatabase(t, s),
         });
 
-        public async Task<bool> CheckIfUserExists(string userId)
+        static public async Task<bool> CheckIfUserExists(string userId)
         {
             var toCheckUser = (await Myfirebase
               .Child("Users")
@@ -26,11 +29,8 @@ namespace ShowMe.Services
             if (!(toCheckUser == null)) { return true; }
 
             return false;
-
-
-
         }
-        public async Task AddUser(string userId, string name, string picture)
+        static public async Task AddUser(string userId, string name, string picture)
         {
 
             await Myfirebase
@@ -38,12 +38,36 @@ namespace ShowMe.Services
               .PostAsync(new User() { Id = userId, Name = name, Picture = picture });
         }
 
-        public async Task AddShowToUserList(String UserId, Show selectedShow)
+        static public async Task AddShowToUserList(string UserId, MyShow selectedShow)
         {
             await Myfirebase
               .Child("Users_Shows_List")
               .Child(UserId)
               .PostAsync(selectedShow);
+        }
+
+        static public async Task<List<MyShow>> GetUserShowList(string userId)
+        {
+            List<MyShow> showList = new List<MyShow>();
+            var shows = await Myfirebase
+              .Child("Users_Shows_List")
+              .Child(userId)
+              .OnceAsync<MyShow>();
+
+            //var test = shows.ElementAt(0).Object;
+
+
+            foreach (var show in shows)
+            {
+                //MyShow myShow = show.Object as MyShow;
+
+                MyShow newShow = show.Object; 
+                
+                showList.Add(newShow);
+                
+            }
+
+            return showList;
         }
     }
 }

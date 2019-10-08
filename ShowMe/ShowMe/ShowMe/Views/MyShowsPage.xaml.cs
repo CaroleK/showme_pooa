@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShowMe.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,12 +15,12 @@ namespace ShowMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MyShowsPage : ContentPage
     {
-        MyShowsViewModel myShowsViewModel;
+        MyShowsViewModel viewModel;
 
         public MyShowsPage()
         {
             InitializeComponent();
-            BindingContext = myShowsViewModel = new MyShowsViewModel();
+            BindingContext = viewModel = new MyShowsViewModel();
         }
 
         async void OnListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
