@@ -34,7 +34,10 @@ namespace ShowMe.Views
             }
 
             //TODO : get last episode from popups, for now default values
-            MyShow myShow = new MyShow(this.viewModel.Show, false, true, new Episode(1, 1, this.viewModel.Show.Id));
+            MyShow myShow = new MyShow(this.viewModel.Show, false, true, new Dictionary<string, int>{
+                            { "episode", 1 },
+                            { "season", 1 }
+                        });
             await FireBaseHelper.AddShowToUserList(ShowDetailsViewModel.user.Id, myShow);
 
             MessagingCenter.Send<ShowDetailsPage, MyShow>(this, "AddToMyShows", myShow);
