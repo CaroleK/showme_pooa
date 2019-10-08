@@ -28,6 +28,8 @@ namespace ShowMe.Models
         [JsonProperty("show")]
         public Show Show { get; set; }
 
+        public string Information => Airtime + " || " + TitleEpisode ;
+
         public ScheduleShow() { 
         }
 

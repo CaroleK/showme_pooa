@@ -16,13 +16,21 @@
                     <DataTemplate>
                         <ImageCell
                             Text="{Binding Show.Title}"
-                            Detail="{Binding TitleEpisode}"
+                            Detail="{Binding Information}"
+                            
                             ImageSource="{Binding Show.ImageMedium}"
                             >
                         </ImageCell>
-                        
+
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label  Text="{Binding TitleDate}"  TextColor="Black" Margin="10" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
             </ListView>
            
         </StackLayout>

@@ -13,9 +13,9 @@ namespace ShowMe.ViewModels
     public class HomeUpcommingViewModel : BaseViewModel
     {
         TvMazeService service = new TvMazeService();
-        public PageScheduleShow ScheduleToday { get; set; } = new PageScheduleShow() {TitleDate="Aujourd'hui"};
-        public PageScheduleShow ScheduleTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "Demain" };
-        public PageScheduleShow ScheduleAfterTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "Après-demain" };
+        public PageScheduleShow ScheduleToday { get; set; } = new PageScheduleShow() { TitleDate = "Shows to watch Today :" };
+        public PageScheduleShow ScheduleTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "Shows to watch Tomorrow :" };
+        public PageScheduleShow ScheduleAfterTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "Shows to watch After Tomorrow : " };
 
         public ObservableCollection<PageScheduleShow> SchedulesShows { get; set; } = new ObservableCollection<PageScheduleShow>();
         public List<Show> Favorites { get; set; }
@@ -29,7 +29,7 @@ namespace ShowMe.ViewModels
             Task.Run(() =>
             Device.BeginInvokeOnMainThread(() =>
             {
-            ExecuteUpCommingCommand();
+                ExecuteUpCommingCommand();
             }));
             Task.WaitAll();
         }
@@ -41,28 +41,22 @@ namespace ShowMe.ViewModels
             DateTime dateTimeAfterTomorrow = dateTimeToday.AddDays(2);
             RegionInfo region = new RegionInfo("FR");
             string regionISO = region.TwoLetterISORegionName;
-            Favorites = await FavoriteList();
-            /*List<MyShow> myShowsUpcomming = new List<MyShow>();
-            foreach(MyShow myshow in MyShows)
-            {
-                myShowsUpcomming.Add(myshow);
-            }*/
 
-            List<ScheduleShow> sToday = await service.GetUpCommingEpisode(Favorites, dateTimeToday, regionISO);
+            List<ScheduleShow> sToday = await service.GetUpCommingEpisode(MyShows, dateTimeToday, regionISO);
             foreach (ScheduleShow schedule in sToday)
             {
                 ScheduleToday.Add(schedule);
             }
             SchedulesShows.Add(ScheduleToday);
 
-            List<ScheduleShow> sTomorrow = await service.GetUpCommingEpisode(Favorites, dateTimeTomorrow, regionISO);
+            List<ScheduleShow> sTomorrow = await service.GetUpCommingEpisode(MyShows, dateTimeTomorrow, regionISO);
             foreach (ScheduleShow schedule in sToday)
             {
                 ScheduleTomorrow.Add(schedule);
             }
             SchedulesShows.Add(ScheduleTomorrow);
 
-            List<ScheduleShow> sAfterTomorrow = await service.GetUpCommingEpisode(Favorites, dateTimeAfterTomorrow, regionISO);
+            List<ScheduleShow> sAfterTomorrow = await service.GetUpCommingEpisode(MyShows, dateTimeAfterTomorrow, regionISO);
             foreach (ScheduleShow schedule in sToday)
             {
                 ScheduleAfterTomorrow.Add(schedule);
@@ -71,23 +65,8 @@ namespace ShowMe.ViewModels
 
         }
 
-        public async Task<List<Show>> FavoriteList()
 
-        {
-            List<Show> Favorites = new List<Show>();
 
-            List<int> favoritesid = new List<int> { 38681, 38991, 26950, 38680, 34409};
-
-            foreach (int i in favoritesid)
-            {
-                Show s = await service.GetShowAsync(i);
-                if (s != null)
-                {
-                    Favorites.Add(s);
-                }
-            }
-            return (Favorites);
-
-        }
     }
 }
+
