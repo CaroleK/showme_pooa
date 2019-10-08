@@ -32,7 +32,7 @@ namespace ShowMe.ViewModels
         {
             for (int i = 0; i < 10; i++)
             {
-                Show s = await service.GetShowAsync("https://api.tvmaze.com/shows/" + i);
+                Show s = await service.GetShowAsync(i);
                 if (s != null)
                 {
                     Favorites.Add(s);

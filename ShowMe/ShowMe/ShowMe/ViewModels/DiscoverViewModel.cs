@@ -36,7 +36,7 @@ namespace ShowMe.ViewModels
             {
                 for (int i = counter * 10 - 9; i < counter * 10; i++)
                 {
-                    Show s = await service.GetShowAsync("https://api.tvmaze.com/shows/" + i);
+                    Show s = await service.GetShowAsync(i);
                     if (s != null)
                     {
                         Shows.Add(s);
