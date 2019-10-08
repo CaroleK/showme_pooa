@@ -21,6 +21,7 @@ namespace ShowMe.Models
 
         [JsonProperty("number")]
         public int Number { get; set; }
+        
 
         [JsonConstructor]
         public Episode(int season, int number)

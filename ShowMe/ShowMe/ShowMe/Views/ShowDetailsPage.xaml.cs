@@ -33,26 +33,45 @@ namespace ShowMe.Views
                 await PopupNavigation.Instance.PushAsync(new AddShowPopUp());
             }
 
-            //TODO : get last episode from popups, for now default values
+            viewModel.AddShowToMyShowsCollection(this.viewModel.Show);
             MyShow myShow = new MyShow(this.viewModel.Show, false, true, new Dictionary<string, int>{
                             { "episode", 1 },
                             { "season", 1 }
                         });
-            await FireBaseHelper.AddShowToUserList(ShowDetailsViewModel.user.Id, myShow);
-
-            MessagingCenter.Send<ShowDetailsPage, MyShow>(this, "AddToMyShows", myShow);
+            Btn_AddToMyShows.IsVisible = false;
+            Btn_AddToFavorite.IsVisible = true;
+            Btn_DeleteFromMyShows.IsVisible = true;
         }
 
-        void OnAboutClicked(object sender, EventArgs e)
+        async void OnClickDeleteFromMyShows(object sender, EventArgs e)
+        {
+            await DisplayAlert("Show deleted", "The show was successfully deleted from your list!", "Ok");
+
+            MyShow myShowToDelete = this.viewModel.Show as MyShow;
+            viewModel.DeleteShowFromMyShowsCollection(myShowToDelete);
+            Btn_AddToMyShows.IsVisible = true;
+            Btn_AddToFavorite.IsVisible = false;
+            Btn_DeleteFromMyShows.IsVisible = false;
+        }
+
+        private void OnAboutClicked(object sender, EventArgs e)
         {
             AboutTab.IsVisible = true;
             EpisodesTab.IsVisible = false;
         }
 
-        void OnEpisodesClicked(object sender, EventArgs e)
+        private void OnEpisodesClicked(object sender, EventArgs e)
         {
             AboutTab.IsVisible = false;
             EpisodesTab.IsVisible = true;
+        }
+
+        private void OnHeartTappedGestureRecognizer(object sender, EventArgs args)
+        {
+            var imageSender = (Image)sender;
+            imageSender.Source = "red_heart.png";
+            viewModel.AddShowToFavorites(this.viewModel.Show);
+
         }
     }
 }

@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Collections.ObjectModel;
+using Xamarin.Forms;
 using ShowMe.Models;
 using ShowMe.Services;
 
@@ -40,6 +42,16 @@ namespace ShowMe.ViewModels
          public BaseViewModel()
         {
             FetchMyShows();
+
+            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", (obj, item) =>
+            {
+                MyShows.Add(item);
+            });
+
+            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "DeleteFromMyShows", (obj, item) =>
+            {
+                MyShows.Remove(item);
+            });
         }
 
         public async void FetchMyShows()
@@ -48,6 +60,7 @@ namespace ShowMe.ViewModels
             foreach (MyShow myShow in s)
             {
                 MyShows.Add(myShow);
+
             }
         }
 

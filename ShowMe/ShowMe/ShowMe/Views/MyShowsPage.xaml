@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              x:Class="ShowMe.Views.MyShowsPage"
              Title="{Binding Title}">
-
+    <ContentPage.Content>
     <StackLayout>
         <Picker x:Name="ShowPicker"
                 ItemsSource="{Binding FilterOptions}" 
@@ -17,6 +17,7 @@
         <ListView
             x:Name="MyShowsListView"
             ItemsSource="{Binding ShowsToDisplay}"
+            ItemSelected="OnListViewItemSelected"
             HasUnevenRows="true">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -46,7 +47,7 @@
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-            </ListView>
-    </StackLayout>
-
+            </ListView>   
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

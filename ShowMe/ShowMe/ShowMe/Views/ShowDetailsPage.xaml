@@ -22,11 +22,29 @@
                    WidthRequest="130"
                    Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center"/>
                 <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
+                    <Image x:Name="Btn_AddToFavorite" HeightRequest="20" WidthRequest="20" IsVisible="False">
+                        <Image.Source>
+                            <OnPlatform x:TypeArguments="ImageSource">
+                                <On Platform="Android" 
+                                    Value="empty_heart.png"/>
+                            </OnPlatform>
+                        </Image.Source>
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer
+                                            Tapped="OnHeartTappedGestureRecognizer"
+                                            NumberOfTapsRequired="1" />
+                        </Image.GestureRecognizers>
+                    </Image>
                     <Label Text="{Binding Show.Title}" d:Text="Show name" FontSize="Large" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
                     <Button x:Name="Btn_AddToMyShows"
                             Text="Add to My Shows"
                             HorizontalOptions="Center"
                             Clicked="OnClickAddToMyShows"/>
+                    <Button x:Name="Btn_DeleteFromMyShows"
+                            Text="Delete From My Shows"
+                            HorizontalOptions="Center"
+                            Clicked="OnClickDeleteFromMyShows"
+                            IsVisible="False"/>
                 </StackLayout>
             </StackLayout>
             

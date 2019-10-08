@@ -9,10 +9,13 @@ namespace ShowMe.Models
     {
         [JsonProperty("IsFavorite")]
         public bool IsFavorite { get; set; }
+        
         [JsonProperty("MustNotify")]
         public bool MustNotify { get; set; }
+        
         [JsonProperty("LastEpisode")]
         public Dictionary<string, int> LastEpisodeWatched { get; set; }
+        
         [JsonProperty("LastEpisodeInString")]
         public string LastEpisodeInString => (LastEpisode != null) ? "Last watched: S" + LastEpisode["season"] + "E" + LastEpisode["episode"] : "Not started watching";
 

@@ -32,13 +32,9 @@ namespace ShowMe.ViewModels
         TvMazeService service = new TvMazeService();
         public  MyShowsViewModel()
         {
-            Title = "Browse Favorites";
+            Title = "Browse MyShows";
 
-            MessagingCenter.Subscribe<ShowDetailsPage, MyShow>(this, "AddToMyShows", (obj, item) =>
-            {               
-                MyShows.Add(item);
-                ShowsToDisplay.Add(item);
-            });
+        
 
             FilterOptions = new ObservableCollection<string>
                 {
