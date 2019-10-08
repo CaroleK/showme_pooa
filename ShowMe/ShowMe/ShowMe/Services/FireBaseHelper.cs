@@ -22,15 +22,17 @@ namespace ShowMe.Services
             OfflineDatabaseFactory = (t, s) => new OfflineDatabase(t, s),
         });
 
-        //public FireBaseHelper()
-        //{
-        //    MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "ChangeToFavorite", (obj, item) => {
+        public FireBaseHelper()
+        {
+            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "ChangeToFavorite", async (obj, item) =>
+            {
 
-        //        UpdateMyShow(item);
-        //    };
+                await UpdateMyShow(item);
+            });
+        }
 
 
-        static public async Task<bool> CheckIfUserExists(string userId)
+         static public async Task<bool> CheckIfUserExists(string userId)
         {
             var toCheckUser = (await Myfirebase
               .Child("Users")
@@ -84,6 +86,16 @@ namespace ShowMe.Services
               .Child(UserId)
               .Child(myShowToDelete.Title)
               .DeleteAsync();
+        }
+
+
+        private static async Task UpdateMyShow(MyShow showToUpdate)
+        {
+            await Myfirebase
+                .Child("Users_Shows_List")
+                .Child(BaseViewModel.user.Id)
+                .Child(showToUpdate.Title)
+                .PutAsync(showToUpdate);
         }
     }
 }
