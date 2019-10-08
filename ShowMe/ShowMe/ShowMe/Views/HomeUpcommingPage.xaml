@@ -7,9 +7,21 @@
              x:Class="ShowMe.Views.HomeUpcommingPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <ListView
+                ItemsSource="{Binding ScheduleToday}"
+                >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ImageCell
+                            Text="{Binding Show.Title}"
+                            Detail="{Binding TitleEpisode}"
+                            ImageSource="{Binding Show.ImageMedium}">
+                            
+                        </ImageCell>
+                        
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
