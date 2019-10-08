@@ -4,6 +4,7 @@ using System.Text;
 using ShowMe.Services;
 using ShowMe.Models;
 using ShowMe.Views;
+using System.Linq;
 using Xamarin.Forms;
 
 
@@ -18,17 +19,23 @@ namespace ShowMe.ViewModels
             Show = show;
         }
 
-        public async void AddShowToShowList(Show showToAdd)
+        public async void AddShowToMyShowsCollection(Show showToAdd)
         {
             MyShow myShow = new MyShow(showToAdd, false, true, new Episode(1, 1, showToAdd.Id));
             await FireBaseHelper.AddShowToUserList(user.Id, myShow);
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", myShow);
         }
 
-        public async void DeleteShowFromShowList(MyShow myShowToDelete)
+        public async void DeleteShowFromMyShowsCollection(MyShow myShowToDelete)
         {
             await FireBaseHelper.DeleteShowFromUserList(user.Id, myShowToDelete);
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "DeleteFromMyShows", myShowToDelete);
+        }
+
+        public void AddShowToFavorites(Show myToBeFavoriteShow)
+        {
+            MyShow myFavoriteShow = MyShows.FirstOrDefault(x => x.Id == myToBeFavoriteShow.Id);
+            myFavoriteShow.IsFavorite = true;
         }
     }
 }

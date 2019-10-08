@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Collections.ObjectModel;
+using Xamarin.Forms;
 using ShowMe.Models;
 
 namespace ShowMe.ViewModels
@@ -13,6 +15,7 @@ namespace ShowMe.ViewModels
         public static User user { set; get; }
         //protected User User { set { };  get { return _user; } }
 
+        public ObservableCollection<MyShow> MyShows { get; set; } = new ObservableCollection<MyShow>();
         public string Title
         {
             get { return title; }
@@ -43,5 +46,18 @@ namespace ShowMe.ViewModels
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+
+        public BaseViewModel()
+        {
+            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", (obj, item) =>
+            {
+                MyShows.Add(item);
+            });
+
+            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "DeleteFromMyShows", (obj, item) =>
+            {
+                MyShows.Remove(item);
+            });
+        }
     }
 }

@@ -33,7 +33,7 @@ namespace ShowMe.Views
                 await PopupNavigation.Instance.PushAsync(new AddShowPopUp());
             }
 
-            viewModel.AddShowToShowList(this.viewModel.Show);
+            viewModel.AddShowToMyShowsCollection(this.viewModel.Show);
             Btn_AddToMyShows.IsVisible = false;
             Btn_AddToFavorite.IsVisible = true;
             Btn_DeleteFromMyShows.IsVisible = true;
@@ -44,7 +44,7 @@ namespace ShowMe.Views
             await DisplayAlert("Show deleted", "The show was successfully deleted from your list!", "Ok");
 
             MyShow myShowToDelete = this.viewModel.Show as MyShow;
-            viewModel.DeleteShowFromShowList(myShowToDelete);
+            viewModel.DeleteShowFromMyShowsCollection(myShowToDelete);
             Btn_AddToMyShows.IsVisible = true;
             Btn_AddToFavorite.IsVisible = false;
             Btn_DeleteFromMyShows.IsVisible = false;
@@ -66,6 +66,7 @@ namespace ShowMe.Views
         {
             var imageSender = (Image)sender;
             imageSender.Source = "red_heart.png";
+            viewModel.AddShowToFavorites(this.viewModel.Show);
 
         }
     }

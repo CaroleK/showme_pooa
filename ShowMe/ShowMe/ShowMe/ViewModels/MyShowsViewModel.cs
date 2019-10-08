@@ -13,7 +13,6 @@ namespace ShowMe.ViewModels
     class MyShowsViewModel : BaseViewModel
     {
         // TO MODIFY ONCE WE HAVE DATABASE
-        public ObservableCollection<MyShow> MyShows { get; set; } = new ObservableCollection<MyShow>();
         public ObservableCollection<MyShow> ShowsToDisplay { get; set; } = new ObservableCollection<MyShow>();
 
         TvMazeService service = new TvMazeService();
@@ -23,15 +22,7 @@ namespace ShowMe.ViewModels
 
             FetchMyShows();
 
-            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", (obj, item) =>
-            {               
-                MyShows.Add(item);
-            });
-
-            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "DeleteFromMyShows", (obj, item) =>
-            {
-                MyShows.Remove(item);
-            });
+        
         }
 
         public async void FetchMyShows()
