@@ -13,10 +13,20 @@ namespace ShowMe.ViewModels
     public class ShowDetailsViewModel : BaseViewModel
     {
         public Show Show { get; set; }
-        public ShowDetailsViewModel(Show show = null)
+        public ShowDetailsViewModel(Show show = null) : base()
         {
-            Title = show?.Title;
-            Show = show;
+            if (MyShows.Any(e => e.Id==show.Id))
+            {
+                MyShow myshow = MyShows.First(e => e.Id == show.Id);
+                Title = myshow?.Title;
+                Show = myshow;
+            }
+            else
+            {
+                Title = show?.Title;
+                Show = show;
+            }
+           
         }
 
         public async void AddShowToMyShowsCollection(Show showToAdd)

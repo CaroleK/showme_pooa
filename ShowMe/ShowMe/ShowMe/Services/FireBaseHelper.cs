@@ -56,7 +56,8 @@ namespace ShowMe.Services
             await Myfirebase
               .Child("Users_Shows_List")
               .Child(UserId)
-              .PostAsync(selectedShow);
+              .Child(selectedShow.Title)
+              .PutAsync(selectedShow);
         }
 
         static public async Task<List<MyShow>> GetUserShowList(string userId)
@@ -81,6 +82,7 @@ namespace ShowMe.Services
             await Myfirebase
               .Child("Users_Shows_List")
               .Child(UserId)
+              .Child(myShowToDelete.Title)
               .DeleteAsync();
         }
     }

@@ -22,6 +22,12 @@ namespace ShowMe.Views
         {
             InitializeComponent();
             BindingContext = this.viewModel = viewModel;
+            if (viewModel.Show is MyShow)
+            {
+                Btn_AddToMyShows.IsVisible = false;
+                Btn_AddToFavorite.IsVisible = true;
+                Btn_DeleteFromMyShows.IsVisible = true;
+            }
         }
 
         async void OnClickAddToMyShows(object sender, EventArgs e)

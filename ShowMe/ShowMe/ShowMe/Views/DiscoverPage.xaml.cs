@@ -30,6 +30,7 @@ namespace ShowMe.Views
 
         async void OnListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
+            
             Show selectedItem = e.SelectedItem as Show;
             if (selectedItem == null)
             {

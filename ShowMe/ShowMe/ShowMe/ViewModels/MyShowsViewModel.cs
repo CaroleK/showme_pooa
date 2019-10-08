@@ -34,7 +34,7 @@ namespace ShowMe.ViewModels
         {
             Title = "Browse MyShows";
 
-        
+            FetchMyShows();
 
             FilterOptions = new ObservableCollection<string>
                 {
@@ -48,6 +48,7 @@ namespace ShowMe.ViewModels
         void FilterItems()
         {
             // TODO
+
         }
 
 

@@ -13,7 +13,7 @@ namespace ShowMe.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         string title = string.Empty;
-        public ObservableCollection<MyShow> MyShows { get; set; } = new ObservableCollection<MyShow>();
+        static public ObservableCollection<MyShow> MyShows { get; set; } = new ObservableCollection<MyShow>();
 
         public static User user { set; get; }
         //protected User User { set { };  get { return _user; } }
@@ -40,7 +40,6 @@ namespace ShowMe.ViewModels
         }
          public BaseViewModel()
         {
-            FetchMyShows();
 
             MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", (obj, item) =>
             {
