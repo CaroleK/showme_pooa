@@ -21,5 +21,10 @@ namespace ShowMe.Views
             InitializeComponent();
             BindingContext = viewModel = new MyShowsViewModel();
         }
+
+        private void ShowPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

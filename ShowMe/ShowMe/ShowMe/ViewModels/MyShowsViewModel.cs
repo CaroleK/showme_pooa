@@ -14,6 +14,20 @@ namespace ShowMe.ViewModels
     {
         // TO MODIFY ONCE WE HAVE DATABASE
         public ObservableCollection<MyShow> ShowsToDisplay { get; set; } = new ObservableCollection<MyShow>();
+        public ObservableCollection<string> FilterOptions { get; }
+
+        string selectedFilter = "All";
+        public string SelectedFilter
+        {
+            get => selectedFilter;
+            set
+            {
+                if (SetProperty(ref selectedFilter, value))
+                {
+                    FilterItems();
+                }
+            }
+        }
 
         TvMazeService service = new TvMazeService();
         public  MyShowsViewModel()
@@ -25,9 +39,21 @@ namespace ShowMe.ViewModels
                 MyShows.Add(item);
                 ShowsToDisplay.Add(item);
             });
+
+            FilterOptions = new ObservableCollection<string>
+                {
+                    "All",
+                    "Not started",
+                    "In progress",
+                    "Finished"
+                };
         }
 
-        
+        void FilterItems()
+        {
+            // TODO
+        }
+
 
     }
 }
