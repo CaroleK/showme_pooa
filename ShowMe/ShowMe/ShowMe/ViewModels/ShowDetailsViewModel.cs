@@ -21,7 +21,7 @@ namespace ShowMe.ViewModels
 
         public async void AddShowToMyShowsCollection(Show showToAdd)
         {
-            MyShow myShow = new MyShow(showToAdd, false, true, new Episode(1, 1, showToAdd.Id));
+            MyShow myShow = new MyShow(showToAdd, false, true, new Dictionary<string, int>{ { "episode", 1 }, { "season", 1 } });
             await FireBaseHelper.AddShowToUserList(user.Id, myShow);
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", myShow);
         }

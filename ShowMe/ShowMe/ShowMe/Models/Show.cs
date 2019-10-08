@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using ShowMe.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,18 +24,19 @@ namespace ShowMe.Models
         [JsonProperty("officialSite")]
         public string Url { get; set; } = "No site";
 
-        /*[JsonProperty("schedule")]
-        public dynamic[] Schedule { get; set; } = null;*/
+        [JsonProperty("schedule")]
+        public SearchSchedule Schedule { get; set; } 
 
         /*[JsonProperty("rating")]
         public double Rating { get; set; } = 0.0;*/
 
         [JsonProperty("summary")]
         public string Description { get; set; } = "No description availble";
-
-
+        
         [JsonProperty("image")]
         public Dictionary<string, string> Image { get; set; } = null;
+
+        public Dictionary<string,int> LastEpisode { get; set; }
 
         public string ImageMedium => (Image != null) ? (Image["medium"]).Replace("http", "https") : "";
 

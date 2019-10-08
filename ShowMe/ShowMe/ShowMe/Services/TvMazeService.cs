@@ -20,17 +20,41 @@ namespace ShowMe.Services
             client = new HttpClient();
         }
 
-        public async Task<Show> GetShowAsync(string uri)
+        public async Task<Show> GetShowAsync(int i)
         {
             Show show = null;
             try
             {
-                HttpResponseMessage response = await client.GetAsync(new Uri(uri));
-                if (response.IsSuccessStatusCode)
+                HttpResponseMessage responseShow = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + i));
+                if (responseShow.IsSuccessStatusCode)
                 {
-                    string jsonString = await response.Content.ReadAsStringAsync();
+                    string jsonString = await responseShow.Content.ReadAsStringAsync();
                     show = JsonConvert.DeserializeObject<Show>(jsonString);
-                }
+
+                    //retrieve last episode
+                    HttpResponseMessage responseSeason = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + i + "/seasons"));
+                    if (responseSeason.IsSuccessStatusCode)
+                    {
+                        string jsonStringSeason = await responseSeason.Content.ReadAsStringAsync();
+                        List<Season> seasons = JsonConvert.DeserializeObject<List<Season>>(jsonStringSeason);
+                        Season maxSeason = null;
+                        foreach (Season season in seasons)
+                        {
+                            if ((maxSeason == null)||(season.Number > maxSeason.Number))
+                            {
+                                maxSeason = season; 
+                            }
+                        }
+
+                        show.LastEpisode = new Dictionary<string, int>{
+                            { "episode", maxSeason.NumberOfEpisodes },
+                            { "season", maxSeason.Number }
+                        };
+
+                        int v = 4;
+                    }
+                }               
+
             }
             catch (Exception ex)
             {
@@ -117,10 +141,10 @@ namespace ShowMe.Services
 
     public class SearchSchedule
     {
-        [JsonProperty("score")]
-        public string Score { get; set; }
+        [JsonProperty("time")]
+        public string Time { get; set; }
 
-        [JsonProperty("show")]
-        public Show Serie { get; set; }
+        [JsonProperty("days")]
+        public List<string> Days { get; set; }
     }
 }

@@ -14,13 +14,13 @@ namespace ShowMe.Models
         public bool MustNotify { get; set; }
         
         [JsonProperty("LastEpisode")]
-        public Episode LastEpisode { get; set; }
+        public Dictionary<string, int> LastEpisodeWatched { get; set; }
         
         [JsonProperty("LastEpisodeInString")]
-        public string LastEpisodeInString => (LastEpisode != null) ? "Last watched: S" + LastEpisode.Season + "E" + LastEpisode.Number : "Not started watching";
+        public string LastEpisodeInString => (LastEpisode != null) ? "Last watched: S" + LastEpisode["season"] + "E" + LastEpisode["episode"] : "Not started watching";
 
         [JsonConstructor]
-        public MyShow(int id, string title, string language, string[] genres, string url, string description, Dictionary<string, string> image , bool isFavorite, bool mustNotify, Episode lastEpisode)
+        public MyShow(int id, string title, string language, string[] genres, string url, string description, Dictionary<string, string> image , bool isFavorite, bool mustNotify, Dictionary<string, int> lastEpisode)
         { 
             Id = id;
             Title = title;
@@ -35,7 +35,7 @@ namespace ShowMe.Models
             LastEpisode = lastEpisode;
         }
 
-        public MyShow (Show show, bool isFavorite, bool mustNotify, Episode lastEpisode)
+        public MyShow (Show show, bool isFavorite, bool mustNotify, Dictionary<string, int> lastEpisode)
         {            
             Id = show.Id;
             Title = show.Title;

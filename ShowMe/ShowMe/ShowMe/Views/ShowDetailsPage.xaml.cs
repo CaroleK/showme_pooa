@@ -34,6 +34,10 @@ namespace ShowMe.Views
             }
 
             viewModel.AddShowToMyShowsCollection(this.viewModel.Show);
+            MyShow myShow = new MyShow(this.viewModel.Show, false, true, new Dictionary<string, int>{
+                            { "episode", 1 },
+                            { "season", 1 }
+                        });
             Btn_AddToMyShows.IsVisible = false;
             Btn_AddToFavorite.IsVisible = true;
             Btn_DeleteFromMyShows.IsVisible = true;

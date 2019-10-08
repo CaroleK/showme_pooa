@@ -20,20 +20,10 @@ namespace ShowMe.ViewModels
         {
             Title = "Browse MyShows";
 
-            FetchMyShows();
-
         
         }
 
-        public async void FetchMyShows()
-        {
-            List<MyShow> s = await FireBaseHelper.GetUserShowList(user.Id);
-            foreach (MyShow myShow in s)
-            {
-                MyShows.Add(myShow);
-                ShowsToDisplay.Add(myShow);
-            }
-        }
+        
 
     }
 }

@@ -1,26 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using ShowMe.Models;
+using ShowMe.Services;
 
 namespace ShowMe.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
         string title = string.Empty;
+        public ObservableCollection<MyShow> MyShows { get; set; } = new ObservableCollection<MyShow>();
+
         public static User user { set; get; }
         //protected User User { set { };  get { return _user; } }
 
-        public ObservableCollection<MyShow> MyShows { get; set; } = new ObservableCollection<MyShow>();
         public string Title
         {
             get { return title; }
             set { SetProperty(ref title, value); }
         }
+
+        
 
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName]string propertyName = "",
@@ -34,6 +39,30 @@ namespace ShowMe.ViewModels
             OnPropertyChanged(propertyName);
             return true;
         }
+         public BaseViewModel()
+        {
+            FetchMyShows();
+
+            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", (obj, item) =>
+            {
+                MyShows.Add(item);
+            });
+
+            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "DeleteFromMyShows", (obj, item) =>
+            {
+                MyShows.Remove(item);
+            });
+        }
+
+        public async void FetchMyShows()
+        {
+            List<MyShow> s = await FireBaseHelper.GetUserShowList(user.Id);
+            foreach (MyShow myShow in s)
+            {
+                MyShows.Add(myShow);
+
+            }
+        }
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -46,18 +75,5 @@ namespace ShowMe.ViewModels
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
-
-        public BaseViewModel()
-        {
-            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", (obj, item) =>
-            {
-                MyShows.Add(item);
-            });
-
-            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "DeleteFromMyShows", (obj, item) =>
-            {
-                MyShows.Remove(item);
-            });
-        }
     }
 }

@@ -7,21 +7,27 @@ namespace ShowMe.Models
 {
     public class Episode
     {
-        [JsonProperty("Season")]
+        [JsonProperty("id")]
+        public int Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("summary")]
+        public string Description { get; set; }
+
+        [JsonProperty("season")]
         public int Season { get; set; }
-        
-        [JsonProperty("Number")]
+
+        [JsonProperty("number")]
         public int Number { get; set; }
         
-        [JsonProperty("ShowId")]
-        public int ShowId { get; set; }
 
         [JsonConstructor]
-        public Episode(int season, int number, int showId)
+        public Episode(int season, int number)
         {
             Season = season;
             Number = number;
-            ShowId = showId;
         }
     }
 }
