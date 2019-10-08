@@ -91,7 +91,7 @@ namespace ShowMe.Services
         }
 
         // Not clean method : get the schedule regardless of the favorites then select schedule only if they are part of favorite
-        public async Task<List<ScheduleShow>> GetUpCommingEpisode(ObservableCollection<MyShow> myShows, DateTime dateTime, string regionISO) 
+        public async Task<List<ScheduleShow>> GetUpCommingEpisode(List<Show> Favorites, DateTime dateTime, string regionISO) 
         {
             List<ScheduleShow> scheduleShows = new List<ScheduleShow>();
                                  
@@ -103,9 +103,9 @@ namespace ShowMe.Services
                         string jsonString = await response.Content.ReadAsStringAsync();
                         List<ScheduleShow> results = JsonConvert.DeserializeObject<List<ScheduleShow>>(jsonString);
                         
-                        foreach (MyShow myshow in myShows)
+                        foreach (Show show in Favorites)
                         {
-                            int id = myshow.Id; 
+                            int id = show.Id; 
                             foreach (ScheduleShow r in results)
                             {
                                 if (id == r.Show.Id)

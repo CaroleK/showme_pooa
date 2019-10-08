@@ -11,8 +11,8 @@ namespace ShowMe.ViewModels
     public class HomeUpcommingViewModel : BaseViewModel
     {
         TvMazeService service = new TvMazeService();
-        public ObservableCollection<ScheduleShow> ScheduleToday { get; set; }
-        public ObservableCollection<Show> Favorites { get; set; }
+        public ObservableCollection<ScheduleShow> ScheduleToday { get; set; } = new ObservableCollection<ScheduleShow>();
+        public List<Show> Favorites { get; set; }
 
 
 
@@ -20,6 +20,7 @@ namespace ShowMe.ViewModels
         {
             Title = "Up Coming Shows";
             Task.Run(() => ExecuteUpCommingCommand());
+            Task.WaitAll();
         }
 
         public async Task ExecuteUpCommingCommand()
@@ -27,18 +28,27 @@ namespace ShowMe.ViewModels
             DateTime dateTimeToday = DateTime.Now;
             RegionInfo region = new RegionInfo("FR");
             string regionISO = region.TwoLetterISORegionName;
+            Favorites = await FavoriteList();
+            /*List<MyShow> myShowsUpcomming = new List<MyShow>();
+            foreach(MyShow myshow in MyShows)
+            {
+                myShowsUpcomming.Add(myshow);
+            }*/
 
-            List<ScheduleShow> sToday = await service.GetUpCommingEpisode(MyShows, dateTimeToday, regionISO);
+            List<ScheduleShow> sToday = await service.GetUpCommingEpisode(Favorites, dateTimeToday, regionISO);
             foreach (ScheduleShow schedule in sToday)
             {
                 ScheduleToday.Add(schedule);
             }
+            
         }
 
-        public async Task FavoriteList()
+        public async Task<List<Show>> FavoriteList()
 
         {
-            List<int> favoritesid = new List<int> { 38681, 38991, 26950, 38680, 34409, 16505, 5871, 24793 };
+            List<Show> Favorites = new List<Show>();
+
+            List<int> favoritesid = new List<int> { 38681, 38991, 26950, 38680, 34409};
 
             foreach (int i in favoritesid)
             {
@@ -48,6 +58,7 @@ namespace ShowMe.ViewModels
                     Favorites.Add(s);
                 }
             }
+            return (Favorites);
 
         }
     }
