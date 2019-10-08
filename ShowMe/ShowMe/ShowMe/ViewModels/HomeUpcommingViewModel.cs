@@ -11,7 +11,11 @@ namespace ShowMe.ViewModels
     public class HomeUpcommingViewModel : BaseViewModel
     {
         TvMazeService service = new TvMazeService();
-        public ObservableCollection<ScheduleShow> ScheduleToday { get; set; } = new ObservableCollection<ScheduleShow>();
+        public PageScheduleShow ScheduleToday { get; set; } = new PageScheduleShow() {TitleDate="Aujourd'hui"};
+        public PageScheduleShow ScheduleTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "Demain" };
+        public PageScheduleShow ScheduleAfterTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "Après-demain" };
+
+//        public ObservableCollection<PageScheduleShow> SchedulesShows { get; set; } = new ObservableCollection<PageScheduleShow>();
         public List<Show> Favorites { get; set; }
 
 
@@ -26,6 +30,8 @@ namespace ShowMe.ViewModels
         public async Task ExecuteUpCommingCommand()
         {
             DateTime dateTimeToday = DateTime.Now;
+            DateTime dateTimeTomorrow = dateTimeToday.AddDays(1);
+            DateTime dateTimeAfterTomorrow = dateTimeToday.AddDays(2);
             RegionInfo region = new RegionInfo("FR");
             string regionISO = region.TwoLetterISORegionName;
             Favorites = await FavoriteList();
@@ -40,7 +46,22 @@ namespace ShowMe.ViewModels
             {
                 ScheduleToday.Add(schedule);
             }
-            
+            //SchedulesShows.Add(ScheduleToday);
+
+            List<ScheduleShow> sTomorrow = await service.GetUpCommingEpisode(Favorites, dateTimeTomorrow, regionISO);
+            foreach (ScheduleShow schedule in sToday)
+            {
+                ScheduleTomorrow.Add(schedule);
+            }
+            //SchedulesShows.Add(ScheduleTomorrow);
+
+            List<ScheduleShow> sAfterTomorrow = await service.GetUpCommingEpisode(Favorites, dateTimeAfterTomorrow, regionISO);
+            foreach (ScheduleShow schedule in sToday)
+            {
+                ScheduleAfterTomorrow.Add(schedule);
+            }
+            //SchedulesShows.Add(ScheduleAfterTomorrow);
+
         }
 
         public async Task<List<Show>> FavoriteList()

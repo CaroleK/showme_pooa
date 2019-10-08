@@ -9,16 +9,46 @@
         <StackLayout>
             <ListView
                 ItemsSource="{Binding ScheduleToday}"
-                >
+                HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ImageCell
                             Text="{Binding Show.Title}"
                             Detail="{Binding TitleEpisode}"
-                            ImageSource="{Binding Show.ImageMedium}">
-                            
+                            ImageSource="{Binding Show.ImageMedium}"
+                            >
                         </ImageCell>
                         
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ListView
+                ItemsSource="{Binding ScheduleTomorrow}"
+                HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ImageCell
+                            Text="{Binding Show.Title}"
+                            Detail="{Binding TitleEpisode}"
+                            ImageSource="{Binding Show.ImageMedium}"
+                            >
+                        </ImageCell>
+
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ListView
+                ItemsSource="{Binding ScheduleAfterTomorrow}"
+                HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ImageCell
+                            Text="{Binding Show.Title}"
+                            Detail="{Binding TitleEpisode}"
+                            ImageSource="{Binding Show.ImageMedium}"
+                            >
+                        </ImageCell>
+
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
