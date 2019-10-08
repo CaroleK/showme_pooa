@@ -9,8 +9,10 @@ namespace ShowMe.Models
     {
         [JsonProperty("Season")]
         public int Season { get; set; }
+        
         [JsonProperty("Number")]
         public int Number { get; set; }
+        
         [JsonProperty("ShowId")]
         public int ShowId { get; set; }
 

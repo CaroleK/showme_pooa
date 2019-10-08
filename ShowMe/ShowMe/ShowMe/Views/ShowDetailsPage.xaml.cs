@@ -33,11 +33,21 @@ namespace ShowMe.Views
                 await PopupNavigation.Instance.PushAsync(new AddShowPopUp());
             }
 
-            //TODO : get last episode from popups, for now default values
-            MyShow myShow = new MyShow(this.viewModel.Show, false, true, new Episode(1, 1, this.viewModel.Show.Id));
-            await FireBaseHelper.AddShowToUserList(ShowDetailsViewModel.user.Id, myShow);
+            viewModel.AddShowToShowList(this.viewModel.Show);
+            Btn_AddToMyShows.IsVisible = false;
+            Btn_AddToFavorite.IsVisible = true;
+            Btn_DeleteFromMyShows.IsVisible = true;
+        }
 
-            MessagingCenter.Send<ShowDetailsPage, MyShow>(this, "AddToMyShows", myShow);
+        async void OnClickDeleteFromMyShows(object sender, EventArgs e)
+        {
+            await DisplayAlert("Show deleted", "The show was successfully deleted from your list!", "Ok");
+
+            MyShow myShowToDelete = this.viewModel.Show as MyShow;
+            viewModel.DeleteShowFromShowList(myShowToDelete);
+            Btn_AddToMyShows.IsVisible = true;
+            Btn_AddToFavorite.IsVisible = false;
+            Btn_DeleteFromMyShows.IsVisible = false;
         }
 
         private void OnAboutClicked(object sender, EventArgs e)

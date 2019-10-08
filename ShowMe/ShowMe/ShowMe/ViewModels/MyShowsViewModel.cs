@@ -19,14 +19,18 @@ namespace ShowMe.ViewModels
         TvMazeService service = new TvMazeService();
         public  MyShowsViewModel()
         {
-            Title = "Browse Favorites";
+            Title = "Browse MyShows";
 
             FetchMyShows();
 
-            MessagingCenter.Subscribe<ShowDetailsPage, MyShow>(this, "AddToMyShows", (obj, item) =>
+            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", (obj, item) =>
             {               
                 MyShows.Add(item);
-                ShowsToDisplay.Add(item);
+            });
+
+            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "DeleteFromMyShows", (obj, item) =>
+            {
+                MyShows.Remove(item);
             });
         }
 
