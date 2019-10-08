@@ -10,7 +10,7 @@
     <StackLayout>
         <ListView
             x:Name="MyShowsListView"
-            ItemsSource="{Binding ShowsToDisplay}"
+            ItemsSource="{Binding MyShows}"
             ItemSelected="OnListViewItemSelected"
             HasUnevenRows="true">
             <ListView.ItemTemplate>

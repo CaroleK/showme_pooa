@@ -16,7 +16,7 @@ namespace ShowMe.ViewModels
         public ObservableCollection<MyShow> ShowsToDisplay { get; set; } = new ObservableCollection<MyShow>();
 
         TvMazeService service = new TvMazeService();
-        public  MyShowsViewModel()
+        public  MyShowsViewModel() : base()
         {
             Title = "Browse MyShows";
 

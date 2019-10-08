@@ -6,7 +6,9 @@ using Firebase.Database.Offline;
 using Firebase.Database.Query;
 using System.Threading.Tasks;
 using ShowMe.Models;
+using Xamarin.Forms;
 using System.Linq;
+using ShowMe.ViewModels;
 using System.Collections.ObjectModel;
 using LiteDB;
 using Newtonsoft.Json;
@@ -19,6 +21,14 @@ namespace ShowMe.Services
         {
             OfflineDatabaseFactory = (t, s) => new OfflineDatabase(t, s),
         });
+
+        //public FireBaseHelper()
+        //{
+        //    MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "ChangeToFavorite", (obj, item) => {
+
+        //        UpdateMyShow(item);
+        //    };
+
 
         static public async Task<bool> CheckIfUserExists(string userId)
         {
