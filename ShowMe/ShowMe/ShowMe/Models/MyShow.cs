@@ -29,7 +29,7 @@ namespace ShowMe.Models
 
             IsFavorite = isFavorite;
             MustNotify = mustNotify;
-            LastEpisode = lastEpisode;
+            LastEpisodeWatched = lastEpisode;
         }
 
         public MyShow (Show show, bool isFavorite, bool mustNotify, Dictionary<string, int> lastEpisode)
@@ -44,7 +44,7 @@ namespace ShowMe.Models
             
             IsFavorite = isFavorite;
             MustNotify = mustNotify;
-            LastEpisode = lastEpisode; 
+            LastEpisodeWatched = lastEpisode; 
         }
 
         public void IncrementLastEpisode()
