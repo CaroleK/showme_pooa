@@ -35,10 +35,6 @@ namespace ShowMe.Views
             MyShowsListView.SelectedItem = null;
         }
 
-        private void ShowPicker_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
 
         protected override void OnAppearing()
         {

@@ -28,19 +28,20 @@ namespace ShowMe.Models
         [JsonProperty("show")]
         public Show Show { get; set; }
 
+        public string Information => Airtime + " || " + TitleEpisode ;
+
         public ScheduleShow() { 
         }
 
     }
-    /*public class PageScheduleShow : ObservableCollection<ScheduleShow>
+    public class PageScheduleShow : ObservableCollection<ScheduleShow>
     {
         public string TitleDate { get; set; }
-        public PageScheduleShow(string titleDate) : base()
+        public PageScheduleShow() : base()
         {
-            TitleDate = titleDate;
+            
         }
 
-        //public static IObservable<PageScheduleShow> SchedulesShows { get; set; }
-    }*/
+    }
 }
 

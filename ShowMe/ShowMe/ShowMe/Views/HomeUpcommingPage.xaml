@@ -7,9 +7,32 @@
              x:Class="ShowMe.Views.HomeUpcommingPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <ListView
+                ItemsSource="{Binding SchedulesShows}"
+                IsGroupingEnabled="True"
+                GroupDisplayBinding="{Binding TitleDate}"
+                HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ImageCell
+                            Text="{Binding Show.Title}"
+                            Detail="{Binding Information}"
+                            
+                            ImageSource="{Binding Show.ImageMedium}"
+                            >
+                        </ImageCell>
+
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label  Text="{Binding TitleDate}"  TextColor="Black" Margin="10" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
+            </ListView>
+           
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

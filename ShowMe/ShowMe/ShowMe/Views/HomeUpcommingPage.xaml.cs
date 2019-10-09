@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShowMe.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,13 @@ namespace ShowMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HomeUpcommingPage : ContentPage
     {
+        HomeUpcommingViewModel viewModel;
         public HomeUpcommingPage()
         {
             InitializeComponent();
+            BindingContext = viewModel = new HomeUpcommingViewModel();
         }
+
+        
     }
 }

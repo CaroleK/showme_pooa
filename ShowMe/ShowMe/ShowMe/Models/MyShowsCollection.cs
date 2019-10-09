@@ -21,8 +21,8 @@ namespace ShowMe.Models
                     if (instance == null)
                     {
 
-                        instance = new ObservableCollection<MyShow>();
-                        Task.Run(() => FetchMyShows()).Wait();
+                        instance = new ObservableCollection<MyShow>();                        
+                        Task.Run(()=>FetchMyShows()).Wait();
                     }
                     return instance;
                 }
@@ -32,12 +32,9 @@ namespace ShowMe.Models
         public async static void FetchMyShows()
         {
             List<MyShow> s = await FireBaseHelper.GetUserShowList(BaseViewModel.user.Id);
-            lock (padlock)
+            foreach (MyShow myShow in s)
             {
-                foreach (MyShow myShow in s)
-                {
-                    MyShowsCollection.Instance.Add(myShow);
-                }
+                MyShowsCollection.Instance.Add(myShow);
             }
         }
 
@@ -48,12 +45,11 @@ namespace ShowMe.Models
 
         public static void RemoveFromMyShows(MyShow ms)
         {
-           if (Instance.Contains(ms))
-                {
-                    Instance.Remove(ms);
-                }
+            if (Instance.Contains(ms))
+            {
+                Instance.Remove(ms);
+            }
         }
-
 
     }
 }

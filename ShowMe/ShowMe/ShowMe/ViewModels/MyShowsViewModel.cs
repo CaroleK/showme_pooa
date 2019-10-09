@@ -30,11 +30,10 @@ namespace ShowMe.ViewModels
         }
 
         TvMazeService service = new TvMazeService();
-        public  MyShowsViewModel() : base()
+        public  MyShowsViewModel() 
         {
             Title = "Browse MyShows";
 
-            //FetchMyShows();
             Init();
 
             FilterOptions = new ObservableCollection<string>
@@ -46,10 +45,15 @@ namespace ShowMe.ViewModels
                 };
         }
 
-        void FilterItems()
+        public void FilterItems()
         {
             // TODO
-
+            ShowsToDisplay.Clear();
+            var MyShows = MyShowsCollection.Instance;
+            foreach (MyShow ms in MyShows)
+            {
+                ShowsToDisplay.Add(ms);
+            }
         }
 
         public void Init()
@@ -61,7 +65,6 @@ namespace ShowMe.ViewModels
                 ShowsToDisplay.Add(ms);
             }
         }
-
 
     }
 }
