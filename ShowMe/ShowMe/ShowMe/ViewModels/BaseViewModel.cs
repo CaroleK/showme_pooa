@@ -16,7 +16,6 @@ namespace ShowMe.ViewModels
         //Instantiate a Singleton of the Semaphore with a value of 1. This means that only 1 thread can be granted access at a time.
         static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
         string title = string.Empty;
-        static public ObservableCollection<MyShow> MyShows { get; set; } = new ObservableCollection<MyShow>();
 
         public static User user { set; get; }
         //protected User User { set { };  get { return _user; } }
@@ -40,37 +39,6 @@ namespace ShowMe.ViewModels
             onChanged?.Invoke();
             OnPropertyChanged(propertyName);
             return true;
-        }
-         public BaseViewModel()
-        {
-            FetchMyShows();
-
-            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", (obj, item) =>
-            {
-                semaphoreSlim.Wait();
-                MyShows.Add(item);
-                semaphoreSlim.Release();
-            });
-
-            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "DeleteFromMyShows", (obj, item) =>
-            {
-                semaphoreSlim.Wait();
-                MyShows.Remove(item);
-                semaphoreSlim.Release();
-            });
-        }
-
-        public async void FetchMyShows()
-        {
-            await semaphoreSlim.WaitAsync();
-            MyShows.Clear();
-            List<MyShow> s = await FireBaseHelper.GetUserShowList(user.Id);
-            foreach (MyShow myShow in s)
-            {
-                MyShows.Add(myShow);
-
-            }
-            semaphoreSlim.Release();
         }
 
         #region INotifyPropertyChanged
