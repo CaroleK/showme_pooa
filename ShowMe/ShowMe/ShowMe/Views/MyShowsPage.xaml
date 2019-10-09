@@ -16,7 +16,7 @@
                 SelectedIndexChanged="ShowPicker_SelectedIndexChanged"/>
         <ListView
             x:Name="MyShowsListView"
-            ItemsSource="{Binding MyShows}"
+            ItemsSource="{Binding ShowsToDisplay}"
             ItemSelected="OnListViewItemSelected"
             HasUnevenRows="true">
             <ListView.ItemTemplate>

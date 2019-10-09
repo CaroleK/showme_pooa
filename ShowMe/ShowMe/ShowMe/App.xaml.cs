@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using ShowMe.Views;
+using ShowMe.Models;
 
 namespace ShowMe
 {

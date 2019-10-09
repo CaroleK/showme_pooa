@@ -15,9 +15,10 @@ namespace ShowMe.ViewModels
         public Show Show { get; set; }
         public ShowDetailsViewModel(Show show = null) : base()
         {
-            if (MyShows.Any(e => e.Id==show.Id))
+            var s = MyShowsCollection.Instance;
+            if (s.Any(e => e.Id==show.Id))
             {
-                MyShow myshow = MyShows.First(e => e.Id == show.Id);
+                MyShow myshow = MyShowsCollection.Instance.First(e => e.Id == show.Id);
                 Title = myshow?.Title;
                 Show = myshow;
             }
@@ -33,6 +34,7 @@ namespace ShowMe.ViewModels
         {
             MyShow myShow = new MyShow(showToAdd, false, true, new Dictionary<string, int>{ { "episode", 1 }, { "season", 1 } });
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", myShow);
+            MyShowsCollection.AddToMyShows(myShow);
             await FireBaseHelper.AddShowToUserList(user.Id, myShow);
             
         }
@@ -41,7 +43,8 @@ namespace ShowMe.ViewModels
         {
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "DeleteFromMyShows", myShowToDelete);
             await FireBaseHelper.DeleteShowFromUserList(user.Id, myShowToDelete);
-            
+            MyShowsCollection.RemoveFromMyShows(myShowToDelete);
+
         }
 
         public void AddShowToFavorites(Show myToBeFavoriteShow)

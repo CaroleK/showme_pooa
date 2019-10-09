@@ -39,5 +39,11 @@ namespace ShowMe.Views
         {
 
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            viewModel.Init();
+        }
     }
 }
