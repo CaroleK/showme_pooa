@@ -26,6 +26,9 @@ namespace ShowMe.Views
             {
                 Btn_AddToMyShows.IsVisible = false;
                 Btn_AddToFavorite.IsVisible = true;
+                if (((MyShow)viewModel.Show).IsFavorite){
+                    Btn_AddToFavorite.Source = "red_heart.png";
+                }
                 Btn_DeleteFromMyShows.IsVisible = true;
             }
         }
@@ -40,6 +43,7 @@ namespace ShowMe.Views
             }
 
             viewModel.AddShowToMyShowsCollection(this.viewModel.Show);
+          
             Btn_AddToMyShows.IsVisible = false;
             Btn_AddToFavorite.IsVisible = true;
             Btn_DeleteFromMyShows.IsVisible = true;
@@ -49,7 +53,7 @@ namespace ShowMe.Views
         {
             await DisplayAlert("Show deleted", "The show was successfully deleted from your list!", "Ok");
 
-            MyShow myShowToDelete = this.viewModel.Show as MyShow;
+            MyShow myShowToDelete = MyShowsCollection.Instance.First(item => item.Id == this.viewModel.Show.Id);
             viewModel.DeleteShowFromMyShowsCollection(myShowToDelete);
             Btn_AddToMyShows.IsVisible = true;
             Btn_AddToFavorite.IsVisible = false;
@@ -74,6 +78,18 @@ namespace ShowMe.Views
             imageSender.Source = "red_heart.png";
             viewModel.AddShowToFavorites(this.viewModel.Show);
 
+        }
+
+        public Command TapCommand {
+            get
+            {
+                return new Command(isFavoriteBool => {
+                    if ((bool) isFavoriteBool) {
+                        Btn_AddToFavorite.Source = "red_heart.png";
+                        viewModel.AddShowToFavorites(this.viewModel.Show);
+                    }
+                });
+            }
         }
     }
 }
