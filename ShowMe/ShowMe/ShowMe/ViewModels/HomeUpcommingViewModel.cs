@@ -42,21 +42,21 @@ namespace ShowMe.ViewModels
             RegionInfo region = new RegionInfo("FR");
             string regionISO = region.TwoLetterISORegionName;
 
-            List<ScheduleShow> sToday = await service.GetUpCommingEpisode(MyShows, dateTimeToday, regionISO);
+            List<ScheduleShow> sToday = await service.GetUpCommingEpisode(MyShowsCollection.Instance, dateTimeToday, regionISO);
             foreach (ScheduleShow schedule in sToday)
             {
                 ScheduleToday.Add(schedule);
             }
             SchedulesShows.Add(ScheduleToday);
 
-            List<ScheduleShow> sTomorrow = await service.GetUpCommingEpisode(MyShows, dateTimeTomorrow, regionISO);
+            List<ScheduleShow> sTomorrow = await service.GetUpCommingEpisode(MyShowsCollection.Instance, dateTimeTomorrow, regionISO);
             foreach (ScheduleShow schedule in sToday)
             {
                 ScheduleTomorrow.Add(schedule);
             }
             SchedulesShows.Add(ScheduleTomorrow);
 
-            List<ScheduleShow> sAfterTomorrow = await service.GetUpCommingEpisode(MyShows, dateTimeAfterTomorrow, regionISO);
+            List<ScheduleShow> sAfterTomorrow = await service.GetUpCommingEpisode(MyShowsCollection.Instance, dateTimeAfterTomorrow, regionISO);
             foreach (ScheduleShow schedule in sToday)
             {
                 ScheduleAfterTomorrow.Add(schedule);
