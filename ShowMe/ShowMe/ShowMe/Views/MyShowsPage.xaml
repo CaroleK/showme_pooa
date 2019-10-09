@@ -12,11 +12,10 @@
                 ItemsSource="{Binding FilterOptions}" 
                 SelectedItem="{Binding SelectedFilter}" 
                 VerticalOptions="Center" 
-                HorizontalOptions="FillAndExpand" 
-                SelectedIndexChanged="ShowPicker_SelectedIndexChanged"/>
+                HorizontalOptions="FillAndExpand" />
         <ListView
             x:Name="MyShowsListView"
-            ItemsSource="{Binding MyShows}"
+            ItemsSource="{Binding ShowsToDisplay}"
             ItemSelected="OnListViewItemSelected"
             HasUnevenRows="true">
             <ListView.ItemTemplate>
