@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using ShowMe.Models;
 using ShowMe.Services;
 using System.Threading;
+using Xamarin.Forms;
 
 namespace ShowMe.ViewModels
 {
