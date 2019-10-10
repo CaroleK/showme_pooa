@@ -8,12 +8,26 @@
              Title="{Binding Title}">
     <ContentPage.Content>
     <StackLayout>
-        <Picker x:Name="ShowPicker"
+            <StackLayout 
+                Orientation="Horizontal"
+                Padding="10">
+                <Picker x:Name="ShowPicker"
                 ItemsSource="{Binding FilterOptions}" 
                 SelectedItem="{Binding SelectedFilter}" 
                 VerticalOptions="Center" 
                 HorizontalOptions="FillAndExpand" />
-        <ListView
+                <StackLayout Orientation="Horizontal">
+                    <Switch 
+                        IsToggled="false"
+                        x:Name="ShowFavoriteSwitch"/>
+                    <Label 
+                        Text="Show only favorites"
+                        VerticalOptions="Center">
+                    </Label>                                       
+                </StackLayout>
+            </StackLayout>           
+                
+            <ListView
             x:Name="MyShowsListView"
             ItemsSource="{Binding ShowsToDisplay}"
             ItemSelected="OnListViewItemSelected"
