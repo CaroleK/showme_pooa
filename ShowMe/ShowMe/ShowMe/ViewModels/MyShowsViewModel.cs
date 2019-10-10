@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Collections.ObjectModel;
-using ShowMe.Views;
-using ShowMe.Models;
+﻿using ShowMe.Models;
 using ShowMe.Services;
-using System.Threading.Tasks;
-using Xamarin.Forms;
+using System.Collections.ObjectModel;
 
 namespace ShowMe.ViewModels
 {
@@ -47,13 +41,53 @@ namespace ShowMe.ViewModels
 
         public void FilterItems()
         {
-            // TODO
             ShowsToDisplay.Clear();
+
             var MyShows = MyShowsCollection.Instance;
-            foreach (MyShow ms in MyShows)
+
+            switch (selectedFilter)
             {
-                ShowsToDisplay.Add(ms);
-            }
+                case "All":
+                    foreach (MyShow ms in MyShows)
+                    {
+                        ShowsToDisplay.Add(ms);
+                    }
+                    break;
+                case "Not started":
+                    foreach (MyShow ms in MyShows)
+                    {
+                        if (ms.LastEpisodeWatched == null)
+                        {
+                            ShowsToDisplay.Add(ms);
+                        }
+                    }
+                    break;
+                case "Finished":
+                    foreach (MyShow ms in MyShows)
+                    {
+                        if (ms.LastEpisodeWatched.Equals(ms.LastEpisode))
+                        {
+                            ShowsToDisplay.Add(ms);
+                        }
+                    }
+                    break;
+                case "In Progress":
+                    foreach (MyShow ms in MyShows)
+                    {
+                        if ((ms.LastEpisodeWatched != null) &&(ms.LastEpisodeWatched.Equals(ms.LastEpisode)))
+                        {
+                            ShowsToDisplay.Add(ms);
+                        }
+                    }
+                    break;
+                default:
+                    foreach (MyShow ms in MyShows)
+                    {
+                        ShowsToDisplay.Add(ms);
+                    }
+                    break;
+            }         
+            
         }
 
         public void Init()
