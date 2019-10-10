@@ -149,6 +149,8 @@ namespace ShowMe.ViewModels
             {
                 ShowsToDisplay.Add(ms);
             }
+            
+            FilterItems();
         }
 
     }
