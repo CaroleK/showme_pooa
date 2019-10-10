@@ -68,40 +68,47 @@ namespace ShowMe.Views
 
         async void OnAuthCompleted(object sender, AuthenticatorCompletedEventArgs e)
         {
-            var authenticator = sender as OAuth2Authenticator;
-            if (authenticator != null)
+            if (sender is OAuth2Authenticator authenticator)
             {
                 authenticator.Completed -= OnAuthCompleted;
                 authenticator.Error -= OnAuthError;
             }
 
-            User user = null;
             if (e.IsAuthenticated)
             {
-                // If the user is authenticated, request their basic user data from Google
-                // UserInfoUrl = https://www.googleapis.com/oauth2/v2/userinfo
-                var request = new OAuth2Request("GET", new Uri(Constants.UserInfoUrl), null, e.Account);
-                var response = await request.GetResponseAsync();
-                if (response != null)
-                {
-                    // Deserialize the data and store it in the account store
-                    // The users email address will be used to identify data in SimpleDB
-                    string userJson = await response.GetResponseTextAsync();
-                    user = JsonConvert.DeserializeObject<User>(userJson);
-                    Task<bool> task = FireBaseHelper.CheckIfUserExists(user.Id);
-                    await task;
-                   
-                    if (!task.Result)
-                    {
-                        await FireBaseHelper.AddUser(user.Id, user.Email , user.Picture); ;
-                    }
+                LoginActivityIndicator.IsRunning = true;
+                LoginActivityIndicator.IsEnabled = true;
+                LoginActivityIndicator.IsVisible = true;
 
-                }
+                await FetchOrCreateUser(e.Account);
 
                 var token = e.Account.Properties["access_token"];
                 App.SaveToken(token);
 
                 ToMainPage();
+            }
+        }
+
+        async Task FetchOrCreateUser(Xamarin.Auth.Account account)
+        {
+            // If the user is authenticated, request their basic user data from Google
+            // UserInfoUrl = https://www.googleapis.com/oauth2/v2/userinfo
+            var request = new OAuth2Request("GET", new Uri(Constants.UserInfoUrl), null, account);
+            var response = await request.GetResponseAsync();
+            if (response != null)
+            {
+                // Deserialize the data and store it in the account store
+                // The users email address will be used to identify data in SimpleDB
+                string userJson = await response.GetResponseTextAsync();
+                User user = JsonConvert.DeserializeObject<User>(userJson);
+                Task<bool> task = FireBaseHelper.CheckIfUserExists(user.Id);
+                await task;
+
+                if (!task.Result)
+                {
+                    await FireBaseHelper.AddUser(user.Id, user.Email, user.Picture); ;
+                }
+
                 App.User = user;
             }
         }
@@ -117,9 +124,9 @@ namespace ShowMe.Views
 
             Debug.WriteLine("Authentication error: " + e.Message);
         }
-        async void ToMainPage(User user)
+        async void ToMainPage()
         {
-            await Navigation.PushAsync(new MainPage(user));
+            await Navigation.PushAsync(new MainPage());
         }
     }
 }
