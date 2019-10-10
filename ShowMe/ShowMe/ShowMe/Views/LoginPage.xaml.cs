@@ -100,7 +100,9 @@ namespace ShowMe.Views
 
                 var token = e.Account.Properties["access_token"];
                 App.SaveToken(token);
-                ToMainPage(user);
+
+                ToMainPage();
+                App.User = user;
             }
         }
 

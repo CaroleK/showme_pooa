@@ -8,10 +8,5 @@ namespace ShowMe.ViewModels
 {
     class MainPageViewModel
     {
-
-        public MainPageViewModel(User user)
-        {
-            BaseViewModel.user = user;
-        }
     }
 }

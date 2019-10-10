@@ -16,10 +16,10 @@ namespace ShowMe.Views
     public partial class MainPage : TabbedPage
     {
         MainPageViewModel mainPageViewModel;
-        public MainPage(User user)
+        public MainPage()
         {
-            BindingContext = mainPageViewModel = new MainPageViewModel(user);
-            bool test = App.IsLoggedIn; 
+            BindingContext = mainPageViewModel = new MainPageViewModel();
+            
             InitializeComponent();
             if (!App.IsLoggedIn)
             {

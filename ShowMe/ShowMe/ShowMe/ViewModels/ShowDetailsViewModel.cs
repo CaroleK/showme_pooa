@@ -41,7 +41,7 @@ namespace ShowMe.ViewModels
             MyShowsCollection.AddToMyShows(myShow);
 
             // Add to cloud storage
-            await FireBaseHelper.AddShowToUserList(user.Id, myShow);
+            await FireBaseHelper.AddShowToUserList(App.User.Id, myShow);
             
         }
 
@@ -54,7 +54,7 @@ namespace ShowMe.ViewModels
             MyShowsCollection.RemoveFromMyShows(myShowToDelete);
 
             // Remove from cloud storage
-            await FireBaseHelper.DeleteShowFromUserList(user.Id, myShowToDelete);
+            await FireBaseHelper.DeleteShowFromUserList(App.User.Id, myShowToDelete);
             MyShowsCollection.RemoveFromMyShows(myShowToDelete);
 
         }

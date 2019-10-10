@@ -8,6 +8,7 @@ namespace ShowMe
 {
     public partial class App : Application
     {
+        static public User User { get; set; }
         public App()
         {
             InitializeComponent();
