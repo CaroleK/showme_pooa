@@ -25,42 +25,29 @@
                         VerticalOptions="Center">
                     </Label>                                       
                 </StackLayout>
-            </StackLayout>           
-                
+            </StackLayout>
+
             <ListView
-            x:Name="MyShowsListView"
-            ItemsSource="{Binding ShowsToDisplay}"
-            ItemSelected="OnListViewItemSelected"
-            HasUnevenRows="true">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid Padding="10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.RowSpan="2"
-                           Source="{Binding ImageMedium}"
-                           Aspect="AspectFill"
-                           HeightRequest="60"
-                           WidthRequest="60" />
-                                <Label Grid.Column="1"
-                           Text="{Binding Title}"
-                           FontAttributes="Bold" />
-                                <Label Grid.Row="1"
-                           Grid.Column="1"
-                           Text="{Binding LastEpisodeWatchedInString}"
-                           VerticalOptions="End" />
-                            </Grid>
-                        </ViewCell>
+                x:Name="MyShowsListView"
+                ItemSelected="OnListViewItemSelected"
+                ItemsSource="{Binding ShowsToDisplay}"
+                IsGroupingEnabled="False"
+                HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ImageCell
+                            Text="{Binding Title}"
+                            Detail="{Binding LastEpisodeWatchedInString}"
+                            
+                            ImageSource="{Binding ImageMedium}"
+                            >
+                        </ImageCell>
+
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>   
+                </ListView.ItemTemplate>                
+            </ListView>
+
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
