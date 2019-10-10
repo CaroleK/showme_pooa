@@ -103,7 +103,7 @@ namespace ShowMe.ViewModels
                 case "Finished":
                     foreach (MyShow ms in MyShows)
                     {
-                        if ((ms.LastEpisodeWatched != null) && (AreEpisodeDictionariesEqual(ms.LastEpisodeWatched,ms.LastEpisode)))
+                        if ((ms.LastEpisodeWatched != null) && (Show.AreEpisodeDictionariesEqual(ms.LastEpisodeWatched,ms.LastEpisode)))
                         {
                             ShowsToDisplay.Add(ms);
                         }
@@ -112,7 +112,7 @@ namespace ShowMe.ViewModels
                 case "In progress":
                     foreach (MyShow ms in MyShows)
                     {
-                        if ((ms.LastEpisodeWatched != null) && !(AreEpisodeDictionariesEqual(ms.LastEpisodeWatched, ms.LastEpisode)))
+                        if ((ms.LastEpisodeWatched != null) && !(Show.AreEpisodeDictionariesEqual(ms.LastEpisodeWatched, ms.LastEpisode)))
                         {
                             ShowsToDisplay.Add(ms);
                         }

@@ -48,5 +48,17 @@ namespace ShowMe.Models
         {
             return Title;
         }
+
+        static public bool AreEpisodeDictionariesEqual(Dictionary<string, int> dic1, Dictionary<string, int> dic2)
+        {
+            if ((dic1 != null) && (dic2 != null))
+            {
+                return ((dic1["episode"] == dic2["episode"]) && (dic1["season"] == dic2["season"]));
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
