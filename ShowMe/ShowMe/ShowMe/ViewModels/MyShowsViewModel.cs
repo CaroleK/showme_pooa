@@ -1,5 +1,6 @@
 ﻿using ShowMe.Models;
 using ShowMe.Services;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace ShowMe.ViewModels
@@ -37,6 +38,31 @@ namespace ShowMe.ViewModels
                     "In progress",
                     "Finished"
                 };
+        }
+
+        public void ToggleFavorite(bool onlyFavorites)
+        {
+            ObservableCollection<MyShow> currentShows = new ObservableCollection<MyShow>();
+            foreach (MyShow ms in ShowsToDisplay)
+            {
+                currentShows.Add(ms);
+            }
+            ShowsToDisplay.Clear();
+
+            if (onlyFavorites)
+            {
+                foreach (MyShow ms in currentShows)
+                {
+                    if (ms.IsFavorite)
+                    {
+                        ShowsToDisplay.Add(ms);
+                    }
+                }
+            }
+            else
+            {
+                FilterItems();
+            }
         }
 
         static public bool AreEpisodeDictionariesEqual(Dictionary<string, int> dic1, Dictionary<string, int> dic2)
@@ -98,7 +124,9 @@ namespace ShowMe.ViewModels
                         ShowsToDisplay.Add(ms);
                     }
                     break;
-            }
+            }     
+            
+            //ToggleFavorite()
             
         }
 

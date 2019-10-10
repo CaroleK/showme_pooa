@@ -19,7 +19,8 @@
                 <StackLayout Orientation="Horizontal">
                     <Switch 
                         IsToggled="false"
-                        x:Name="ShowFavoriteSwitch"/>
+                        x:Name="ShowFavoriteSwitch"
+                        Toggled="ShowFavoriteSwitch_Toggled"/>
                     <Label 
                         Text="Show only favorites"
                         VerticalOptions="Center">

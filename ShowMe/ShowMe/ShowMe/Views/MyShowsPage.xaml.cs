@@ -41,5 +41,10 @@ namespace ShowMe.Views
             base.OnAppearing();
             viewModel.Init();
         }
+
+        private void ShowFavoriteSwitch_Toggled(object sender, ToggledEventArgs e)
+        {
+            viewModel.ToggleFavorite(e.Value);
+        }
     }
 }
