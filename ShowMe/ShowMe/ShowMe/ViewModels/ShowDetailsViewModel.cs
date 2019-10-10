@@ -32,6 +32,7 @@ namespace ShowMe.ViewModels
 
         public async void AddShowToMyShowsCollection(Show showToAdd)
         {
+            // If user has not started watching, LastEpisodeWatched should be null
             MyShow myShow = new MyShow(showToAdd, false, true, new Dictionary<string, int>{ { "episode", 1 }, { "season", 1 } });
 
             // You might wanna subscribe to this in a viewModel
