@@ -50,8 +50,6 @@ namespace ShowMe.Services
                             { "episode", maxSeason.NumberOfEpisodes },
                             { "season", maxSeason.Number }
                         };
-
-                        int v = 4;
                     }
                 }               
 
