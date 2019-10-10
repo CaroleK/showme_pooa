@@ -39,6 +39,18 @@ namespace ShowMe.ViewModels
                 };
         }
 
+        static public bool AreEpisodeDictionariesEqual(Dictionary<string, int> dic1, Dictionary<string, int> dic2)
+        {
+            if ((dic1 != null) && (dic2 != null))
+            {
+                return ((dic1["episode"] == dic2["episode"]) && (dic1["season"] == dic2["season"]));
+            }
+            else
+            {
+                return false; 
+            }            
+        }
+
         public void FilterItems()
         {
             ShowsToDisplay.Clear();
@@ -65,16 +77,16 @@ namespace ShowMe.ViewModels
                 case "Finished":
                     foreach (MyShow ms in MyShows)
                     {
-                        if (ms.LastEpisodeWatched.Equals(ms.LastEpisode))
+                        if ((ms.LastEpisodeWatched != null) && (AreEpisodeDictionariesEqual(ms.LastEpisodeWatched,ms.LastEpisode)))
                         {
                             ShowsToDisplay.Add(ms);
                         }
                     }
                     break;
-                case "In Progress":
+                case "In progress":
                     foreach (MyShow ms in MyShows)
                     {
-                        if ((ms.LastEpisodeWatched != null) &&(ms.LastEpisodeWatched.Equals(ms.LastEpisode)))
+                        if ((ms.LastEpisodeWatched != null) && !(AreEpisodeDictionariesEqual(ms.LastEpisodeWatched, ms.LastEpisode)))
                         {
                             ShowsToDisplay.Add(ms);
                         }
@@ -86,7 +98,7 @@ namespace ShowMe.ViewModels
                         ShowsToDisplay.Add(ms);
                     }
                     break;
-            }         
+            }
             
         }
 
