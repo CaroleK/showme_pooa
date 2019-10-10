@@ -36,6 +36,8 @@ namespace ShowMe.Models
         [JsonProperty("image")]
         public Dictionary<string, string> Image { get; set; } = null;
 
+        // Last episode that exists for this show
+        // Must be like {{"epidose",1},{"season",1}}
         public Dictionary<string,int> LastEpisode { get; set; }
 
         public string ImageMedium => (Image != null) ? (Image["medium"]).Replace("http", "https") : "";
