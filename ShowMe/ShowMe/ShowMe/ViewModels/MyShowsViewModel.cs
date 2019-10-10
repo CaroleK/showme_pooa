@@ -11,6 +11,20 @@ namespace ShowMe.ViewModels
         public ObservableCollection<MyShow> ShowsToDisplay { get; set; } = new ObservableCollection<MyShow>();
         public ObservableCollection<string> FilterOptions { get; }
 
+        bool onlyFavorites;
+        public bool OnlyFavorites
+        {
+            get
+            {
+                return onlyFavorites;
+            }
+            set
+            {
+                onlyFavorites = value;
+                ToggleFavorite();
+            }
+        }
+
         string selectedFilter = "All";
         public string SelectedFilter
         {
@@ -40,17 +54,22 @@ namespace ShowMe.ViewModels
                 };
         }
 
-        public void ToggleFavorite(bool onlyFavorites)
-        {
-            ObservableCollection<MyShow> currentShows = new ObservableCollection<MyShow>();
-            foreach (MyShow ms in ShowsToDisplay)
+        public void ToggleFavorite()
+        {       
+            if (OnlyFavorites)
             {
-                currentShows.Add(ms);
-            }
-            ShowsToDisplay.Clear();
+                // Keep all the relevant shows (depending on filter)
+                ObservableCollection<MyShow> currentShows = new ObservableCollection<MyShow>();
+                foreach (MyShow ms in ShowsToDisplay)
+                {
+                    currentShows.Add(ms);
+                }
 
-            if (onlyFavorites)
-            {
+                // Reset displayed shows
+                ShowsToDisplay.Clear(); 
+
+
+                // Among relevant shows, display only favorites
                 foreach (MyShow ms in currentShows)
                 {
                     if (ms.IsFavorite)
@@ -61,21 +80,10 @@ namespace ShowMe.ViewModels
             }
             else
             {
+                // Display all relevant shows according to filter
                 FilterItems();
             }
-        }
-
-        static public bool AreEpisodeDictionariesEqual(Dictionary<string, int> dic1, Dictionary<string, int> dic2)
-        {
-            if ((dic1 != null) && (dic2 != null))
-            {
-                return ((dic1["episode"] == dic2["episode"]) && (dic1["season"] == dic2["season"]));
-            }
-            else
-            {
-                return false; 
-            }            
-        }
+        }        
 
         public void FilterItems()
         {
@@ -124,10 +132,13 @@ namespace ShowMe.ViewModels
                         ShowsToDisplay.Add(ms);
                     }
                     break;
-            }     
-            
-            //ToggleFavorite()
-            
+            }
+
+            // we have the correct shows regarding the watched episodes, now adapt in case user only wants favorites
+            if (OnlyFavorites)
+            {
+                ToggleFavorite();
+            }          
         }
 
         public void Init()

@@ -18,9 +18,8 @@
                 HorizontalOptions="FillAndExpand" />
                 <StackLayout Orientation="Horizontal">
                     <Switch 
-                        IsToggled="false"
-                        x:Name="ShowFavoriteSwitch"
-                        Toggled="ShowFavoriteSwitch_Toggled"/>
+                        IsToggled="{Binding OnlyFavorites, Mode=TwoWay}"
+                        x:Name="ShowFavoriteSwitch"/>
                     <Label 
                         Text="Show only favorites"
                         VerticalOptions="Center">
