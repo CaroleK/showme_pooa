@@ -11,6 +11,7 @@ using ShowMe.Services;
 using Rg.Plugins.Popup.Services;
 using static ShowMe.Views.AddShowPopUp;
 
+
 namespace ShowMe.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -23,6 +24,7 @@ namespace ShowMe.Views
         {
             InitializeComponent();
             BindingContext = this.viewModel = viewModel;
+         
             if (viewModel.Show is MyShow)
             {
                 Btn_AddToMyShows.IsVisible = false;

@@ -60,7 +60,7 @@
                     <ScrollView>
                         <StackLayout>
                             <Label Text="Summary" FontSize="Medium"/>
-                            <Label Text="{Binding Show.Description}" d:Text="Show description" FontSize="Small"/>
+                            <Label Text="{Binding Show.Summary}" d:Text="Show description" FontSize="Small"/>
                         </StackLayout>
                     </ScrollView>
                 </StackLayout>
