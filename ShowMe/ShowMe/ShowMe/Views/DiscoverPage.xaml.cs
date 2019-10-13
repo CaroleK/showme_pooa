@@ -38,7 +38,7 @@ namespace ShowMe.Views
             }
             await Navigation.PushAsync(new ShowDetailsPage(new ShowDetailsViewModel(selectedItem)));
 
-            // Manually deselecy item
+            // Manually deselect item
             DiscoverListView.SelectedItem = null;
         }
 

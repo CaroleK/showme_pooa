@@ -15,6 +15,8 @@ namespace ShowMe.ViewModels
     {
         public TvMazeService service = new TvMazeService();
 
+        public FireBaseHelper MyFireBaseHelper = new FireBaseHelper();
+
         public Show Show { get; set; }
         public Season SelectedSeason { get; set; }
 
@@ -75,6 +77,7 @@ namespace ShowMe.ViewModels
 
             MyShowsCollection.AddToMyShows(myShowToAdd);
 
+            //TODO : change method to not async by subscribing FBHelper
             await FireBaseHelper.AddShowToUserList(App.User.Id, myShowToAdd);
 
         }
@@ -84,10 +87,9 @@ namespace ShowMe.ViewModels
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "DeleteFromMyShows", myShowToDelete);
             
             MyShowsCollection.RemoveFromMyShows(myShowToDelete);
-            
+
+            //TODO : change method to not async by subscribing FBHelper
             await FireBaseHelper.DeleteShowFromUserList(App.User.Id, myShowToDelete);
-            
-            MyShowsCollection.RemoveFromMyShows(myShowToDelete);
 
         }
 
@@ -96,6 +98,12 @@ namespace ShowMe.ViewModels
             MyShow myFavoriteShow = MyShowsCollection.Instance.FirstOrDefault(x => x.Id == myToBeFavoriteShow.Id);
             myFavoriteShow.IsFavorite = true;
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "ChangeToFavorite", myFavoriteShow);
+        }
+
+        public void RemoveShowFromFavorites(MyShow myNoLongerFavoriteShow)
+        {
+            myNoLongerFavoriteShow.IsFavorite = false;
+            MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "ChangeToNotFavorite", myNoLongerFavoriteShow);
 
         }
     }

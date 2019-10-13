@@ -32,25 +32,26 @@ namespace ShowMe.Services
                     show = JsonConvert.DeserializeObject<Show>(jsonString);
 
                     //retrieve last episode
-                    //HttpResponseMessage responseSeason = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + i + "/seasons"));
-                    //if (responseSeason.IsSuccessStatusCode)
-                    //{
-                    //    string jsonStringSeason = await responseSeason.Content.ReadAsStringAsync();
-                    //    List<Season> seasons = JsonConvert.DeserializeObject<List<Season>>(jsonStringSeason);
-                    //    Season maxSeason = null;
-                    //    foreach (Season season in seasons)
-                    //    {
-                    //        if ((maxSeason == null)||(season.Number > maxSeason.Number))
-                    //        {
-                    //            maxSeason = season; 
-                    //        }
-                    //    }
+                    //In order to make apprearance of Discovery page faster, put these calls in separate function @Laura ?
+                    HttpResponseMessage responseSeason = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + i + "/seasons"));
+                    if (responseSeason.IsSuccessStatusCode)
+                    {
+                        string jsonStringSeason = await responseSeason.Content.ReadAsStringAsync();
+                        List<Season> seasons = JsonConvert.DeserializeObject<List<Season>>(jsonStringSeason);
+                        Season maxSeason = null;
+                        foreach (Season season in seasons)
+                        {
+                            if ((maxSeason == null) || (season.Number > maxSeason.Number))
+                            {
+                                maxSeason = season;
+                            }
+                        }
 
-                        //show.LastEpisode = new Dictionary<string, int>{
-                        //    { "episode", maxSeason.NumberOfEpisodes },
-                        //    { "season", maxSeason.Number }
-                        //};
-                    //}
+                        show.LastEpisode = new Dictionary<string, int>{
+                            { "episode", maxSeason.NumberOfEpisodes },
+                            { "season", maxSeason.Number }
+                        };
+                    }
                 }               
 
             }

@@ -94,9 +94,18 @@ namespace ShowMe.Views
 
         private void OnHeartTappedGestureRecognizer(object sender, EventArgs args)
         {
+            MyShow myFavoriteShow = MyShowsCollection.Instance.FirstOrDefault(x => x.Id == this.viewModel.Show.Id);
             var imageSender = (Image)sender;
-            imageSender.Source = "red_heart.png";
-            viewModel.AddShowToFavorites(this.viewModel.Show);
+            if (myFavoriteShow.IsFavorite)
+            {
+                imageSender.Source = "empty_heart.png";
+                viewModel.RemoveShowFromFavorites(myFavoriteShow);
+            }
+            else {
+                imageSender.Source = "red_heart.png";
+                viewModel.AddShowToFavorites(this.viewModel.Show);
+            };
+           
 
         }
 
