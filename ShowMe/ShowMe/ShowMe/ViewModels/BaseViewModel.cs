@@ -18,9 +18,6 @@ namespace ShowMe.ViewModels
         static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
         string title = string.Empty;
 
-        public static User user { set; get; }
-        //protected User User { set { };  get { return _user; } }
-
         public string Title
         {
             get { return title; }

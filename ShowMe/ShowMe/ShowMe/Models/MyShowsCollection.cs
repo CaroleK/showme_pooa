@@ -31,7 +31,7 @@ namespace ShowMe.Models
 
         public async static void FetchMyShows()
         {
-            List<MyShow> s = await FireBaseHelper.GetUserShowList(BaseViewModel.user.Id);
+            List<MyShow> s = await FireBaseHelper.GetUserShowList(App.User.Id);
             foreach (MyShow myShow in s)
             {
                 MyShowsCollection.Instance.Add(myShow);

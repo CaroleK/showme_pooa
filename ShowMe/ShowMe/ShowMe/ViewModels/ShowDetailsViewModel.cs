@@ -32,6 +32,7 @@ namespace ShowMe.ViewModels
 
         public async void AddShowToMyShowsCollection(Show showToAdd)
         {
+            // If user has not started watching, LastEpisodeWatched should be null
             MyShow myShow = new MyShow(showToAdd, false, true, new Dictionary<string, int>{ { "episode", 1 }, { "season", 1 } });
 
             // You might wanna subscribe to this in a viewModel
@@ -40,7 +41,7 @@ namespace ShowMe.ViewModels
             MyShowsCollection.AddToMyShows(myShow);
 
             // Add to cloud storage
-            await FireBaseHelper.AddShowToUserList(user.Id, myShow);
+            await FireBaseHelper.AddShowToUserList(App.User.Id, myShow);
             
         }
 
@@ -53,7 +54,7 @@ namespace ShowMe.ViewModels
             MyShowsCollection.RemoveFromMyShows(myShowToDelete);
 
             // Remove from cloud storage
-            await FireBaseHelper.DeleteShowFromUserList(user.Id, myShowToDelete);
+            await FireBaseHelper.DeleteShowFromUserList(App.User.Id, myShowToDelete);
             MyShowsCollection.RemoveFromMyShows(myShowToDelete);
 
         }

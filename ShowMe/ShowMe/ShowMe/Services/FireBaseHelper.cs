@@ -93,7 +93,7 @@ namespace ShowMe.Services
         {
             await Myfirebase
                 .Child("Users_Shows_List")
-                .Child(BaseViewModel.user.Id)
+                .Child(App.User.Id)
                 .Child(showToUpdate.Title)
                 .PutAsync(showToUpdate);
         }

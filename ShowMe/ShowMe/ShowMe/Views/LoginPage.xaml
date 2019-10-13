@@ -53,6 +53,18 @@
                 </Button>
             </StackLayout>
 
+        <ActivityIndicator 
+            AbsoluteLayout.LayoutFlags="All" 
+            AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+            x:Name="LoginActivityIndicator"
+            IsRunning="false"
+            IsEnabled="false"
+            IsVisible="false"
+            Color="Salmon"
+            BackgroundColor="White"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"/>
+
     </AbsoluteLayout>
 
 </ContentPage>

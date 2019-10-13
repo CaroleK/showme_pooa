@@ -36,6 +36,8 @@ namespace ShowMe.Models
         [JsonProperty("image")]
         public Dictionary<string, string> Image { get; set; } = null;
 
+        // Last episode that exists for this show
+        // Must be like {{"epidose",1},{"season",1}}
         public Dictionary<string,int> LastEpisode { get; set; }
 
         public string ImageMedium => (Image != null) ? (Image["medium"]).Replace("http", "https") : "";
@@ -45,6 +47,18 @@ namespace ShowMe.Models
         public override string ToString()
         {
             return Title;
+        }
+
+        static public bool AreEpisodeDictionariesEqual(Dictionary<string, int> dic1, Dictionary<string, int> dic2)
+        {
+            if ((dic1 != null) && (dic2 != null))
+            {
+                return ((dic1["episode"] == dic2["episode"]) && (dic1["season"] == dic2["season"]));
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
