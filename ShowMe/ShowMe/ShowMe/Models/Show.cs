@@ -52,6 +52,8 @@ namespace ShowMe.Models
 
         public List<Season> SeasonsList { get; set; }
 
+        public List<Actor> Cast { get; set; }
+
         public override string ToString()
         {
             return Title;

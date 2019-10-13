@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ShowMe.Models;
 using ShowMe.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using ShowMe.Services;
 using Rg.Plugins.Popup.Services;
 using static ShowMe.Views.AddShowPopUp;
 
@@ -59,7 +56,7 @@ namespace ShowMe.Views
 
         private void AddShowPopUpClosed(object sender, PopUpArgs e)
         {
-            myShow = new MyShow(this.viewModel.Show, false, true, new Dictionary<string, int> { { "episode", e.EpisodeInWatch }, { "season", e.EpisodeInWatch } });
+            myShow = new MyShow(this.viewModel.Show, false, true, new Dictionary<string, int> { { "episode", e.EpisodeInWatch }, { "season", e.SeasonInWatch } });
             viewModel.AddShowToMyShowsCollection(myShow);
             Btn_AddToMyShows.IsVisible = false;
             Btn_AddToFavorite.IsVisible = true;

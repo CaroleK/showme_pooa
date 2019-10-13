@@ -59,8 +59,27 @@
                 <StackLayout x:Name="AboutTab">
                     <ScrollView>
                         <StackLayout>
-                            <Label Text="Summary" FontSize="Medium"/>
+                            <Label Text="Summary" FontSize="Medium" FontAttributes="Bold" TextColor="Black"/>
                             <Label Text="{Binding Show.Summary}" d:Text="Show description" FontSize="Small"/>
+                            <Label Text="Cast" TextColor="Black" FontAttributes="Bold" FontSize="Medium"></Label>
+                            <ScrollView Orientation="Horizontal">
+                                <StackLayout Orientation="Horizontal">
+                                    <ListView
+                                            x:Name="ActorsListView"
+                                            ItemsSource="{Binding Show.Cast}"
+                                            HasUnevenRows="true"
+                                            RefreshControlColor="LightSalmon">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <ImageCell
+                                                          Text="{Binding Name}"
+                                                          ImageSource="{Binding ImageMedium}">
+                                                </ImageCell>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </StackLayout>
+                            </ScrollView>
                         </StackLayout>
                     </ScrollView>
                 </StackLayout>

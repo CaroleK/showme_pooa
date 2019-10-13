@@ -34,6 +34,7 @@ namespace ShowMe.ViewModels
             }
             Task.Run(() => LoadEpisodes()).Wait();
             Task.Run(() => LoadSeasons()).Wait();
+            Task.Run(() => LoadActors()).Wait();
 
         }
 
@@ -59,6 +60,14 @@ namespace ShowMe.ViewModels
             }
         }
 
+        public async Task LoadActors()
+        {
+            List<Actor> ActorsList = await service.GetCastAsync(Show.Id);
+            if (ActorsList != null)
+            {
+                this.Show.Cast = ActorsList;
+            }
+        }
 
         public async void AddShowToMyShowsCollection(MyShow myShowToAdd)
         {

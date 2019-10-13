@@ -129,6 +129,31 @@ namespace ShowMe.Services
             return shows;
         }
 
+        public async Task<List<Actor>> GetCastAsync(int ShowId)
+        {
+            List<Actor> actors = null;
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + ShowId + "/cast"));
+                if (response.IsSuccessStatusCode)
+                {
+                    string jsonString = await response.Content.ReadAsStringAsync();
+                    List<SearchActor> result = JsonConvert.DeserializeObject<List<SearchActor>>(jsonString);
+                    actors = new List<Actor>();
+                    for (int i = 0; i < result.Count; i++)
+                    {
+                        actors.Add(result[i].Actor);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //TODO
+            }
+
+            return actors;
+        }
+
         // Not clean method : get the schedule regardless of the favorites then select schedule only if they are part of favorite
         public async Task<List<ScheduleShow>> GetUpCommingEpisode(ObservableCollection<MyShow> MyShows, DateTime dateTime, string regionISO) 
         {
@@ -173,6 +198,15 @@ namespace ShowMe.Services
 
         [JsonProperty("show")]
         public Show Serie { get; set; }
+    }
+
+    public class SearchActor
+    {
+        [JsonProperty("person")]
+        public Actor Actor { get; set; }
+
+        //[JsonProperty("character")]
+        //public string Character { get; set; }
     }
 
     public class SearchSchedule
