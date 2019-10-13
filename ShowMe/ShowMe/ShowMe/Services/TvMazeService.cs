@@ -32,25 +32,25 @@ namespace ShowMe.Services
                     show = JsonConvert.DeserializeObject<Show>(jsonString);
 
                     //retrieve last episode
-                    HttpResponseMessage responseSeason = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + i + "/seasons"));
-                    if (responseSeason.IsSuccessStatusCode)
-                    {
-                        string jsonStringSeason = await responseSeason.Content.ReadAsStringAsync();
-                        List<Season> seasons = JsonConvert.DeserializeObject<List<Season>>(jsonStringSeason);
-                        Season maxSeason = null;
-                        foreach (Season season in seasons)
-                        {
-                            if ((maxSeason == null)||(season.Number > maxSeason.Number))
-                            {
-                                maxSeason = season; 
-                            }
-                        }
+                    //HttpResponseMessage responseSeason = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + i + "/seasons"));
+                    //if (responseSeason.IsSuccessStatusCode)
+                    //{
+                    //    string jsonStringSeason = await responseSeason.Content.ReadAsStringAsync();
+                    //    List<Season> seasons = JsonConvert.DeserializeObject<List<Season>>(jsonStringSeason);
+                    //    Season maxSeason = null;
+                    //    foreach (Season season in seasons)
+                    //    {
+                    //        if ((maxSeason == null)||(season.Number > maxSeason.Number))
+                    //        {
+                    //            maxSeason = season; 
+                    //        }
+                    //    }
 
-                        show.LastEpisode = new Dictionary<string, int>{
-                            { "episode", maxSeason.NumberOfEpisodes },
-                            { "season", maxSeason.Number }
-                        };
-                    }
+                        //show.LastEpisode = new Dictionary<string, int>{
+                        //    { "episode", maxSeason.NumberOfEpisodes },
+                        //    { "season", maxSeason.Number }
+                        //};
+                    //}
                 }               
 
             }
@@ -83,7 +83,27 @@ namespace ShowMe.Services
 
         }
 
-        public async Task<List<Show>> SearchShowAsync(string search)
+        public async Task<List<Season>> GetSeasonsListAsync(int ShowId)
+        {
+            List<Season> SeasonsList = null;
+            try
+            {
+                HttpResponseMessage responseShow = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + ShowId + "/seasons"));
+                if (responseShow.IsSuccessStatusCode)
+                {
+                    string jsonString = await responseShow.Content.ReadAsStringAsync();
+                    SeasonsList = JsonConvert.DeserializeObject<List<Season>>(jsonString);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("\tERROR {0}", ex.Message);
+            }
+
+            return SeasonsList;
+        }
+
+            public async Task<List<Show>> SearchShowAsync(string search)
         {
             List<Show> shows = null;
             try

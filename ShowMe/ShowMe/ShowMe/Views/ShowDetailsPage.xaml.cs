@@ -18,6 +18,7 @@ namespace ShowMe.Views
     public partial class ShowDetailsPage : ContentPage
     {
         ShowDetailsViewModel viewModel;
+        MyShow myShow = null;
         AddShowPopUp _modalPage;
 
         public ShowDetailsPage(ShowDetailsViewModel viewModel)
@@ -38,25 +39,31 @@ namespace ShowMe.Views
 
         async void OnClickAddToMyShows(object sender, EventArgs e)
         {
+         
             bool userStartedWatchingShow = await DisplayAlert("Show added to your list!", "Did you start watching this show?", "Yes", "No");
 
-            _modalPage = new AddShowPopUp(); 
+            _modalPage = new AddShowPopUp(this.viewModel); 
             if (userStartedWatchingShow)
             {
-
                 _modalPage.PopUpClosed += AddShowPopUpClosed;
                 await PopupNavigation.Instance.PushAsync(_modalPage);
             }
+            else {
+                myShow = new MyShow(this.viewModel.Show, false, true, null);
+                viewModel.AddShowToMyShowsCollection(myShow);
+                Btn_AddToMyShows.IsVisible = false;
+                Btn_AddToFavorite.IsVisible = true;
+                Btn_DeleteFromMyShows.IsVisible = true;
+            };
         }
 
         private void AddShowPopUpClosed(object sender, PopUpArgs e)
         {
-            viewModel.AddShowToMyShowsCollection(this.viewModel.Show, e.EpisodeInWatch, e.SeasonInWatch);
-
+            myShow = new MyShow(this.viewModel.Show, false, true, new Dictionary<string, int> { { "episode", e.EpisodeInWatch }, { "season", e.EpisodeInWatch } });
+            viewModel.AddShowToMyShowsCollection(myShow);
             Btn_AddToMyShows.IsVisible = false;
             Btn_AddToFavorite.IsVisible = true;
             Btn_DeleteFromMyShows.IsVisible = true;
-
             _modalPage.PopUpClosed -= AddShowPopUpClosed;
 
         }

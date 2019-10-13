@@ -16,6 +16,7 @@ namespace ShowMe.ViewModels
         public TvMazeService service = new TvMazeService();
 
         public Show Show { get; set; }
+        public Season SelectedSeason { get; set; }
 
         public ShowDetailsViewModel(Show show = null) : base()
         {
@@ -32,7 +33,8 @@ namespace ShowMe.ViewModels
                 Show = show;
             }
             Task.Run(() => LoadEpisodes()).Wait();
-           
+            Task.Run(() => LoadSeasons()).Wait();
+
         }
 
         public async Task LoadEpisodes()
@@ -44,17 +46,28 @@ namespace ShowMe.ViewModels
             }
         }
 
-
-        public async void AddShowToMyShowsCollection(Show showToAdd, string EpisodeInWatch, string SeasonInWatch)
+        public async Task LoadSeasons()
         {
-          
-            MyShow myShow = new MyShow(showToAdd, false, true, new Dictionary<string, int>{ { "episode", Int32.Parse(EpisodeInWatch) }, { "season", Int32.Parse(SeasonInWatch) } });
-            MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", myShow);
-          
-            MyShowsCollection.AddToMyShows(myShow);
+            List<Season> SeasonsList = await service.GetSeasonsListAsync(Show.Id);
+            if (SeasonsList != null)
+            {
+                this.Show.SeasonsList = SeasonsList;
+            }
+            foreach (Season s in SeasonsList)
+            {
+                s.EpisodesOfSeason = this.Show.EpisodesList.Where(e => e.Season == s.Number).ToList();
+            }
+        }
 
-            await FireBaseHelper.AddShowToUserList(App.User.Id, myShow);
-            
+
+        public async void AddShowToMyShowsCollection(MyShow myShowToAdd)
+        {
+            MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", myShowToAdd);
+
+            MyShowsCollection.AddToMyShows(myShowToAdd);
+
+            await FireBaseHelper.AddShowToUserList(App.User.Id, myShowToAdd);
+
         }
 
         public async void DeleteShowFromMyShowsCollection(MyShow myShowToDelete)
