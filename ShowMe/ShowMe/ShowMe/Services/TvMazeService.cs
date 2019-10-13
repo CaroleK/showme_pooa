@@ -58,7 +58,6 @@ namespace ShowMe.Services
             {
                 Debug.WriteLine("\tERROR {0}", ex.Message);
             }
-
             return show;
         }
 
@@ -78,9 +77,7 @@ namespace ShowMe.Services
             {
                 Debug.WriteLine("\tERROR {0}", ex.Message);
             }
-
             return EpisodesList;
-
         }
 
         public async Task<List<Season>> GetSeasonsListAsync(int ShowId)
@@ -99,7 +96,6 @@ namespace ShowMe.Services
             {
                 Debug.WriteLine("\tERROR {0}", ex.Message);
             }
-
             return SeasonsList;
         }
 
@@ -125,7 +121,6 @@ namespace ShowMe.Services
             {
                 //TODO
             }
-
             return shows;
         }
 
@@ -150,7 +145,6 @@ namespace ShowMe.Services
             {
                 //TODO
             }
-
             return actors;
         }
 
@@ -185,11 +179,10 @@ namespace ShowMe.Services
             catch (Exception ex)
             {
                 return(scheduleShows);
-            }
-
-           
+            } 
         }
     }
+
 
     public class SearchResult
     {
@@ -200,14 +193,13 @@ namespace ShowMe.Services
         public Show Serie { get; set; }
     }
 
+
     public class SearchActor
     {
         [JsonProperty("person")]
         public Actor Actor { get; set; }
-
-        //[JsonProperty("character")]
-        //public string Character { get; set; }
     }
+
 
     public class SearchSchedule
     {

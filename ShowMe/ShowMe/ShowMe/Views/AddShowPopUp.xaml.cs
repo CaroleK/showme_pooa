@@ -37,7 +37,7 @@ namespace ShowMe.Views
         {
             if (PopUpClosed != null)
             {
-                PopUpClosed(this, new PopUpArgs() { SeasonInWatch = EnteredSeason.SelectedIndex, EpisodeInWatch = EnteredEpisode.SelectedIndex });
+                PopUpClosed(this, new PopUpArgs() { SeasonInWatch = EnteredSeason.SelectedIndex + 1, EpisodeInWatch = EnteredEpisode.SelectedIndex +1 });
             };
         }
 
