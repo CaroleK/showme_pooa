@@ -9,6 +9,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using ShowMe.Services;
 using Rg.Plugins.Popup.Services;
+using static ShowMe.Views.AddShowPopUp;
 
 namespace ShowMe.Views
 {
@@ -16,7 +17,7 @@ namespace ShowMe.Views
     public partial class ShowDetailsPage : ContentPage
     {
         ShowDetailsViewModel viewModel;
-        FireBaseHelper fireBaseHelper = new FireBaseHelper();
+        AddShowPopUp _modalPage;
 
         public ShowDetailsPage(ShowDetailsViewModel viewModel)
         {
@@ -36,17 +37,26 @@ namespace ShowMe.Views
         async void OnClickAddToMyShows(object sender, EventArgs e)
         {
             bool userStartedWatchingShow = await DisplayAlert("Show added to your list!", "Did you start watching this show?", "Yes", "No");
-            
+
+            _modalPage = new AddShowPopUp(); 
             if (userStartedWatchingShow)
             {
-                await PopupNavigation.Instance.PushAsync(new AddShowPopUp());
-            }
 
-            viewModel.AddShowToMyShowsCollection(this.viewModel.Show);
-          
+                _modalPage.PopUpClosed += AddShowPopUpClosed;
+                await PopupNavigation.Instance.PushAsync(_modalPage);
+            }
+        }
+
+        private void AddShowPopUpClosed(object sender, PopUpArgs e)
+        {
+            viewModel.AddShowToMyShowsCollection(this.viewModel.Show, e.EpisodeInWatch, e.SeasonInWatch);
+
             Btn_AddToMyShows.IsVisible = false;
             Btn_AddToFavorite.IsVisible = true;
             Btn_DeleteFromMyShows.IsVisible = true;
+
+            _modalPage.PopUpClosed -= AddShowPopUpClosed;
+
         }
 
         async void OnClickDeleteFromMyShows(object sender, EventArgs e)

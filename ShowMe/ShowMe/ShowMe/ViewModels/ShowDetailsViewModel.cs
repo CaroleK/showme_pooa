@@ -30,13 +30,13 @@ namespace ShowMe.ViewModels
            
         }
 
-        public async void AddShowToMyShowsCollection(Show showToAdd)
+        public async void AddShowToMyShowsCollection(Show showToAdd, string EpisodeInWatch, string SeasonInWatch)
         {
-            // If user has not started watching, LastEpisodeWatched should be null
-            MyShow myShow = new MyShow(showToAdd, false, true, new Dictionary<string, int>{ { "episode", 1 }, { "season", 1 } });
+          
+            MyShow myShow = new MyShow(showToAdd, false, true, new Dictionary<string, int>{ { "episode", Int32.Parse(EpisodeInWatch) }, { "season", Int32.Parse(SeasonInWatch) } });
 
-            // You might wanna subscribe to this in a viewModel
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", myShow);
+          
             // Add to local collection instance
             MyShowsCollection.AddToMyShows(myShow);
 

@@ -14,13 +14,15 @@
                 <StackLayout Padding="20, 5, 20, 20">
                     <StackLayout Orientation="Vertical">
                         <Label Text="Enter season"/>
-                        <Entry Placeholder="Season" 
+                        <Entry x:Name ="EnteredSeason"
+                               Placeholder="Season" 
                                HorizontalOptions="FillAndExpand"    
                                PlaceholderColor="Silver" 
                                Keyboard="Numeric">
                         </Entry>
                         <Label Text="Enter episode"/>
-                        <Entry Placeholder="Episode" 
+                        <Entry x:Name ="EnteredEpisode"
+                            Placeholder="Episode" 
                             HorizontalOptions="FillAndExpand"
                             PlaceholderColor="Silver" 
                             Keyboard="Numeric">
