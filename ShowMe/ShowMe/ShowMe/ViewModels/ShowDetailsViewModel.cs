@@ -6,13 +6,17 @@ using ShowMe.Models;
 using ShowMe.Views;
 using System.Linq;
 using Xamarin.Forms;
-
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace ShowMe.ViewModels
 {
     public class ShowDetailsViewModel : BaseViewModel
     {
+        public TvMazeService service = new TvMazeService();
+
         public Show Show { get; set; }
+
         public ShowDetailsViewModel(Show show = null) : base()
         {
             var s = MyShowsCollection.Instance;
@@ -27,34 +31,40 @@ namespace ShowMe.ViewModels
                 Title = show?.Title;
                 Show = show;
             }
+            Task.Run(() => LoadEpisodes()).Wait();
            
         }
+
+        public async Task LoadEpisodes()
+        {
+            List<Episode> EpisodesList = await service.GetEpisodesListAsync(Show.Id);
+            if (EpisodesList != null)
+            {
+                this.Show.EpisodesList = EpisodesList;
+            }
+        }
+
 
         public async void AddShowToMyShowsCollection(Show showToAdd, string EpisodeInWatch, string SeasonInWatch)
         {
           
             MyShow myShow = new MyShow(showToAdd, false, true, new Dictionary<string, int>{ { "episode", Int32.Parse(EpisodeInWatch) }, { "season", Int32.Parse(SeasonInWatch) } });
-
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", myShow);
           
-            // Add to local collection instance
             MyShowsCollection.AddToMyShows(myShow);
 
-            // Add to cloud storage
             await FireBaseHelper.AddShowToUserList(App.User.Id, myShow);
             
         }
 
         public async void DeleteShowFromMyShowsCollection(MyShow myShowToDelete)
         {
-            // You might wanna subscribe to this in a viewModel
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "DeleteFromMyShows", myShowToDelete);
-
-            // Remove from local collection instance
+            
             MyShowsCollection.RemoveFromMyShows(myShowToDelete);
-
-            // Remove from cloud storage
+            
             await FireBaseHelper.DeleteShowFromUserList(App.User.Id, myShowToDelete);
+            
             MyShowsCollection.RemoveFromMyShows(myShowToDelete);
 
         }

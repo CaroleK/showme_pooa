@@ -44,6 +44,8 @@ namespace ShowMe.Models
 
         public string GenresInString => ((Genres != null) && (Genres.Length > 0)) ? string.Join(", ", Genres) : "";
 
+        public List<Episode> EpisodesList { get; set; }
+
         public override string ToString()
         {
             return Title;

@@ -21,7 +21,12 @@ namespace ShowMe.Models
 
         [JsonProperty("number")]
         public int Number { get; set; }
-        
+
+        [JsonProperty("image")]
+        public Dictionary<string, string> Image { get; set; } = null;
+
+        public string ImageMedium => (Image != null) ? (Image["medium"]).Replace("http", "https") : "";
+
 
         [JsonConstructor]
         public Episode(int season, int number)

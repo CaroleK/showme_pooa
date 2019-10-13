@@ -65,7 +65,23 @@
                     </ScrollView>
                 </StackLayout>
                 <StackLayout  x:Name="EpisodesTab" IsVisible="false">
-                    <Label Text="Show episodes" FontSize="Medium"/>
+                    <ScrollView>
+                        <ListView
+                            x:Name="EpisodesListView"
+                            ItemsSource="{Binding Show.EpisodesList}"
+                            HasUnevenRows="true"
+                            RefreshControlColor="LightSalmon">
+                            <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                             <ImageCell
+                                                        Text="{Binding Name}"
+                                                        ImageSource="{Binding ImageMedium}">
+                                             </ImageCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+
+                        </ListView>
+                    </ScrollView>
                 </StackLayout>
             </StackLayout>
             

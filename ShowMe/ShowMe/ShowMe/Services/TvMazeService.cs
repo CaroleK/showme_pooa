@@ -11,7 +11,7 @@ using System.Globalization;
 
 namespace ShowMe.Services
 {
-    class TvMazeService
+    public class TvMazeService
     {
         HttpClient client;
 
@@ -60,6 +60,27 @@ namespace ShowMe.Services
             }
 
             return show;
+        }
+
+        public async Task<List<Episode>> GetEpisodesListAsync(int ShowId)
+        {
+            List<Episode> EpisodesList = null;
+            try
+            {
+                HttpResponseMessage responseShow = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + ShowId + "/episodes"));
+                if (responseShow.IsSuccessStatusCode)
+                {
+                    string jsonString = await responseShow.Content.ReadAsStringAsync();
+                    EpisodesList = JsonConvert.DeserializeObject<List<Episode>>(jsonString);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("\tERROR {0}", ex.Message);
+            }
+
+            return EpisodesList;
+
         }
 
         public async Task<List<Show>> SearchShowAsync(string search)
