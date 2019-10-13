@@ -53,10 +53,10 @@ namespace ShowMe.ViewModels
             if (SeasonsList != null)
             {
                 this.Show.SeasonsList = SeasonsList;
-            }
-            foreach (Season s in SeasonsList)
-            {
-                s.EpisodesOfSeason = this.Show.EpisodesList.Where(e => e.Season == s.Number).ToList();
+                foreach (Season s in SeasonsList)
+                {
+                    s.EpisodesOfSeason = this.Show.EpisodesList.Where(e => e.Season == s.Number).ToList();
+                }
             }
         }
 

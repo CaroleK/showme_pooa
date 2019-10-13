@@ -80,12 +80,16 @@ namespace ShowMe.Views
         {
             AboutTab.IsVisible = true;
             EpisodesTab.IsVisible = false;
+            AboutButton.TextColor = Color.Salmon;
+            EpisodesButton.TextColor = Color.Gray;
         }
 
         private void OnEpisodesClicked(object sender, EventArgs e)
         {
             AboutTab.IsVisible = false;
             EpisodesTab.IsVisible = true;
+            AboutButton.TextColor = Color.Gray;
+            EpisodesButton.TextColor = Color.Salmon;
         }
 
         private void OnHeartTappedGestureRecognizer(object sender, EventArgs args)

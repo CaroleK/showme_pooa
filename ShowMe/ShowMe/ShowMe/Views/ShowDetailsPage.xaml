@@ -10,8 +10,8 @@
     <StackLayout Orientation="Horizontal" Padding="15" HorizontalOptions="Center" VerticalOptions="Center">
         <Grid RowSpacing="5">
             <Grid.RowDefinitions>
-                <RowDefinition Height="180" />
-                <RowDefinition Height="50" />
+                <RowDefinition Height="160" />
+                <RowDefinition Height="40" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
@@ -50,8 +50,8 @@
             
             <!-- Tab buttons-->
             <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Spacing="40">
-                <Button BackgroundColor="Transparent" Clicked="OnAboutClicked" Text="About" TextColor="Salmon"/>
-                <Button BackgroundColor="Transparent" Clicked="OnEpisodesClicked" Text="Episodes" TextColor="Salmon"/>
+                <Button x:Name ="AboutButton" BackgroundColor="Transparent" Clicked="OnAboutClicked" Text="About" TextColor="Salmon"/>
+                <Button x:Name ="EpisodesButton" BackgroundColor="Transparent" Clicked="OnEpisodesClicked" Text="Episodes" TextColor="Gray"/>
             </StackLayout>
 
             <!-- Tab containers -->
