@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using ShowMe.Models;
 using ShowMe.Services;
+using ShowMe.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -108,7 +109,7 @@ namespace ShowMe.Views
                 {
                     await FireBaseHelper.AddUser(user.Id, user.Email, user.Picture); ;
                 }
-
+                BaseViewModel.User = user;
                 App.User = user;
             }
         }

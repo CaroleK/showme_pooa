@@ -18,7 +18,7 @@ namespace ShowMe.Views
         public ProfilePage()
         {
             InitializeComponent();
-            BindingContext = viewModel;
+            BindingContext = ProfileViewModel.User; ;
         }
     }
 }
