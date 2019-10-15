@@ -39,7 +39,8 @@ namespace ShowMe.ViewModels
             DateTime dateTimeToday = DateTime.Now;
             DateTime dateTimeTomorrow = dateTimeToday.AddDays(1);
             DateTime dateTimeAfterTomorrow = dateTimeToday.AddDays(2);
-            RegionInfo region = new RegionInfo("FR");
+            // Choice made to focus on US region because of the API's data 
+            RegionInfo region = new RegionInfo("US"); 
             string regionISO = region.TwoLetterISORegionName;
 
             List<ScheduleShow> sToday = await service.GetUpCommingEpisode(MyShowsCollection.Instance, dateTimeToday, regionISO);
