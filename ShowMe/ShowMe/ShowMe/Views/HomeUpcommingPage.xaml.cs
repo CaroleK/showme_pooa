@@ -20,6 +20,11 @@ namespace ShowMe.Views
             BindingContext = viewModel = new HomeUpcommingViewModel();
         }
 
-        
+        protected override void OnAppearing()
+        {
+            
+            base.OnAppearing();
+            viewModel.Init();
+        }
     }
 }

@@ -29,6 +29,9 @@ namespace ShowMe.Models
         [JsonProperty("schedule")]
         public SearchSchedule Schedule { get; set; } 
 
+        [JsonProperty("network")]
+        public SearchNetwork Network { get; set; }
+
         /*[JsonProperty("rating")]
         public double Rating { get; set; } = 0.0;*/
 
@@ -39,6 +42,8 @@ namespace ShowMe.Models
         
         [JsonProperty("image")]
         public Dictionary<string, string> Image { get; set; } = null;
+
+
 
         // Last episode that exists for this show
         // Must be like {{"epidose",1},{"season",1}}

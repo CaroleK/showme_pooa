@@ -41,7 +41,7 @@ namespace ShowMe.ViewModels
         TvMazeService service = new TvMazeService();
         public  MyShowsViewModel() 
         {
-            Title = "Browse MyShows";
+            Title = "Browse my shows";
 
             Init();
 

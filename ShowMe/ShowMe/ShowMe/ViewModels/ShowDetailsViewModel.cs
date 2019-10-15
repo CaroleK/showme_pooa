@@ -73,6 +73,9 @@ namespace ShowMe.ViewModels
 
         public async void AddShowToMyShowsCollection(MyShow myShowToAdd)
         {
+            // Fetch the last episode for this show, now that we're adding it to MyShows list we'll need this attribute
+            myShowToAdd.LastEpisode = await service.GetLastEpisodeInShow(myShowToAdd.Id); 
+
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", myShowToAdd);
 
             MyShowsCollection.AddToMyShows(myShowToAdd);
