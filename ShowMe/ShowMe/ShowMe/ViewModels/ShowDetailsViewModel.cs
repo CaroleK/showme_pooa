@@ -93,11 +93,10 @@ namespace ShowMe.ViewModels
 
         }
 
-        public void AddShowToFavorites(Show myToBeFavoriteShow)
+        public void AddShowToFavorites(MyShow myToBeFavoriteShow)
         {
-            MyShow myFavoriteShow = MyShowsCollection.Instance.FirstOrDefault(x => x.Id == myToBeFavoriteShow.Id);
-            myFavoriteShow.IsFavorite = true;
-            MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "ChangeToFavorite", myFavoriteShow);
+            myToBeFavoriteShow.IsFavorite = true;
+            MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "ChangeToFavorite", myToBeFavoriteShow);
         }
 
         public void RemoveShowFromFavorites(MyShow myNoLongerFavoriteShow)

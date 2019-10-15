@@ -91,19 +91,18 @@
                             HasUnevenRows="true"
                             RefreshControlColor="LightSalmon">
                             <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                             <ImageCell
+                                <DataTemplate>
+                                    <ImageCell
                                                         Text="{Binding Name}"
                                                         ImageSource="{Binding ImageMedium}">
-                                             </ImageCell>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
+                                    </ImageCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
 
                         </ListView>
                     </ScrollView>
                 </StackLayout>
             </StackLayout>
-            
         </Grid>
     </StackLayout>
 </ContentPage>
