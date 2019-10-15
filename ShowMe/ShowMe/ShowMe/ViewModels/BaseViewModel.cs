@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using Xamarin.Forms;
-using ShowMe.Models;
-using ShowMe.Services;
 using System.Threading;
-using Xamarin.Forms;
+using ShowMe.Models;
 
 namespace ShowMe.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        //Instantiate a Singleton of the Semaphore with a value of 1. This means that only 1 thread can be granted access at a time.
-        static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
+        public static User User { get; set; }
+
         string title = string.Empty;
 
         public string Title
@@ -24,8 +19,7 @@ namespace ShowMe.ViewModels
             set { SetProperty(ref title, value); }
         }
 
-        
-
+    
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName]string propertyName = "",
             Action onChanged = null)

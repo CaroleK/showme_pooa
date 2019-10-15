@@ -13,18 +13,15 @@
             <ScrollView>
                 <StackLayout Padding="20, 5, 20, 20">
                     <StackLayout Orientation="Vertical">
-                        <Label Text="Enter season"/>
-                        <Entry Placeholder="Season" 
-                               HorizontalOptions="FillAndExpand"    
-                               PlaceholderColor="Silver" 
-                               Keyboard="Numeric">
-                        </Entry>
-                        <Label Text="Enter episode"/>
-                        <Entry Placeholder="Episode" 
-                            HorizontalOptions="FillAndExpand"
-                            PlaceholderColor="Silver" 
-                            Keyboard="Numeric">
-                        </Entry>
+                        <Label Text="Choose season"/>
+                        <Picker x:Name ="EnteredSeason" Title="Season" HorizontalOptions="FillAndExpand" TitleColor="Silver" 
+                                ItemsSource="{Binding Show.SeasonsList}" ItemDisplayBinding="{Binding Number}" SelectedItem="{Binding SelectedSeason}" SelectedIndexChanged="OnSeasonValueSelected">
+                            
+                        </Picker>
+                        <Label Text="Choose episode"/>
+                        <Picker x:Name ="EnteredEpisode" Title="Episode" HorizontalOptions="FillAndExpand" TitleColor="Silver" 
+                                ItemDisplayBinding="{Binding Number}" >
+                        </Picker>
                     </StackLayout>
                     <Button Text="Save" TextColor="Salmon" Clicked="OnSave"></Button>
                 </StackLayout>

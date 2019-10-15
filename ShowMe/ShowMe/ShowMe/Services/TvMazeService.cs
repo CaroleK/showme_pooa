@@ -11,7 +11,7 @@ using System.Globalization;
 
 namespace ShowMe.Services
 {
-    class TvMazeService
+    public class TvMazeService
     {
         HttpClient client;
 
@@ -32,6 +32,7 @@ namespace ShowMe.Services
                     show = JsonConvert.DeserializeObject<Show>(jsonString);
 
                     //retrieve last episode
+                    //In order to make apprearance of Discovery page faster, put these calls in separate function @Laura ?
                     HttpResponseMessage responseSeason = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + i + "/seasons"));
                     if (responseSeason.IsSuccessStatusCode)
                     {
@@ -40,9 +41,9 @@ namespace ShowMe.Services
                         Season maxSeason = null;
                         foreach (Season season in seasons)
                         {
-                            if ((maxSeason == null)||(season.Number > maxSeason.Number))
+                            if ((maxSeason == null) || (season.Number > maxSeason.Number))
                             {
-                                maxSeason = season; 
+                                maxSeason = season;
                             }
                         }
 
@@ -58,11 +59,48 @@ namespace ShowMe.Services
             {
                 Debug.WriteLine("\tERROR {0}", ex.Message);
             }
-
             return show;
         }
 
-        public async Task<List<Show>> SearchShowAsync(string search)
+        public async Task<List<Episode>> GetEpisodesListAsync(int ShowId)
+        {
+            List<Episode> EpisodesList = null;
+            try
+            {
+                HttpResponseMessage responseShow = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + ShowId + "/episodes"));
+                if (responseShow.IsSuccessStatusCode)
+                {
+                    string jsonString = await responseShow.Content.ReadAsStringAsync();
+                    EpisodesList = JsonConvert.DeserializeObject<List<Episode>>(jsonString);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("\tERROR {0}", ex.Message);
+            }
+            return EpisodesList;
+        }
+
+        public async Task<List<Season>> GetSeasonsListAsync(int ShowId)
+        {
+            List<Season> SeasonsList = null;
+            try
+            {
+                HttpResponseMessage responseShow = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + ShowId + "/seasons"));
+                if (responseShow.IsSuccessStatusCode)
+                {
+                    string jsonString = await responseShow.Content.ReadAsStringAsync();
+                    SeasonsList = JsonConvert.DeserializeObject<List<Season>>(jsonString);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("\tERROR {0}", ex.Message);
+            }
+            return SeasonsList;
+        }
+
+            public async Task<List<Show>> SearchShowAsync(string search)
         {
             List<Show> shows = null;
             try
@@ -84,8 +122,31 @@ namespace ShowMe.Services
             {
                 //TODO
             }
-
             return shows;
+        }
+
+        public async Task<List<Actor>> GetCastAsync(int ShowId)
+        {
+            List<Actor> actors = null;
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + ShowId + "/cast"));
+                if (response.IsSuccessStatusCode)
+                {
+                    string jsonString = await response.Content.ReadAsStringAsync();
+                    List<SearchActor> result = JsonConvert.DeserializeObject<List<SearchActor>>(jsonString);
+                    actors = new List<Actor>();
+                    for (int i = 0; i < result.Count; i++)
+                    {
+                        actors.Add(result[i].Actor);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //TODO
+            }
+            return actors;
         }
 
         // Not clean method : get the schedule regardless of the favorites then select schedule only if they are part of favorite
@@ -119,11 +180,10 @@ namespace ShowMe.Services
             catch (Exception ex)
             {
                 return(scheduleShows);
-            }
-
-           
+            } 
         }
     }
+
 
     public class SearchResult
     {
@@ -133,6 +193,14 @@ namespace ShowMe.Services
         [JsonProperty("show")]
         public Show Serie { get; set; }
     }
+
+
+    public class SearchActor
+    {
+        [JsonProperty("person")]
+        public Actor Actor { get; set; }
+    }
+
 
     public class SearchSchedule
     {

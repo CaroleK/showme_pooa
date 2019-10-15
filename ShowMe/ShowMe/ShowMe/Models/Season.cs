@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ShowMe.Models
 {
-    class Season
+    public class Season
     {
         [JsonProperty("id")]
         public int Id { get; set; }
@@ -15,5 +16,7 @@ namespace ShowMe.Models
 
         [JsonProperty("episodeOrder")]
         public int NumberOfEpisodes { get; set; }
+
+        public List<Episode> EpisodesOfSeason { get; set; }
     }
 }

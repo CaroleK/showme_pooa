@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 
 namespace ShowMe.Services
 {
-    class FireBaseHelper
+    public class FireBaseHelper
     {
         static FirebaseClient Myfirebase = new FirebaseClient(Constants.FireBaseUrl, new FirebaseOptions
         {
@@ -25,6 +25,12 @@ namespace ShowMe.Services
         public FireBaseHelper()
         {
             MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "ChangeToFavorite", async (obj, item) =>
+            {
+
+                await UpdateMyShow(item);
+            });
+
+            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "ChangeToNotFavorite", async (obj, item) =>
             {
 
                 await UpdateMyShow(item);
@@ -89,7 +95,7 @@ namespace ShowMe.Services
         }
 
 
-        private static async Task UpdateMyShow(MyShow showToUpdate)
+        internal async Task UpdateMyShow(MyShow showToUpdate)
         {
             await Myfirebase
                 .Child("Users_Shows_List")

@@ -6,13 +6,20 @@ using ShowMe.Models;
 using ShowMe.Views;
 using System.Linq;
 using Xamarin.Forms;
-
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace ShowMe.ViewModels
 {
     public class ShowDetailsViewModel : BaseViewModel
     {
+        public TvMazeService service = new TvMazeService();
+
+        public FireBaseHelper MyFireBaseHelper = new FireBaseHelper();
+
         public Show Show { get; set; }
+        public Season SelectedSeason { get; set; }
+
         public ShowDetailsViewModel(Show show = null) : base()
         {
             var s = MyShowsCollection.Instance;
@@ -27,35 +34,62 @@ namespace ShowMe.ViewModels
                 Title = show?.Title;
                 Show = show;
             }
-           
+            Task.Run(() => LoadEpisodes()).Wait();
+            Task.Run(() => LoadSeasons()).Wait();
+            Task.Run(() => LoadActors()).Wait();
+
         }
 
-        public async void AddShowToMyShowsCollection(Show showToAdd)
+        public async Task LoadEpisodes()
         {
-            // If user has not started watching, LastEpisodeWatched should be null
-            MyShow myShow = new MyShow(showToAdd, false, true, new Dictionary<string, int>{ { "episode", 1 }, { "season", 1 } });
+            List<Episode> EpisodesList = await service.GetEpisodesListAsync(Show.Id);
+            if (EpisodesList != null)
+            {
+                this.Show.EpisodesList = EpisodesList;
+            }
+        }
 
-            // You might wanna subscribe to this in a viewModel
-            MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", myShow);
-            // Add to local collection instance
-            MyShowsCollection.AddToMyShows(myShow);
+        public async Task LoadSeasons()
+        {
+            List<Season> SeasonsList = await service.GetSeasonsListAsync(Show.Id);
+            if (SeasonsList != null)
+            {
+                this.Show.SeasonsList = SeasonsList;
+                foreach (Season s in SeasonsList)
+                {
+                    s.EpisodesOfSeason = this.Show.EpisodesList.Where(e => e.Season == s.Number).ToList();
+                }
+            }
+        }
 
-            // Add to cloud storage
-            await FireBaseHelper.AddShowToUserList(App.User.Id, myShow);
-            
+        public async Task LoadActors()
+        {
+            List<Actor> ActorsList = await service.GetCastAsync(Show.Id);
+            if (ActorsList != null)
+            {
+                this.Show.Cast = ActorsList;
+            }
+        }
+
+        public async void AddShowToMyShowsCollection(MyShow myShowToAdd)
+        {
+            MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", myShowToAdd);
+
+            MyShowsCollection.AddToMyShows(myShowToAdd);
+
+            //TODO : change method to not async by subscribing FBHelper
+            await FireBaseHelper.AddShowToUserList(App.User.Id, myShowToAdd);
+
         }
 
         public async void DeleteShowFromMyShowsCollection(MyShow myShowToDelete)
         {
-            // You might wanna subscribe to this in a viewModel
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "DeleteFromMyShows", myShowToDelete);
-
-            // Remove from local collection instance
+            
             MyShowsCollection.RemoveFromMyShows(myShowToDelete);
 
-            // Remove from cloud storage
+            //TODO : change method to not async by subscribing FBHelper
             await FireBaseHelper.DeleteShowFromUserList(App.User.Id, myShowToDelete);
-            MyShowsCollection.RemoveFromMyShows(myShowToDelete);
 
         }
 
@@ -64,6 +98,12 @@ namespace ShowMe.ViewModels
             MyShow myFavoriteShow = MyShowsCollection.Instance.FirstOrDefault(x => x.Id == myToBeFavoriteShow.Id);
             myFavoriteShow.IsFavorite = true;
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "ChangeToFavorite", myFavoriteShow);
+        }
+
+        public void RemoveShowFromFavorites(MyShow myNoLongerFavoriteShow)
+        {
+            myNoLongerFavoriteShow.IsFavorite = false;
+            MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "ChangeToNotFavorite", myNoLongerFavoriteShow);
 
         }
     }

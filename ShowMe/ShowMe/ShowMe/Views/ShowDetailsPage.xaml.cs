@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ShowMe.Models;
 using ShowMe.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using ShowMe.Services;
 using Rg.Plugins.Popup.Services;
+using static ShowMe.Views.AddShowPopUp;
+
 
 namespace ShowMe.Views
 {
@@ -16,12 +15,14 @@ namespace ShowMe.Views
     public partial class ShowDetailsPage : ContentPage
     {
         ShowDetailsViewModel viewModel;
-        FireBaseHelper fireBaseHelper = new FireBaseHelper();
+        MyShow myShow = null;
+        AddShowPopUp _modalPage;
 
         public ShowDetailsPage(ShowDetailsViewModel viewModel)
         {
             InitializeComponent();
             BindingContext = this.viewModel = viewModel;
+         
             if (viewModel.Show is MyShow)
             {
                 Btn_AddToMyShows.IsVisible = false;
@@ -35,18 +36,33 @@ namespace ShowMe.Views
 
         async void OnClickAddToMyShows(object sender, EventArgs e)
         {
+         
             bool userStartedWatchingShow = await DisplayAlert("Show added to your list!", "Did you start watching this show?", "Yes", "No");
-            
+
+            _modalPage = new AddShowPopUp(this.viewModel); 
             if (userStartedWatchingShow)
             {
-                await PopupNavigation.Instance.PushAsync(new AddShowPopUp());
+                _modalPage.PopUpClosed += AddShowPopUpClosed;
+                await PopupNavigation.Instance.PushAsync(_modalPage);
             }
+            else {
+                myShow = new MyShow(this.viewModel.Show, false, true, null);
+                viewModel.AddShowToMyShowsCollection(myShow);
+                Btn_AddToMyShows.IsVisible = false;
+                Btn_AddToFavorite.IsVisible = true;
+                Btn_DeleteFromMyShows.IsVisible = true;
+            };
+        }
 
-            viewModel.AddShowToMyShowsCollection(this.viewModel.Show);
-          
+        private void AddShowPopUpClosed(object sender, PopUpArgs e)
+        {
+            myShow = new MyShow(this.viewModel.Show, false, true, new Dictionary<string, int> { { "episode", e.EpisodeInWatch }, { "season", e.SeasonInWatch } });
+            viewModel.AddShowToMyShowsCollection(myShow);
             Btn_AddToMyShows.IsVisible = false;
             Btn_AddToFavorite.IsVisible = true;
             Btn_DeleteFromMyShows.IsVisible = true;
+            _modalPage.PopUpClosed -= AddShowPopUpClosed;
+
         }
 
         async void OnClickDeleteFromMyShows(object sender, EventArgs e)
@@ -64,19 +80,32 @@ namespace ShowMe.Views
         {
             AboutTab.IsVisible = true;
             EpisodesTab.IsVisible = false;
+            AboutButton.TextColor = Color.Salmon;
+            EpisodesButton.TextColor = Color.Gray;
         }
 
         private void OnEpisodesClicked(object sender, EventArgs e)
         {
             AboutTab.IsVisible = false;
             EpisodesTab.IsVisible = true;
+            AboutButton.TextColor = Color.Gray;
+            EpisodesButton.TextColor = Color.Salmon;
         }
 
         private void OnHeartTappedGestureRecognizer(object sender, EventArgs args)
         {
+            MyShow myFavoriteShow = MyShowsCollection.Instance.FirstOrDefault(x => x.Id == this.viewModel.Show.Id);
             var imageSender = (Image)sender;
-            imageSender.Source = "red_heart.png";
-            viewModel.AddShowToFavorites(this.viewModel.Show);
+            if (myFavoriteShow.IsFavorite)
+            {
+                imageSender.Source = "empty_heart.png";
+                viewModel.RemoveShowFromFavorites(myFavoriteShow);
+            }
+            else {
+                imageSender.Source = "red_heart.png";
+                viewModel.AddShowToFavorites(this.viewModel.Show);
+            };
+           
 
         }
 

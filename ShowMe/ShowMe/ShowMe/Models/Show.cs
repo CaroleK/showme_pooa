@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using HtmlAgilityPack;
+using Newtonsoft.Json;
 using ShowMe.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace ShowMe.Models
@@ -32,6 +34,8 @@ namespace ShowMe.Models
 
         [JsonProperty("summary")]
         public string Description { get; set; } = "No description availble";
+
+        public string Summary { get { return ConvertDescriptionFromHtmlToString(this.Description); } set { } }
         
         [JsonProperty("image")]
         public Dictionary<string, string> Image { get; set; } = null;
@@ -43,6 +47,12 @@ namespace ShowMe.Models
         public string ImageMedium => (Image != null) ? (Image["medium"]).Replace("http", "https") : "";
 
         public string GenresInString => ((Genres != null) && (Genres.Length > 0)) ? string.Join(", ", Genres) : "";
+
+        public List<Episode> EpisodesList { get; set; }
+
+        public List<Season> SeasonsList { get; set; }
+
+        public List<Actor> Cast { get; set; }
 
         public override string ToString()
         {
@@ -60,5 +70,15 @@ namespace ShowMe.Models
                 return false;
             }
         }
+
+        public string ConvertDescriptionFromHtmlToString(string description)
+        {
+            HtmlDocument doc = new HtmlDocument();
+            doc.LoadHtml(this.Description);
+            string result = doc.DocumentNode.FirstChild.InnerHtml;
+            result = Regex.Replace(result, "<.*?>", String.Empty);
+            return result;
+        }
+    
     }
 }

@@ -10,8 +10,8 @@
     <StackLayout Orientation="Horizontal" Padding="15" HorizontalOptions="Center" VerticalOptions="Center">
         <Grid RowSpacing="5">
             <Grid.RowDefinitions>
-                <RowDefinition Height="180" />
-                <RowDefinition Height="50" />
+                <RowDefinition Height="160" />
+                <RowDefinition Height="40" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
@@ -50,8 +50,8 @@
             
             <!-- Tab buttons-->
             <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Spacing="40">
-                <Button BackgroundColor="Transparent" Clicked="OnAboutClicked" Text="About" TextColor="Salmon"/>
-                <Button BackgroundColor="Transparent" Clicked="OnEpisodesClicked" Text="Episodes" TextColor="Salmon"/>
+                <Button x:Name ="AboutButton" BackgroundColor="Transparent" Clicked="OnAboutClicked" Text="About" TextColor="Salmon"/>
+                <Button x:Name ="EpisodesButton" BackgroundColor="Transparent" Clicked="OnEpisodesClicked" Text="Episodes" TextColor="Gray"/>
             </StackLayout>
 
             <!-- Tab containers -->
@@ -59,13 +59,48 @@
                 <StackLayout x:Name="AboutTab">
                     <ScrollView>
                         <StackLayout>
-                            <Label Text="Summary" FontSize="Medium"/>
-                            <Label Text="{Binding Show.Description}" d:Text="Show description" FontSize="Small"/>
+                            <Label Text="Summary" FontSize="Medium" FontAttributes="Bold" TextColor="Black"/>
+                            <Label Text="{Binding Show.Summary}" d:Text="Show description" FontSize="Small"/>
+                            <Label Text="Cast" TextColor="Black" FontAttributes="Bold" FontSize="Medium"></Label>
+                            <ScrollView Orientation="Horizontal">
+                                <StackLayout Orientation="Horizontal">
+                                    <ListView
+                                            x:Name="ActorsListView"
+                                            ItemsSource="{Binding Show.Cast}"
+                                            HasUnevenRows="true"
+                                            RefreshControlColor="LightSalmon">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <ImageCell
+                                                          Text="{Binding Name}"
+                                                          ImageSource="{Binding ImageMedium}">
+                                                </ImageCell>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </StackLayout>
+                            </ScrollView>
                         </StackLayout>
                     </ScrollView>
                 </StackLayout>
                 <StackLayout  x:Name="EpisodesTab" IsVisible="false">
-                    <Label Text="Show episodes" FontSize="Medium"/>
+                    <ScrollView>
+                        <ListView
+                            x:Name="EpisodesListView"
+                            ItemsSource="{Binding Show.EpisodesList}"
+                            HasUnevenRows="true"
+                            RefreshControlColor="LightSalmon">
+                            <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                             <ImageCell
+                                                        Text="{Binding Name}"
+                                                        ImageSource="{Binding ImageMedium}">
+                                             </ImageCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+
+                        </ListView>
+                    </ScrollView>
                 </StackLayout>
             </StackLayout>
             
