@@ -150,15 +150,14 @@ namespace ShowMe.Services
         }
 
         // Not clean method : get the schedule regardless of the favorites then select schedule only if they are part of favorite
-        public async Task<List<ScheduleShow>> GetUpCommingEpisode(ObservableCollection<MyShow> MyShows, DateTime dateTime, string regionISO) 
+        public async Task<List<ScheduleShow>> GetUpCommingEpisode(ObservableCollection<MyShow> MyShows, string dateTime, string regionISO) 
         {
             List<ScheduleShow> scheduleShows = new List<ScheduleShow>();
                                  
             try
             {
-                string Datetime = dateTime.ToString("yyy-MM-dd");
-                Uri Url = new Uri("https://api.tvmaze.com/schedule?country=" + regionISO + "&date=" + Datetime);
-                HttpResponseMessage response = await client.GetAsync(Url);
+               
+                HttpResponseMessage response = await client.GetAsync(new Uri("https://api.tvmaze.com/schedule?country=" + regionISO + "&date=" + dateTime));
                     if (response.IsSuccessStatusCode)
                     {
                         string jsonString = await response.Content.ReadAsStringAsync();

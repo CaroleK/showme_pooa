@@ -12,32 +12,41 @@ namespace ShowMe.ViewModels
     public class HomeUpcommingViewModel : BaseViewModel
     {
         TvMazeService service = new TvMazeService();
-        public PageScheduleShow ScheduleToday { get; set; } = new PageScheduleShow() { TitleDate = "Shows to watch Today :" };
-        public PageScheduleShow ScheduleTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "Shows to watch Tomorrow :" };
-        public PageScheduleShow ScheduleAfterTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "Shows to watch After Tomorrow : " };
+        public PageScheduleShow ScheduleToday { get; set; } = new PageScheduleShow() { TitleDate = "On TV today" };
+        public PageScheduleShow ScheduleTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "On TV tomorrow" };
+        public PageScheduleShow ScheduleAfterTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "On TV after tomorrow" };
 
         public ObservableCollection<PageScheduleShow> SchedulesShows { get; set; } = new ObservableCollection<PageScheduleShow>();
         public List<Show> Favorites { get; set; }
 
 
-
-
-        public HomeUpcommingViewModel() : base()
-        {
-            Title = "Up Coming Shows";
+        public void Init(){
+            ScheduleToday.Clear();
+            ScheduleTomorrow.Clear();
+            ScheduleAfterTomorrow.Clear();
+            SchedulesShows.Clear();
             Task.Run(() =>
-            Device.BeginInvokeOnMainThread(() =>
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                ExecuteUpCommingCommand();
+                await ExecuteUpCommingCommand();
             }));
             Task.WaitAll();
         }
 
+        public HomeUpcommingViewModel() : base()
+        {
+            Title = "Up Coming Shows";
+        }
+
         public async Task ExecuteUpCommingCommand()
         {
-            DateTime dateTimeToday = DateTime.Now;
-            DateTime dateTimeTomorrow = dateTimeToday.AddDays(1);
-            DateTime dateTimeAfterTomorrow = dateTimeToday.AddDays(2);
+            DateTime DateTime = DateTime.Now;
+            int day = DateTime.Day;
+            int month = DateTime.Month;
+            int year = DateTime.Year;
+            string dateTimeToday = year + "-" + month + "-" + day;
+            string dateTimeTomorrow = year + "-" + month + "-" + (day+1);
+            string dateTimeAfterTomorrow = year + "-" + month + "-" + (day+2);
             // Choice made to focus on US region because of the API's data 
             string regionISO = "US";
 
@@ -60,7 +69,7 @@ namespace ShowMe.ViewModels
             {
                 ScheduleAfterTomorrow.Add(schedule);
             }
-           SchedulesShows.Add(ScheduleAfterTomorrow);
+            SchedulesShows.Add(ScheduleAfterTomorrow);
 
         }
 

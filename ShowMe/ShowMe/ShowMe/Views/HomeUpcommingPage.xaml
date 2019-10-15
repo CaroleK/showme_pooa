@@ -27,7 +27,7 @@
                 <ListView.GroupHeaderTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Label  Text="{Binding TitleDate}"  TextColor="Black" Margin="10" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center"/>
+                            <Label  Text="{Binding TitleDate}"  TextColor="Black" Margin="10" FontSize="Medium"/>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.GroupHeaderTemplate>
