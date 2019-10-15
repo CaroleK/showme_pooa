@@ -107,7 +107,7 @@ namespace ShowMe.Views
 
                 if (!task.Result)
                 {
-                    await FireBaseHelper.AddUser(user.Id, user.Email, user.Picture); ;
+                    await FireBaseHelper.AddUser(user.Id, user.Email, user.Picture);
                 }
                 BaseViewModel.User = user;
                 App.User = user;
