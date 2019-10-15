@@ -15,8 +15,8 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ImageCell
-                            Text="{Binding Show.Title}"
-                            Detail="{Binding Information}"
+                            Text="{Binding TextInformation}"
+                            Detail="{Binding DetailInformation}"
                             
                             ImageSource="{Binding Show.ImageMedium}"
                             >

@@ -156,7 +156,9 @@ namespace ShowMe.Services
                                  
             try
             {
-                HttpResponseMessage response = await client.GetAsync(new Uri("https://api.tvmaze.com/schedule?country="+regionISO+"&date="+dateTime.ToString("yyy-MM-dd")));
+                string Datetime = dateTime.ToString("yyy-MM-dd");
+                Uri Url = new Uri("https://api.tvmaze.com/schedule?country=" + regionISO + "&date=" + Datetime);
+                HttpResponseMessage response = await client.GetAsync(Url);
                     if (response.IsSuccessStatusCode)
                     {
                         string jsonString = await response.Content.ReadAsStringAsync();
@@ -209,5 +211,14 @@ namespace ShowMe.Services
 
         [JsonProperty("days")]
         public List<string> Days { get; set; }
+    }
+
+    public class SearchNetwork
+    {
+        [JsonProperty("id")]
+        public int NetworkId { get; set; }
+
+        [JsonProperty("name")]
+        public string NetworkName { get; set; }
     }
 }
