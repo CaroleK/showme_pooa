@@ -40,7 +40,7 @@
                             <Image.Source>
                                 <OnPlatform x:TypeArguments="ImageSource">
                                     <On Platform="Android" 
-                                        Value="empty_bell.png"/>
+                                        Value="full_bell.png"/>
                                 </OnPlatform>
                             </Image.Source>
                             <Image.GestureRecognizers>

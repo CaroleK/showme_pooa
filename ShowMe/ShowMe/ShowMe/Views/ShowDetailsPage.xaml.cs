@@ -38,9 +38,9 @@ namespace ShowMe.Views
                     Btn_Favorite.Source = "red_heart.png";
                 }
                 Btn_Notification.IsVisible = true;
-                if (((MyShow)viewModel.Show).MustNotify)
+                if (!((MyShow)viewModel.Show).MustNotify)
                 {
-                    Btn_Notification.Source = "full_bell.png";
+                    Btn_Notification.Source = "empty_bell.png";
                 }
                 Btn_DeleteFromMyShows.IsVisible = true;
             }
@@ -86,6 +86,7 @@ namespace ShowMe.Views
             //Adapt UI
             Btn_AddToMyShows.IsVisible = false;
             Btn_Favorite.IsVisible = true;
+            Btn_Notification.IsVisible = true;
             Btn_DeleteFromMyShows.IsVisible = true;
 
             //Unsubscribe to event
@@ -98,7 +99,7 @@ namespace ShowMe.Views
         /// </summary>
         async void OnClickDeleteFromMyShows(object sender, EventArgs e)
         {
-            bool userWantsToDelete = await DisplayAlert("Delete?", "Are you sure?", "Yes", "No");
+            bool userWantsToDelete = await DisplayAlert("Delete", "Are you sure?", "Yes", "No");
 
             if (userWantsToDelete)
             {
