@@ -143,18 +143,19 @@ namespace ShowMe.Services
                     string jsonString = await response.Content.ReadAsStringAsync();
                     List<SearchResult> result = JsonConvert.DeserializeObject<List<SearchResult>>(jsonString);
                     shows = new List<Show>();
-                    for (int i = 0; i < Math.Min(result.Count, 10); i++)
+                    foreach (SearchResult searchresult in result)
                     {
-                        shows.Add(result[i].Serie);
+                        shows.Add(searchresult.Serie);
                     }
-                    Show s = shows[0];
                 }
+                return shows;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("\tERROR {0}", ex.Message);
+                return shows;
             }
-            return shows;
+            
         }
 
         /// <summary>
@@ -220,25 +221,6 @@ namespace ShowMe.Services
                     }
                 }
                 return (scheduleShows);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string jsonString = await response.Content.ReadAsStringAsync();
-                        List<ScheduleShow> results = JsonConvert.DeserializeObject<List<ScheduleShow>>(jsonString);
-                        
-                        foreach (MyShow show in MyShows)
-                        {
-                            int id = show.Id; 
-                            foreach (ScheduleShow r in results)
-                            {
-                                if (id == r.Show.Id)
-                                {
-                                    scheduleShows.Add(r);
-                                }
-                            }
-                        
-                        }
-                    }
-                    return (scheduleShows);
             }
             catch (Exception ex)
             {

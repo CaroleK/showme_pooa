@@ -45,11 +45,15 @@ namespace ShowMe.Views
 
         private void Handle_ItemAppearing (object sender, ItemVisibilityEventArgs e)
         {
-            var itemTypeObject = e.Item as Show;
-            if (viewModel.Shows.Last() == itemTypeObject)
+            if (String.IsNullOrEmpty(DiscoverSearchBar.Text))
             {
-                Task.Run(() => viewModel.ExecuteLoadShowCommand());
+                var itemTypeObject = e.Item as Show;
+                if (viewModel.Shows.Last() == itemTypeObject)
+                {
+                    Task.Run(() => viewModel.ExecuteLoadShowCommand());
+                }
             }
+
         }
 
         private void Discover_SearchButtonPressed(object sender, EventArgs e)
@@ -65,7 +69,7 @@ namespace ShowMe.Views
                 // After erasing the search : displays shows by incrementing a counter
                 viewModel.Shows.Clear();
                 Task.Run(() => viewModel.ExecuteLoadShowCommand());
-                // TO DELETE Btn_LoadMore.IsVisible = true;
+                
             }
         }
 

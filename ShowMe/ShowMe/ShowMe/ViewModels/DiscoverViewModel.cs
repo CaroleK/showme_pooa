@@ -61,7 +61,7 @@ namespace ShowMe.ViewModels
                     Shows.Add(show);
                 }
             }
-            counter = 1;
+            
         }
     }
 }
