@@ -193,7 +193,7 @@ namespace ShowMe.Services
         /// <param name="dateTime">he airing date</param>
         /// <param name="regionISO">The airing country</param>
         /// <returns></returns>
-        public async Task<List<ScheduleShow>> GetUpCommingEpisode(ObservableCollection<MyShow> MyShows, DateTime dateTime, string regionISO)
+        public async Task<List<ScheduleShow>> GetUpCommingEpisode(ObservableCollection<MyShow> MyShows, string dateTime, string regionISO)
         {
             List<ScheduleShow> scheduleShows = new List<ScheduleShow>();
 
