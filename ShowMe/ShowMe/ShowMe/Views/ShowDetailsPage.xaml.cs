@@ -33,9 +33,14 @@ namespace ShowMe.Views
             {
                 // create first state of UI elements that match the status of the show (in MyShows or not, favorite or not) when View first clicked
                 Btn_AddToMyShows.IsVisible = false;
-                Btn_AddToFavorite.IsVisible = true;
+                Btn_Favorite.IsVisible = true;
                 if (((MyShow)viewModel.Show).IsFavorite){
-                    Btn_AddToFavorite.Source = "red_heart.png";
+                    Btn_Favorite.Source = "red_heart.png";
+                }
+                Btn_Notification.IsVisible = true;
+                if (((MyShow)viewModel.Show).MustNotify)
+                {
+                    Btn_Notification.Source = "full_bell.png";
                 }
                 Btn_DeleteFromMyShows.IsVisible = true;
             }
@@ -63,7 +68,8 @@ namespace ShowMe.Views
                 
                 //Adapt UI
                 Btn_AddToMyShows.IsVisible = false;
-                Btn_AddToFavorite.IsVisible = true;
+                Btn_Favorite.IsVisible = true;
+                Btn_Notification.IsVisible = true;
                 Btn_DeleteFromMyShows.IsVisible = true;
             };
         }
@@ -79,7 +85,7 @@ namespace ShowMe.Views
            
             //Adapt UI
             Btn_AddToMyShows.IsVisible = false;
-            Btn_AddToFavorite.IsVisible = true;
+            Btn_Favorite.IsVisible = true;
             Btn_DeleteFromMyShows.IsVisible = true;
 
             //Unsubscribe to event
@@ -103,7 +109,8 @@ namespace ShowMe.Views
 
                 //Adapt UI
                 Btn_AddToMyShows.IsVisible = true;
-                Btn_AddToFavorite.IsVisible = false;
+                Btn_Favorite.IsVisible = false;
+                Btn_Notification.IsVisible = false;
                 Btn_DeleteFromMyShows.IsVisible = false;
             }
         }
@@ -134,7 +141,7 @@ namespace ShowMe.Views
 
         /// <summary>
         /// Actions to do when Heart icon is tapped
-        /// In result it will Add or Remove show from favorites
+        /// In result it will either Add or Remove show from favorites
         /// </summary>
         private void OnHeartTappedGestureRecognizer(object sender, EventArgs args)
         {
@@ -151,6 +158,29 @@ namespace ShowMe.Views
             else {
                 imageSender.Source = "red_heart.png";
                 viewModel.AddShowToFavorites(myShow);
+            };
+        }
+
+        /// <summary>
+        /// Actions to do when Bell Icon is tapped
+        /// In result, it will set MustNotify attribute of MyShow to true or false
+        /// </summary>
+        private void OnBellTappedGestureRecognizer(object sender, EventArgs args)
+        {
+            //Retrieve myShow object in MyShowsCollection
+            MyShow myShow = MyShowsCollection.Instance.FirstOrDefault(x => x.Id == this.viewModel.Show.Id);
+
+            var imageSender = (Image)sender;
+
+            if (myShow.MustNotify)
+            {
+                imageSender.Source = "empty_bell.png";
+                myShow.MustNotify = false;
+            }
+            else
+            {
+                imageSender.Source = "full_bell.png";
+                myShow.MustNotify = true;
             };
         }
     }
