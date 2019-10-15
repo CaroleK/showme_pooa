@@ -1,5 +1,4 @@
-﻿using HtmlAgilityPack;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using ShowMe.Services;
 using System;
 using System.Collections.Generic;
@@ -78,10 +77,7 @@ namespace ShowMe.Models
 
         public string ConvertDescriptionFromHtmlToString(string description)
         {
-            HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(this.Description);
-            string result = doc.DocumentNode.FirstChild.InnerHtml;
-            result = Regex.Replace(result, "<.*?>", String.Empty);
+            string result = Regex.Replace(description, "<.*?>", String.Empty);
             return result;
         }
     
