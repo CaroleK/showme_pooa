@@ -39,10 +39,10 @@
                                     VerticalOptions="Center"
                                     Spacing="0">
                                     <Label 
-                                        Text="{Binding  Show.Title}"
+                                        Text="{Binding  TextInformation}"
                                         TextColor="Salmon"/>
                                     <Label 
-                                        Text="{Binding Information}"/>
+                                        Text="{Binding DetailInformation}"/>
                                 </StackLayout>
                             </Grid>
                         </ViewCell>
