@@ -143,18 +143,19 @@ namespace ShowMe.Services
                     string jsonString = await response.Content.ReadAsStringAsync();
                     List<SearchResult> result = JsonConvert.DeserializeObject<List<SearchResult>>(jsonString);
                     shows = new List<Show>();
-                    for (int i = 0; i < Math.Min(result.Count, 10); i++)
+                    foreach (SearchResult searchresult in result)
                     {
-                        shows.Add(result[i].Serie);
+                        shows.Add(searchresult.Serie);
                     }
-                    Show s = shows[0];
                 }
+                return shows;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("\tERROR {0}", ex.Message);
+                return shows;
             }
-            return shows;
+            
         }
 
         /// <summary>
@@ -193,13 +194,14 @@ namespace ShowMe.Services
         /// <param name="dateTime">he airing date</param>
         /// <param name="regionISO">The airing country</param>
         /// <returns></returns>
-        public async Task<List<ScheduleShow>> GetUpCommingEpisode(ObservableCollection<MyShow> MyShows, DateTime dateTime, string regionISO)
+        public async Task<List<ScheduleShow>> GetUpCommingEpisode(ObservableCollection<MyShow> MyShows, string dateTime, string regionISO)
         {
             List<ScheduleShow> scheduleShows = new List<ScheduleShow>();
 
             try
             {
-                HttpResponseMessage response = await client.GetAsync(new Uri("https://api.tvmaze.com/schedule?country=" + regionISO + "&date=" + dateTime.ToString("yyy-MM-dd")));
+               
+                HttpResponseMessage response = await client.GetAsync(new Uri("https://api.tvmaze.com/schedule?country=" + regionISO + "&date=" + dateTime));
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonString = await response.Content.ReadAsStringAsync();
@@ -259,5 +261,14 @@ namespace ShowMe.Services
 
         [JsonProperty("days")]
         public List<string> Days { get; set; }
+    }
+
+    public class SearchNetwork
+    {
+        [JsonProperty("id")]
+        public int NetworkId { get; set; }
+
+        [JsonProperty("name")]
+        public string NetworkName { get; set; }
     }
 }
