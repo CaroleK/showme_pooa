@@ -80,6 +80,8 @@ namespace ShowMe.Views
                 LoginActivityIndicator.IsRunning = true;
                 LoginActivityIndicator.IsEnabled = true;
                 LoginActivityIndicator.IsVisible = true;
+                LoginActivityIndicatorLayout.IsVisible = true;
+                LoginActivityIndicatorLayout.IsEnabled = true;
 
                 await FetchOrCreateUser(e.Account);
 
@@ -128,6 +130,12 @@ namespace ShowMe.Views
         async void ToMainPage()
         {
             await Navigation.PushAsync(new MainPage());
+
+            LoginActivityIndicator.IsRunning = false;
+            LoginActivityIndicator.IsEnabled = false;
+            LoginActivityIndicator.IsVisible = false;
+            LoginActivityIndicatorLayout.IsVisible = false;
+            LoginActivityIndicatorLayout.IsEnabled = false;
         }
     }
 }
