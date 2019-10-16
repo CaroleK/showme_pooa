@@ -44,7 +44,7 @@ namespace ShowMe.Models
         // Must be like {{"epidose",1},{"season",1}}
         public Dictionary<string,int> LastEpisode { get; set; }
 
-        public string ImageMedium => (Image != null) ? (Image["medium"]).Replace("http", "https") : "";
+        public string ImageMedium => ((Image != null)&&(Image["medium"] != null)) ? (Image["medium"]).Replace("http", "https") : "no_image_available.jpg";
 
         public string GenresInString => ((Genres != null) && (Genres.Length > 0)) ? string.Join(", ", Genres) : "";
 
