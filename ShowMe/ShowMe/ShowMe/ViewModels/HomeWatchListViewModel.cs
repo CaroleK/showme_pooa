@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace ShowMe.ViewModels
@@ -43,7 +43,7 @@ namespace ShowMe.ViewModels
             else
             {
                 Dictionary<string, int> newLEW = new Dictionary<string, int> { { "episode", 1 }, { "season", 1 } }; 
-                List<Season> seasonsList = service.GetSeasonsListAsync(myShow.Id).Result;
+                List<Season> seasonsList = Task.Run(() => service.GetSeasonsListAsync(myShow.Id)).Result;
                 if (seasonsList == null)
                 {
                     return false; 
