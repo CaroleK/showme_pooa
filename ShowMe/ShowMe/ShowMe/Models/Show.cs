@@ -61,6 +61,12 @@ namespace ShowMe.Models
             return Title;
         }
 
+        /// <summary>
+        /// Takes two description of episodes and compares if they ahev the same season number and episode number
+        /// </summary>
+        /// <param name="dic1">First episode</param>
+        /// <param name="dic2">Second episode</param>
+        /// <returns>True if season number and episode number of both episodes are equals, false otherwise</returns>
         static public bool AreEpisodeDictionariesEqual(Dictionary<string, int> dic1, Dictionary<string, int> dic2)
         {
             if ((dic1 != null) && (dic2 != null))
@@ -73,6 +79,11 @@ namespace ShowMe.Models
             }
         }
 
+        /// <summary>
+        /// Parse the HTML description to prettier text
+        /// </summary>
+        /// <param name="description">The HTML-formatted text</param>
+        /// <returns>The text without formatting and tags</returns>
         public string ConvertDescriptionFromHtmlToString(string description)
         {
             HtmlDocument doc = new HtmlDocument();

@@ -63,7 +63,7 @@
                                         Text="{Binding Title}"
                                         TextColor="Salmon"/>
                                     <Label 
-                                        Text="{Binding LastEpisodeWatchedInString}"/>
+                                        Text="{Binding LastEpisodeWatchedInFullString}"/>
                                 </StackLayout>
                             </Grid>
                         </ViewCell>

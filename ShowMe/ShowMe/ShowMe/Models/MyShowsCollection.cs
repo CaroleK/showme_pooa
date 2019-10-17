@@ -20,18 +20,17 @@ namespace ShowMe.Models
                 {
                     if (instance == null)
                     {
-
                         instance = new ObservableCollection<MyShow>();                        
-                        Task.Run(()=>FetchMyShows()).Wait();
+                        FetchMyShows();
                     }
                     return instance;
                 }
             }
         }
 
-        public async static void FetchMyShows()
+        public static void FetchMyShows()
         {
-            List<MyShow> s = await FireBaseHelper.GetUserShowList(App.User.Id);
+            List<MyShow> s = Task.Run(() => FireBaseHelper.GetUserShowList(App.User.Id)).Result;
             foreach (MyShow myShow in s)
             {
                 MyShowsCollection.Instance.Add(myShow);
@@ -48,6 +47,40 @@ namespace ShowMe.Models
             if (Instance.Contains(ms))
             {
                 Instance.Remove(ms);
+            }
+        }
+
+        public static MyShow GetByIdFromMyShows(int id)
+        {
+            foreach (MyShow myShow in Instance)
+            {
+                if (myShow.Id == id)
+                {
+                    return myShow;
+                }                
+            }
+
+            return null;
+        }
+
+        public static void ModifyShowInMyShows(MyShow newMyShow)
+        {
+            for(int i = 0; i < Instance.Count; i ++)
+            {
+                if (Instance[i].Id == newMyShow.Id)
+                {
+                    Instance[i] = newMyShow;
+                }
+            }
+        }
+
+        public static void Refresh()
+        {
+            Instance.Clear();
+            List<MyShow> s = FireBaseHelper.GetUserShowList(App.User.Id).Result;
+            foreach (MyShow myShow in s)
+            {
+                Instance.Add(myShow);
             }
         }
 

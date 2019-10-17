@@ -22,10 +22,13 @@ namespace ShowMe.Models
         [JsonProperty("LastEpisodeWatchedInString")]
         public string LastEpisodeWatchedInString 
             => (LastEpisodeWatched != null) ? 
-            "Last watched: S" + LastEpisodeWatched["season"] + "E" + LastEpisodeWatched["episode"] + (AreEpisodeDictionariesEqual(LastEpisode,LastEpisodeWatched) ?
+            "S" + LastEpisodeWatched["season"] + "E" + LastEpisodeWatched["episode"] + (AreEpisodeDictionariesEqual(LastEpisode,LastEpisodeWatched) ?
                 " (Finished)"
                 : "")
             : "Not started watching";
+
+        [JsonProperty("LastEpisodeWatchedInFullString")]
+        public string LastEpisodeWatchedInFullString => "Last watched: " + LastEpisodeWatchedInString;  
 
         [JsonConstructor]
         public MyShow(int id, string title, string language, string[] genres, string url, string description, Dictionary<string, string> image , bool isFavorite, bool mustNotify, Dictionary<string, int> lastEpisode, Dictionary<string, int> lastEpisodeWatched)
