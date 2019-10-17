@@ -7,7 +7,6 @@ namespace ShowMe.ViewModels
 {
     class MyShowsViewModel : BaseViewModel
     {
-        // TO MODIFY ONCE WE HAVE DATABASE
         public ObservableCollection<MyShow> ShowsToDisplay { get; set; } = new ObservableCollection<MyShow>();
         public ObservableCollection<string> FilterOptions { get; }
 
