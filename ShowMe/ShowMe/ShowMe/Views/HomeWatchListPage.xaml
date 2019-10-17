@@ -63,10 +63,12 @@
                                                     Value="empty_checkbox.png"/>
                                             </OnPlatform>
                                         </Image.Source>
-                                        <Image.GestureRecognizers>
+                                        <Image.GestureRecognizers                                            
+                                            CommandParameter="{Binding Id}">
                                             <TapGestureRecognizer
                                             Tapped="OnCheckBoxTappedGestureRecognizer"
-                                            NumberOfTapsRequired="1" />
+                                            NumberOfTapsRequired="1"
+                                            CommandParameter="{Binding Id}"/>
                                         </Image.GestureRecognizers>
                                     </Image>
                                 </StackLayout>

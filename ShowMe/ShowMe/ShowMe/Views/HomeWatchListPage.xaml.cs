@@ -1,8 +1,10 @@
-﻿using ShowMe.ViewModels;
+﻿using ShowMe.Models;
+using ShowMe.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -33,6 +35,16 @@ namespace ShowMe.Views
         {
             var imageSender = (Image)sender;
             imageSender.Source = "green_checkbox.png";
+
+            int showId = (int) ((TappedEventArgs)e).Parameter;
+            MyShow ms = MyShowsCollection.GetByIdFromMyShows(showId);
+
+            //Thread.Sleep(1000); 
+            viewModel.IncrementEpisode(ms);
+            Dictionary<string,int> currentLEW = ms.LastEpisodeWatched;
+
+
+
         }
     }    
 }

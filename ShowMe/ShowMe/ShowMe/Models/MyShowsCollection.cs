@@ -45,5 +45,18 @@ namespace ShowMe.Models
             }
         }
 
+        public static MyShow GetByIdFromMyShows(int id)
+        {
+            foreach (MyShow myShow in Instance)
+            {
+                if (myShow.Id == id)
+                {
+                    return myShow;
+                }                
+            }
+
+            return null;
+        }
+
     }
 }
