@@ -254,19 +254,9 @@ namespace ShowMe.Services
     /// <summary>
     /// A class used only to deserialize results from TVMazeAPI search schedule queries.  
     /// </summary>
-    public class SearchSchedule
-    {
-        [JsonProperty("time")]
-        public string Time { get; set; }
-
-        [JsonProperty("days")]
-        public List<string> Days { get; set; }
-    }
 
     public class SearchNetwork
     {
-        [JsonProperty("id")]
-        public int NetworkId { get; set; }
 
         [JsonProperty("name")]
         public string NetworkName { get; set; }
