@@ -16,7 +16,6 @@ namespace ShowMe.ViewModels
         public ObservableCollection<MyShow> ShowsToDisplay { get; set; } = new ObservableCollection<MyShow>();
         public HomeWatchListViewModel()
         {
-            Init();
         }
 
         public void Init()

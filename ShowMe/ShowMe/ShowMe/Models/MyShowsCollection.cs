@@ -20,18 +20,17 @@ namespace ShowMe.Models
                 {
                     if (instance == null)
                     {
-
                         instance = new ObservableCollection<MyShow>();                        
-                        Task.Run(()=>FetchMyShows()).Wait();
+                        FetchMyShows();
                     }
                     return instance;
                 }
             }
         }
 
-        public async static void FetchMyShows()
+        public static void FetchMyShows()
         {
-            List<MyShow> s = await FireBaseHelper.GetUserShowList(App.User.Id);
+            List<MyShow> s = Task.Run(() => FireBaseHelper.GetUserShowList(App.User.Id)).Result;
             foreach (MyShow myShow in s)
             {
                 MyShowsCollection.Instance.Add(myShow);
