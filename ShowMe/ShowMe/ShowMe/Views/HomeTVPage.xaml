@@ -9,7 +9,7 @@
             Title="{Binding Title}">
     <!--Pages can be added as references or inline-->
     <TabbedPage.Children>
-        <NavigationPage Title="Watch List">
+        <NavigationPage Title="To Watch">
             <x:Arguments>
                 <views:HomeWatchListPage />
             </x:Arguments>
