@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 
 namespace ShowMe.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+
     public partial class ProfilePage : ContentPage
     {
         ProfileViewModel viewModel = new ProfileViewModel();
@@ -18,7 +18,7 @@ namespace ShowMe.Views
         public ProfilePage()
         {
             InitializeComponent();
-            BindingContext = ProfileViewModel.User; ;
+            BindingContext = ProfileViewModel.User;
         }
     }
 }
