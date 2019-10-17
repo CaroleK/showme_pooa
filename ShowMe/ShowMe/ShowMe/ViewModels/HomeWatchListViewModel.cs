@@ -59,6 +59,7 @@ namespace ShowMe.ViewModels
                     newLEW["episode"] = currentLEW["episode"] + 1;
                 }
                 myShow.LastEpisodeWatched = newLEW;
+                MyShowsCollection.ModifyShowInMyShows(myShow);
                 return true; 
             }
         }

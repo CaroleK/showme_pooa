@@ -58,5 +58,26 @@ namespace ShowMe.Models
             return null;
         }
 
+        public static void ModifyShowInMyShows(MyShow newMyShow)
+        {
+            for(int i = 0; i < Instance.Count; i ++)
+            {
+                if (Instance[i].Id == newMyShow.Id)
+                {
+                    Instance[i] = newMyShow;
+                }
+            }
+        }
+
+        public static void Refresh()
+        {
+            Instance.Clear();
+            List<MyShow> s = FireBaseHelper.GetUserShowList(App.User.Id).Result;
+            foreach (MyShow myShow in s)
+            {
+                Instance.Add(myShow);
+            }
+        }
+
     }
 }
