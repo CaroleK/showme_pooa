@@ -26,9 +26,6 @@ namespace ShowMe.Models
         [JsonProperty("officialSite")]
         public string Url { get; set; } = "No site";
 
-        [JsonProperty("schedule")]
-        public SearchSchedule Schedule { get; set; } 
-
         [JsonProperty("network")]
         public SearchNetwork Network { get; set; }
 

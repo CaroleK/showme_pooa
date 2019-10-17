@@ -8,22 +8,13 @@ namespace ShowMe.Models
     public class ScheduleShow
     {
         [JsonProperty("id")]
-        public int IdEpisode { get; set; } = 0;
+        public int ? IdEpisode { get; set; }
 
         [JsonProperty("name")]
         public string TitleEpisode { get; set; } = "No title";
 
-        [JsonProperty("airdate")]
-        public string Airdate { get; set; }
-
         [JsonProperty("airtime")]
         public string Airtime { get; set; }
-
-        [JsonProperty("season")]
-        public int Season { get; set; } = 0;
-
-        [JsonProperty("number")]
-        public int Number { get; set; } = 0;
 
         [JsonProperty("show")]
         public Show Show { get; set; }
