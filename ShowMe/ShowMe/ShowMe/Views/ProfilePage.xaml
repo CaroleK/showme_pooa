@@ -147,6 +147,24 @@
                     </Grid>
                 </Frame>
             </Grid>
+            <Grid
+                Grid.Row="2"
+                VerticalOptions="End">
+                <Button 
+                Margin="70,30,70,30"
+                Text="Log out" 
+                TextColor="Default"
+                BorderColor="Default"
+                CornerRadius="5"
+                >
+                    <Button.ImageSource>
+                        <OnPlatform x:TypeArguments="ImageSource">
+                            <On Platform="Android" 
+                        Value="sign_out_option.png"/>
+                        </OnPlatform>
+                    </Button.ImageSource>
+                </Button>
+            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
