@@ -6,6 +6,9 @@ using System.Text;
 
 namespace ShowMe.Models
 {
+    /// <summary>
+    /// Class that describes a season, as found in TVMazeAPI
+    /// </summary>
     public class Season
     {
         [JsonProperty("id")]

@@ -5,6 +5,9 @@ using System.Collections.ObjectModel;
 
 namespace ShowMe.Models
 {
+    /// <summary>
+    /// Class that describes the schedule of an Episode, as found in TVMazeAPI
+    /// </summary>
     public class ScheduleShow
     {
         [JsonProperty("id")]
@@ -21,11 +24,12 @@ namespace ShowMe.Models
         
         public string TextInformation => Show.Title + " - " + TitleEpisode;
         public string DetailInformation => Airtime + " || " + Show.Network.NetworkName;
-
-        public ScheduleShow() { 
-        }
-
     }
+
+    /// <summary>
+    /// Class that describes a list of ScheduleShows
+    /// Useful to describe all shows that will air of a given date and display it with headers in ListViews
+    /// </summary>
     public class PageScheduleShow : ObservableCollection<ScheduleShow>
     {
         public string TitleDate { get; set; }

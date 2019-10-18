@@ -9,6 +9,9 @@ using System.Xml.Linq;
 
 namespace ShowMe.Models
 {
+    /// <summary>
+    /// Class that describes a show, as found in TVMazeAPI
+    /// </summary>
     public class Show
     {
         [JsonProperty("id")]
@@ -29,9 +32,6 @@ namespace ShowMe.Models
         [JsonProperty("network")]
         public SearchNetwork Network { get; set; }
 
-        /*[JsonProperty("rating")]
-        public double Rating { get; set; } = 0.0;*/
-
         [JsonProperty("summary")]
         public string Description { get; set; } = "No description availble";
 
@@ -46,8 +46,10 @@ namespace ShowMe.Models
         // Must be like {{"epidose",1},{"season",1}}
         public Dictionary<string,int> LastEpisode { get; set; }
 
+        // Retrieves the (safe) url of the medium-sized image
         public string ImageMedium => ((Image != null)&&(Image["medium"] != null)) ? (Image["medium"]).Replace("http", "https") : "no_image_available.jpg";
 
+        // Explode the array Genres into a string, with item separated by commas
         public string GenresInString => ((Genres != null) && (Genres.Length > 0)) ? string.Join(", ", Genres) : "";
 
         public List<Episode> EpisodesList { get; set; }

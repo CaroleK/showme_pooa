@@ -41,9 +41,6 @@ namespace ShowMe.Views
 
             //Thread.Sleep(1000); 
             viewModel.IncrementEpisode(ms);
-            Dictionary<string,int> currentLEW = ms.LastEpisodeWatched;
-
-
 
         }
     }    
