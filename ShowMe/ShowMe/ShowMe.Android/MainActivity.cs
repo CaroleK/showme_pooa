@@ -22,6 +22,7 @@ namespace ShowMe.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true);
             global::Xamarin.Auth.Presenters.XamarinAndroid.AuthenticationConfiguration.Init(this, savedInstanceState);
             CustomTabsConfiguration.CustomTabsClosingMessage = null;
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);

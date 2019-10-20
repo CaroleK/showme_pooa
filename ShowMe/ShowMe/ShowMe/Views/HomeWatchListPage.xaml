@@ -3,13 +3,81 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              mc:Ignorable="d"
+             NavigationPage.HasNavigationBar="false"
              x:Class="ShowMe.Views.HomeWatchListPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+
+            <ListView
+                x:Name="MyShowsListView"
+                ItemsSource="{Binding ShowsToDisplay}"
+                IsGroupingEnabled="False"
+                HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackLayout
+                                    Padding="10, 0, 0, 0">
+                                    <forms:CachedImage 
+                                        Source="{Binding ImageMedium}" 
+                                        HeightRequest="60"
+                                        Aspect="AspectFit" 
+                                        LoadingPlaceholder="loading_image.jpg"
+                                        ErrorPlaceholder="no_image_available.jpg">
+                                    </forms:CachedImage>
+                                </StackLayout>
+                                <StackLayout
+                                    Padding="10"
+                                    Grid.Column="1"
+                                    VerticalOptions="Center"
+                                    Spacing="0">
+                                    <Label 
+                                        Text="{Binding Title}"
+                                        TextColor="Salmon"/>
+                                    <Label 
+                                        Text="{Binding LastEpisodeWatchedInString}"
+                                        FontAttributes="Bold"
+                                        FontSize="Medium"/>                                    
+                                </StackLayout>
+                                <StackLayout
+                                    Grid.Column="2"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="Center"
+                                    Padding="0,0, 10, 0">
+                                    <Image 
+                                        x:Name="Btn_EpisodeCheck" 
+                                        HeightRequest="30" 
+                                        WidthRequest="30">
+                                        <Image.Source>
+                                            <OnPlatform x:TypeArguments="ImageSource">
+                                                <On Platform="Android" 
+                                                    Value="empty_checkbox.png"/>
+                                            </OnPlatform>
+                                        </Image.Source>
+                                        <Image.GestureRecognizers                                            
+                                            CommandParameter="{Binding Id}">
+                                            <TapGestureRecognizer
+                                            Tapped="OnCheckBoxTappedGestureRecognizer"
+                                            NumberOfTapsRequired="1"
+                                            CommandParameter="{Binding Id}"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

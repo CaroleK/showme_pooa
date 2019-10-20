@@ -35,7 +35,9 @@ namespace ShowMe.Views
             MyShowsListView.SelectedItem = null;
         }
 
-
+        /// <summary>
+        /// Overrides the base OnAppearing method to be sure to refresh the list of shows to display each time the user makes the page appear
+        /// </summary>
         protected override void OnAppearing()
         {
             base.OnAppearing();

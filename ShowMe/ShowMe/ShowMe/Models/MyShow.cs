@@ -6,6 +6,10 @@ using System.Text;
 
 namespace ShowMe.Models
 {
+    /// <summary>
+    /// Class that describes a show that's part of a user's list
+    /// Inherits from class Show, with additionnal attributes 
+    /// </summary>
     public class MyShow : Show
     {
         [JsonProperty("IsFavorite")]
@@ -19,14 +23,34 @@ namespace ShowMe.Models
         [JsonProperty("LastEpisodeWatched")]
         public Dictionary<string, int> LastEpisodeWatched { get; set; }
         
+        // Turns the LastEpisodeWatched dictionnary into a  readable string in the form "Not started watching", "S1E1" or "S2E24 (finished)"
         [JsonProperty("LastEpisodeWatchedInString")]
         public string LastEpisodeWatchedInString 
             => (LastEpisodeWatched != null) ? 
-            "Last watched: S" + LastEpisodeWatched["season"] + "E" + LastEpisodeWatched["episode"] + (AreEpisodeDictionariesEqual(LastEpisode,LastEpisodeWatched) ?
+            "S" + LastEpisodeWatched["season"] + "E" + LastEpisodeWatched["episode"] + (AreEpisodeDictionariesEqual(LastEpisode,LastEpisodeWatched) ?
                 " (Finished)"
                 : "")
             : "Not started watching";
 
+        // Adds "Last Watched: " at the beginning of LastEpisodeWatchedInString, useful for MyShowsPage 
+        [JsonProperty("LastEpisodeWatchedInFullString")]
+        public string LastEpisodeWatchedInFullString => "Last watched: " + LastEpisodeWatchedInString;  
+
+        /// <summary>
+        /// Constructor to build MyShow with all attributes
+        /// Can be used by the desiarization of TVMazeAPI json data
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="title"></param>
+        /// <param name="language"></param>
+        /// <param name="genres"></param>
+        /// <param name="url"></param>
+        /// <param name="description"></param>
+        /// <param name="image"></param>
+        /// <param name="isFavorite"></param>
+        /// <param name="mustNotify"></param>
+        /// <param name="lastEpisode"></param>
+        /// <param name="lastEpisodeWatched"></param>
         [JsonConstructor]
         public MyShow(int id, string title, string language, string[] genres, string url, string description, Dictionary<string, string> image , bool isFavorite, bool mustNotify, Dictionary<string, int> lastEpisode, Dictionary<string, int> lastEpisodeWatched)
         { 
@@ -44,6 +68,13 @@ namespace ShowMe.Models
             LastEpisodeWatched = lastEpisodeWatched;
         }
 
+        /// <summary>
+        /// Constructor to build MyShow from a Show, with all additionnal attributes
+        /// </summary>
+        /// <param name="show"></param>
+        /// <param name="isFavorite"></param>
+        /// <param name="mustNotify"></param>
+        /// <param name="lastEpisodeWatched"></param>
         public MyShow (Show show, bool isFavorite, bool mustNotify, Dictionary<string, int> lastEpisodeWatched)
         {            
             Id = show.Id;
@@ -58,11 +89,6 @@ namespace ShowMe.Models
             IsFavorite = isFavorite;
             MustNotify = mustNotify;
             LastEpisodeWatched = lastEpisodeWatched; 
-        }
-
-        public void IncrementLastEpisode()
-        {
-            //TODO
-        }        
+        }      
     }
 }

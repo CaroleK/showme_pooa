@@ -6,5 +6,9 @@ namespace ShowMe.ViewModels
 {
     class HomeTVViewModel : BaseViewModel
     {
+        public HomeTVViewModel()
+        {
+            Title = "Home TV";
+        }
     }
 }

@@ -5,6 +5,9 @@ using System.Text;
 
 namespace ShowMe.Models
 {
+    /// <summary>
+    /// A class that describes a user, as found in Google+ API
+    /// </summary>
     [JsonObject]
     public class User
     {

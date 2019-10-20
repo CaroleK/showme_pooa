@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              mc:Ignorable="d"
              x:Class="ShowMe.Views.ShowDetailsPage"
              Title="{Binding Title}">
@@ -17,10 +18,16 @@
 
             <!-- Header -->
             <StackLayout Orientation="Horizontal" Spacing="10"  Grid.Row="0" HorizontalOptions="Center">
-                <Image Source="{Binding Show.ImageMedium}" 
-                   HeightRequest="160"
-                   WidthRequest="130"
-                   Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center"/>
+                
+                <forms:CachedImage Source="{Binding Show.ImageMedium}" 
+                    HeightRequest="160"
+                    WidthRequest="130"
+                    Aspect="AspectFit" 
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center"
+                    LoadingPlaceholder="loading_image.jpg"
+                    ErrorPlaceholder="no_image_available.jpg">
+                </forms:CachedImage>
                 <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="15">
                         <Image x:Name="Btn_Favorite" HeightRequest="25" WidthRequest="25" IsVisible="False">

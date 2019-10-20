@@ -5,10 +5,11 @@
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:views="clr-namespace:ShowMe.Views"
             mc:Ignorable="d"
-             x:Class="ShowMe.Views.HomeTVPage">
+            x:Class="ShowMe.Views.HomeTVPage"
+            Title="{Binding Title}">
     <!--Pages can be added as references or inline-->
     <TabbedPage.Children>
-        <NavigationPage Title="Watch List">
+        <NavigationPage Title="To Watch">
             <x:Arguments>
                 <views:HomeWatchListPage />
             </x:Arguments>

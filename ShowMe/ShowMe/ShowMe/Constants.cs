@@ -14,7 +14,7 @@ namespace ShowMe
         public static string AndroidClientId = "160403806470-lnlom070pat3ql392d6ri6jbc86lod6q.apps.googleusercontent.com";
 
         // These values do not need changing
-        public static string Scope = "https://www.googleapis.com/auth/userinfo.email";
+        public static string Scope = "https://www.googleapis.com/auth/userinfo.profile";
         public static string AuthorizeUrl = "https://accounts.google.com/o/oauth2/auth";
         public static string AccessTokenUrl = "https://www.googleapis.com/oauth2/v4/token";
         public static string UserInfoUrl = "https://www.googleapis.com/oauth2/v2/userinfo";

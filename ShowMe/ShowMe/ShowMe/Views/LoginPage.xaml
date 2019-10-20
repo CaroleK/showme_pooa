@@ -53,17 +53,26 @@
                 </Button>
             </StackLayout>
 
-        <ActivityIndicator 
+        <StackLayout 
             AbsoluteLayout.LayoutFlags="All" 
             AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-            x:Name="LoginActivityIndicator"
-            IsRunning="false"
-            IsEnabled="false"
-            IsVisible="false"
-            Color="Salmon"
-            BackgroundColor="White"
-            VerticalOptions="FillAndExpand"
-            HorizontalOptions="FillAndExpand"/>
+            HorizontalOptions="FillAndExpand"
+            x:Name="LoginActivityIndicatorLayout"
+            IsEnabled="False"
+            IsVisible="False"
+            Padding="50, 0, 50, 0"
+            BackgroundColor="White">
+
+            <ActivityIndicator 
+                HorizontalOptions="Center"
+                VerticalOptions="FillAndExpand"
+                x:Name="LoginActivityIndicator"
+                IsRunning="false"
+                IsEnabled="false"
+                IsVisible="false"
+                Color="Salmon"
+                BackgroundColor="White"/>
+        </StackLayout>
 
     </AbsoluteLayout>
 
