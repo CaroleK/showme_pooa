@@ -113,6 +113,8 @@ namespace ShowMe.Views
                 }
                
                 App.User = user;
+                // Re-initialize MyShowsCollection for user that just logged in
+                MyShowsCollection.Instance = null;
             }
         }
 

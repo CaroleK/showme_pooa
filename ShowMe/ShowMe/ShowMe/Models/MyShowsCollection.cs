@@ -32,6 +32,9 @@ namespace ShowMe.Models
                     return instance;
                 }
             }
+            set {
+                instance = value;
+            }
         }
 
         /// <summary>
