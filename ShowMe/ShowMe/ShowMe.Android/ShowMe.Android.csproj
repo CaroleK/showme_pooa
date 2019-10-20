@@ -152,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\full_bell.png" />
+   </ItemGroup>
    <ItemGroup> 
     <AndroidResource Include="Resources\drawable\loading_image.jpg" />
   </ItemGroup>
