@@ -42,7 +42,9 @@
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition  Width="Auto" />
+                                    <ColumnDefinition  Width="240" />
+                                    <ColumnDefinition  Width="50" />
                                 </Grid.ColumnDefinitions>
                                 <StackLayout
                                     Padding="10, 0, 0, 0">
@@ -63,7 +65,43 @@
                                         Text="{Binding Title}"
                                         TextColor="Salmon"/>
                                     <Label 
-                                        Text="{Binding LastEpisodeWatchedInFullString}"/>
+                                        Text="{Binding LastEpisodeWatchedInFullString}" HorizontalOptions="StartAndExpand"/>
+                                </StackLayout>
+                                <StackLayout
+                                    Padding="0,5,0,0"
+                                    Grid.Column="2"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="End"
+                                    Orientation="Vertical"
+                                    Spacing="4">
+                                    <Image HeightRequest="23" WidthRequest="30">
+                                        <Image.Style>
+                                            <Style TargetType="{x:Type Image}">
+                                                <Style.Triggers>
+                                                    <DataTrigger TargetType="Image" Binding="{Binding IsFavorite}" Value="True">
+                                                        <Setter Property="Source" Value="red_heart.jpg"/>
+                                                    </DataTrigger >
+                                                    <DataTrigger TargetType="Image" Binding="{Binding IsFavorite}" Value="False">
+                                                        <Setter Property="Source" Value="empty_heart.jpg"/>
+                                                    </DataTrigger >
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <Image HeightRequest="23" WidthRequest="30">
+                                        <Image.Style>
+                                            <Style TargetType="{x:Type Image}">
+                                                <Style.Triggers>
+                                                    <DataTrigger TargetType="Image" Binding="{Binding MustNotify}" Value="True">
+                                                        <Setter Property="Source" Value="full_bell.jpg"/>
+                                                    </DataTrigger >
+                                                    <DataTrigger TargetType="Image" Binding="{Binding MustNotify}" Value="False">
+                                                        <Setter Property="Source" Value="empty_bell.jpg"/>
+                                                    </DataTrigger >
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
                                 </StackLayout>
                             </Grid>
                         </ViewCell>

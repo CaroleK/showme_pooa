@@ -8,7 +8,6 @@ using Xamarin.Forms.Xaml;
 using Rg.Plugins.Popup.Services;
 using static ShowMe.Views.AddShowPopUp;
 
-
 namespace ShowMe.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
