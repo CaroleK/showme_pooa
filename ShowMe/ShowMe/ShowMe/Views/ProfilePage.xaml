@@ -151,7 +151,8 @@
                 Grid.Row="2"
                 VerticalOptions="End">
                 <Button 
-                Margin="70,30,70,30"
+                Clicked ="OnLogOutClicked"
+                    Margin="70,30,70,30"
                 Text="Log out" 
                 TextColor="Default"
                 BorderColor="Default"

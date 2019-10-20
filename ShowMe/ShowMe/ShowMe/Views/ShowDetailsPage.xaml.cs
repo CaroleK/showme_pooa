@@ -72,6 +72,7 @@ namespace ShowMe.Views
                 Btn_Notification.IsVisible = true;
                 Btn_DeleteFromMyShows.IsVisible = true;
             };
+            DependencyService.Get<IMessage>().Show("Show added to your list");
         }
 
         /// <summary>
@@ -103,7 +104,7 @@ namespace ShowMe.Views
 
             if (userWantsToDelete)
             {
-                await DisplayAlert("Show deleted", "The show was successfully deleted from your list!", "Ok");
+                DependencyService.Get<IMessage>().Show("Show was deleted from your list");
 
                 MyShow myShowToDelete = MyShowsCollection.Instance.First(item => item.Id == this.viewModel.Show.Id);
                 viewModel.DeleteShowFromMyShowsCollection(myShowToDelete);

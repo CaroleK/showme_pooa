@@ -10,7 +10,7 @@ namespace ShowMe
         static public User User { get; set; }
         public App()
         {
-            if (IsLoggedIn)
+            if (!IsLoggedIn)
             {
                 InitializeComponent();
                 MainPage = new NavigationPage(new LoginPage());
@@ -38,7 +38,7 @@ namespace ShowMe
 
         public static bool IsLoggedIn
         {
-            get { return !string.IsNullOrWhiteSpace(_Token); }
+            get { return !string.IsNullOrWhiteSpace(_Token); } set { }
         }
 
         static string _Token;
