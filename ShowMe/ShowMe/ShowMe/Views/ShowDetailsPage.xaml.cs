@@ -62,7 +62,7 @@ namespace ShowMe.Views
                 await PopupNavigation.Instance.PushAsync(_addShowPopUpPage);
             }
             else {
-                //Add stantard MyShow object with status "Not started watching" to MyShowsCollection
+                //Add standard MyShow object with status "Not started watching" to MyShowsCollection
                 myShow = new MyShow(this.viewModel.Show, false, true, null);
                 viewModel.AddShowToMyShowsCollection(myShow);
                 
@@ -155,10 +155,12 @@ namespace ShowMe.Views
             {
                 imageSender.Source = "empty_heart.png";
                 viewModel.RemoveShowFromFavorites(myShow);
+                DependencyService.Get<IMessage>().Show("Show removed from your favorites");
             }
             else {
                 imageSender.Source = "red_heart.png";
                 viewModel.AddShowToFavorites(myShow);
+                DependencyService.Get<IMessage>().Show("Show added to your favorites");
             };
         }
 
@@ -177,11 +179,13 @@ namespace ShowMe.Views
             {
                 imageSender.Source = "empty_bell.png";
                 myShow.MustNotify = false;
+                DependencyService.Get<IMessage>().Show("No more alerts for this show!");
             }
             else
             {
                 imageSender.Source = "full_bell.png";
                 myShow.MustNotify = true;
+                DependencyService.Get<IMessage>().Show("You will receive alerts for this show");
             };
         }
     }

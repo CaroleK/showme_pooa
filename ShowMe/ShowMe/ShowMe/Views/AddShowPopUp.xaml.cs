@@ -3,6 +3,7 @@ using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using ShowMe.Models;
 using ShowMe.ViewModels;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace ShowMe.Views
@@ -29,8 +30,15 @@ namespace ShowMe.Views
 
         private async void OnSave(object sender, EventArgs e)
         {
-            await PopupNavigation.Instance.PopAsync();
-            OnPopUpClosed();
+            if (EnteredSeason.SelectedIndex == -1 | EnteredEpisode.SelectedIndex == -1)
+            {
+                DependencyService.Get<IMessage>().Show("Please select both Season and Episode");
+            }
+            else
+            {
+                await PopupNavigation.Instance.PopAsync();
+                OnPopUpClosed();
+            }
         }
 
         protected virtual void OnPopUpClosed()
