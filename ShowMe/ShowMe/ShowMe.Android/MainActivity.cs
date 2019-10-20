@@ -3,10 +3,9 @@
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
 using Xamarin.Auth;
+using Rg.Plugins.Popup.Services;
 
 namespace ShowMe.Droid
 {
@@ -27,13 +26,28 @@ namespace ShowMe.Droid
             CustomTabsConfiguration.CustomTabsClosingMessage = null;
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
 
-            LoadApplication(new App());
+            LoadApplication(new App());   
         }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        public override async void OnBackPressed()
+        {
+            if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed))
+            {
+                //Exit pop up page on back button device pressed
+                await PopupNavigation.Instance.PopAsync();
+            }
+            else
+            {
+                //Exit application
+                Finish();
+            }
         }
     }
 }

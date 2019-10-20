@@ -1,6 +1,5 @@
 ﻿using System;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 using ShowMe.Views;
 using ShowMe.Models;
 
@@ -11,8 +10,16 @@ namespace ShowMe
         static public User User { get; set; }
         public App()
         {
-            InitializeComponent();
-            MainPage = new NavigationPage(new LoginPage());
+            bool isLoggedIn = Current.Properties.ContainsKey("IsLoggedIn") ? Convert.ToBoolean(Current.Properties["IsLoggedIn"]) : false;
+            if (!isLoggedIn)
+            {
+                InitializeComponent();
+                MainPage = new NavigationPage(new LoginPage());
+            }
+            else
+            {
+                MainPage = new NavigationPage(new MainPage());
+            }
         }
 
         protected override void OnStart()

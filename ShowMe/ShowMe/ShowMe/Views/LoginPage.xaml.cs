@@ -129,6 +129,8 @@ namespace ShowMe.Views
         }
         async void ToMainPage()
         {
+            Application.Current.Properties["IsLoggedIn"] = bool.TrueString;
+
             await Navigation.PushAsync(new MainPage());
 
             LoginActivityIndicator.IsRunning = false;
