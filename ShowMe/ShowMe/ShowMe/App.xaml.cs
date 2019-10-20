@@ -10,8 +10,7 @@ namespace ShowMe
         static public User User { get; set; }
         public App()
         {
-            bool isLoggedIn = Current.Properties.ContainsKey("IsLoggedIn") ? Convert.ToBoolean(Current.Properties["IsLoggedIn"]) : false;
-            if (!isLoggedIn)
+            if (IsLoggedIn)
             {
                 InitializeComponent();
                 MainPage = new NavigationPage(new LoginPage());
