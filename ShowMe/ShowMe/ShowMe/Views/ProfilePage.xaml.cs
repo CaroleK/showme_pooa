@@ -18,7 +18,13 @@ namespace ShowMe.Views
         public ProfilePage()
         {
             InitializeComponent();
-            BindingContext = ProfileViewModel.User;
+            BindingContext = App.User;
+        }
+
+        private void OnLogOutClicked(object sender, EventArgs e)
+        {
+            App.IsLoggedIn = false;
+            App.Current.MainPage = new NavigationPage(new LoginPage());
         }
     }
 }

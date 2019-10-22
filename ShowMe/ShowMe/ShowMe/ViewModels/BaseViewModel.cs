@@ -9,8 +9,6 @@ namespace ShowMe.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public static User User { get; set; }
-
         string title = string.Empty;
 
         public string Title

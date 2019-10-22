@@ -111,8 +111,10 @@ namespace ShowMe.Views
                 {
                     await FireBaseHelper.AddUser(user.Id, user.Email, user.Picture);
                 }
-                BaseViewModel.User = user;
+               
                 App.User = user;
+                // Re-initialize MyShowsCollection for user that just logged in
+                MyShowsCollection.Instance = null;
             }
         }
 
