@@ -35,6 +35,12 @@ namespace ShowMe.Services
 
                 await UpdateMyShow(item);
             });
+
+            MessagingCenter.Subscribe<HomeWatchListViewModel, MyShow>(this, "IncrementEpisode", async (obj, item) =>
+            {
+
+                await UpdateMyShow(item);
+            });
         }
 
 

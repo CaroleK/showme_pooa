@@ -13,6 +13,7 @@ namespace ShowMe.ViewModels
     public class HomeWatchListViewModel : ContentPage
     {
         public TvMazeService service = new TvMazeService();
+        public FireBaseHelper MyFireBaseHelper = new FireBaseHelper(); 
         public ObservableCollection<MyShow> ShowsToDisplay { get; set; } = new ObservableCollection<MyShow>();
         public HomeWatchListViewModel()
         {
@@ -59,8 +60,16 @@ namespace ShowMe.ViewModels
                 }
                 myShow.LastEpisodeWatched = newLEW;
                 MyShowsCollection.ModifyShowInMyShows(myShow);
+                MessagingCenter.Send<HomeWatchListViewModel, MyShow>(this, "IncrementEpisode", myShow);
                 return true; 
             }
+        }
+
+        public void TransitionEpisode(MyShow ms)
+        {
+            int index = ShowsToDisplay.IndexOf(ms);
+            ShowsToDisplay.Remove(ms);
+            ShowsToDisplay.Insert(index, ms);
         }
     }
 }
