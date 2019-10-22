@@ -13,6 +13,7 @@
             <ListView
                 x:Name="MyShowsListView"
                 ItemsSource="{Binding ShowsToDisplay}"
+                SelectionMode="None"
                 IsGroupingEnabled="False"
                 HasUnevenRows="True">
                 <ListView.ItemTemplate>

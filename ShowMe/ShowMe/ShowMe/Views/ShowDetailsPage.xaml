@@ -89,6 +89,7 @@
                                     <ListView
                                             x:Name="ActorsListView"
                                             ItemsSource="{Binding Show.Cast}"
+                                            SelectionMode="None"
                                             HasUnevenRows="true"
                                             RefreshControlColor="LightSalmon">
                                         <ListView.ItemTemplate>
@@ -110,6 +111,7 @@
                         <ListView
                             x:Name="EpisodesListView"
                             ItemsSource="{Binding Show.EpisodesList}"
+                            SelectionMode="None"
                             HasUnevenRows="true"
                             RefreshControlColor="LightSalmon">
                             <ListView.ItemTemplate>
