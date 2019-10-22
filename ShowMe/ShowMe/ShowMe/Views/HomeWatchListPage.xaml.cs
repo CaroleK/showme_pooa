@@ -54,7 +54,7 @@ namespace ShowMe.Views
             viewModel.IncrementEpisode(ms);
 
             // Transition to next episode after 2 seconds
-            await Task.Delay(2000);
+            await Task.Delay(750);
             viewModel.TransitionEpisode(ms);
 
         }
