@@ -44,7 +44,8 @@
                                         Text="{Binding Title}"
                                         TextColor="Salmon"/>
                                     <Label 
-                                        Text="{Binding LastEpisodeWatchedInString}"
+                                        
+                                        Text="{Binding NextEpisodeInString}"
                                         FontAttributes="Bold"
                                         FontSize="Medium"/>                                    
                                 </StackLayout>

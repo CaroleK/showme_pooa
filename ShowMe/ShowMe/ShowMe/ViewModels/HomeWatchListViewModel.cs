@@ -32,36 +32,21 @@ namespace ShowMe.ViewModels
                     ShowsToDisplay.Add(ms);
                 }
             }
-        }
+        }        
 
         public bool IncrementEpisode(MyShow myShow)
         {
-            Dictionary<string, int> currentLEW = myShow.LastEpisodeWatched;
-            if (Show.AreEpisodeDictionariesEqual(currentLEW, myShow.LastEpisode))
+            Dictionary<string, int> newLEW = myShow.NextEpisode(); 
+            if (newLEW == null)
             {
-                return false;
+                return false; 
             }
             else
             {
-                Dictionary<string, int> newLEW = new Dictionary<string, int> { { "episode", 1 }, { "season", 1 } }; 
-                List<Season> seasonsList = Task.Run(() => service.GetSeasonsListAsync(myShow.Id)).Result;
-                if (seasonsList == null)
-                {
-                    return false; 
-                }
-                if (currentLEW["episode"] == Season.FindSeasonBySeasonNumber(seasonsList, currentLEW["season"]).NumberOfEpisodes)
-                {
-                    newLEW["season"] = currentLEW["season"] + 1;
-                }
-                else
-                {
-                    newLEW["season"] = currentLEW["season"];
-                    newLEW["episode"] = currentLEW["episode"] + 1;
-                }
                 myShow.LastEpisodeWatched = newLEW;
                 MyShowsCollection.ModifyShowInMyShows(myShow);
                 MessagingCenter.Send<HomeWatchListViewModel, MyShow>(this, "IncrementEpisode", myShow);
-                return true; 
+                return true;
             }
         }
 
