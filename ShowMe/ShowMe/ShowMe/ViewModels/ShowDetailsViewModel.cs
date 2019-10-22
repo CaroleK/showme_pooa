@@ -83,6 +83,10 @@ namespace ShowMe.ViewModels
             //TODO : change method to not async by subscribing FBHelper
             await FireBaseHelper.AddShowToUserList(App.User.Id, myShowToAdd);
 
+            if (myShowToAdd.LastEpisodeWatched != null){
+                await App.User.AddMinutestoTotalMinutesWatched(myShowToAdd.LastEpisodeWatched,myShowToAdd.SeasonsList);
+            }
+
         }
 
         public async void DeleteShowFromMyShowsCollection(MyShow myShowToDelete)

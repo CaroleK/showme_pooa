@@ -85,7 +85,7 @@ namespace ShowMe.Models
             Description = show.Description;
             Image = show.Image;
             LastEpisode = show.LastEpisode;
-
+            SeasonsList = show.SeasonsList;
             IsFavorite = isFavorite;
             MustNotify = mustNotify;
             LastEpisodeWatched = lastEpisodeWatched; 

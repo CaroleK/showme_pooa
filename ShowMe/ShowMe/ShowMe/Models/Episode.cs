@@ -28,6 +28,9 @@ namespace ShowMe.Models
         [JsonProperty("image")]
         public Dictionary<string, string> Image { get; set; } = null;
 
+        [JsonProperty ("runtime")]
+        public int DurationInMinutes {get; set;}
+
         // Retrieves the (safe) url of the medium-sized image
         public string ImageMedium => (Image != null) ? (Image["medium"]).Replace("http", "https") : "";
 

@@ -19,6 +19,7 @@ namespace ShowMe.Views
         {
             InitializeComponent();
             BindingContext = App.User;
+            viewModel.DisplayStatistics(App.User);
         }
 
         private void OnLogOutClicked(object sender, EventArgs e)
@@ -26,5 +27,6 @@ namespace ShowMe.Views
             App.IsLoggedIn = false;
             App.Current.MainPage = new NavigationPage(new LoginPage());
         }
+
     }
 }
