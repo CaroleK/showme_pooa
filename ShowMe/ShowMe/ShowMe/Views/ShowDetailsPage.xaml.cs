@@ -208,8 +208,8 @@ namespace ShowMe.Views
 
         private void ChangeLastWatchedPopUpClosed(object sender, PopUpArgs e)
         {
-            MyShow myShow = MyShowsCollection.Instance.FirstOrDefault(x => x.Id == this.viewModel.Show.Id);
-            viewModel.modifyMyShow(myShow, e.EpisodeInWatch, e.SeasonInWatch);
+            viewModel.modifyMyShow(e.EpisodeInWatch, e.SeasonInWatch);
+
             //Unsubscribe to event
             _addShowPopUpPage.PopUpClosed -= ChangeLastWatchedPopUpClosed;
 

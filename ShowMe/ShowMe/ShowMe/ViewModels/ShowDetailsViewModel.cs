@@ -17,7 +17,12 @@ namespace ShowMe.ViewModels
 
         public FireBaseHelper MyFireBaseHelper = new FireBaseHelper();
 
-        public Show Show { get; set; }
+        private Show _show { get; set; }
+
+        public Show Show {
+            get { return _show; }
+            set { _show = value; OnPropertyChanged(); }
+        }
         public Season SelectedSeason { get; set; }
 
         public ShowDetailsViewModel(Show show = null) : base()
@@ -109,9 +114,11 @@ namespace ShowMe.ViewModels
 
         }
 
-        public void modifyMyShow(MyShow myShow, int episodeInWatch, int seasonInWatch)
+        public void modifyMyShow(int episodeInWatch, int seasonInWatch)
         {
+            MyShow myShow = MyShowsCollection.Instance.FirstOrDefault(x => x.Id == this.Show.Id);
             myShow.LastEpisodeWatched = new Dictionary<string, int> { { "episode", episodeInWatch }, { "season", seasonInWatch } };
+            this.Show = myShow;
             MyShowsCollection.ModifyShowInMyShows(myShow);
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "ChangeLastEpisodeWatched", myShow);
         }
