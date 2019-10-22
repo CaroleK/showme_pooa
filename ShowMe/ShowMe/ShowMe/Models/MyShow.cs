@@ -113,7 +113,11 @@ namespace ShowMe.Models
         public Dictionary<string, int> NextEpisode()
         {
             Dictionary<string, int> currentLEW = this.LastEpisodeWatched;
-            if (Show.AreEpisodeDictionariesEqual(currentLEW, this.LastEpisode))
+            if (currentLEW == null)
+            {
+                return new Dictionary<string, int> { { "episode", 1 }, { "season", 1 } };
+            }
+            else if (Show.AreEpisodeDictionariesEqual(currentLEW, this.LastEpisode))
             {
                 return null;
             }

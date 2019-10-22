@@ -27,34 +27,43 @@ namespace ShowMe.ViewModels
             // Display only shows in progress
             foreach (MyShow ms in MyShows)
             {
-                if ((ms.LastEpisodeWatched != null) && !(Show.AreEpisodeDictionariesEqual(ms.LastEpisodeWatched, ms.LastEpisode)))
+                if (!(Show.AreEpisodeDictionariesEqual(ms.LastEpisodeWatched, ms.LastEpisode)))
                 {
                     ShowsToDisplay.Add(ms);
                 }
             }
         }        
 
-        public bool IncrementEpisode(MyShow myShow)
+        /// <summary>
+        /// Deals with the logic when an episode has been watched
+        /// </summary>
+        /// <param name="myShow">The MyShow whose episode has been watched</param>
+        public void IncrementEpisode(MyShow myShow)
         {
-            Dictionary<string, int> newLEW = myShow.NextEpisode(); 
-            if (newLEW == null)
-            {
-                return false; 
-            }
-            else
-            {
-                myShow.LastEpisodeWatched = newLEW;
-                MyShowsCollection.ModifyShowInMyShows(myShow);
-                MessagingCenter.Send<HomeWatchListViewModel, MyShow>(this, "IncrementEpisode", myShow);
-                return true;
-            }
+            Dictionary<string, int> newLEW = myShow.NextEpisode();
+            myShow.LastEpisodeWatched = newLEW;
+            MyShowsCollection.ModifyShowInMyShows(myShow);
+            MessagingCenter.Send<HomeWatchListViewModel, MyShow>(this, "IncrementEpisode", myShow);
         }
 
+        /// <summary>
+        /// Updates the watch list after an episode has been watched
+        /// </summary>
+        /// <param name="ms">The MyShow whose episode has been watched</param>
         public void TransitionEpisode(MyShow ms)
         {
             int index = ShowsToDisplay.IndexOf(ms);
             ShowsToDisplay.Remove(ms);
-            ShowsToDisplay.Insert(index, ms);
+            if (ms.NextEpisode() != null)
+            {
+                ShowsToDisplay.Insert(index, ms);
+            }
+            // If next episode is empty, the user finished watching the show
+            else
+            {
+                DependencyService.Get<IMessage>().Show("You finisehd \"" + ms.Title + "\" ! You can still find it if your list of shows."  );
+            }
+            
         }
     }
 }
