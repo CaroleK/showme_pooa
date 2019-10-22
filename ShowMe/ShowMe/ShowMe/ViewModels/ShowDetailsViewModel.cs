@@ -108,5 +108,12 @@ namespace ShowMe.ViewModels
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "ChangeToNotFavorite", myNoLongerFavoriteShow);
 
         }
+
+        public void modifyMyShow(MyShow myShow, int episodeInWatch, int seasonInWatch)
+        {
+            myShow.LastEpisodeWatched = new Dictionary<string, int> { { "episode", episodeInWatch }, { "season", seasonInWatch } };
+            MyShowsCollection.ModifyShowInMyShows(myShow);
+            MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "ChangeLastEpisodeWatched", myShow);
+        }
     }
 }
