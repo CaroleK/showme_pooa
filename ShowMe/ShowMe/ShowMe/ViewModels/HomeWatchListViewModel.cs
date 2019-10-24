@@ -61,7 +61,7 @@ namespace ShowMe.ViewModels
             // If next episode is empty, the user finished watching the show
             else
             {
-                DependencyService.Get<IMessage>().Show("You finisehd \"" + ms.Title + "\" ! You can still find it if your list of shows."  );
+                DependencyService.Get<IMessage>().Show("You finished \"" + ms.Title + "\" ! You can still find it if your list of shows."  );
             }
             
         }
