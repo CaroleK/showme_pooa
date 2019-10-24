@@ -8,6 +8,9 @@ using Xamarin.Auth;
 using Rg.Plugins.Popup.Services;
 using Android.Content;
 using Plugin.LocalNotifications;
+using System.Collections.Generic;
+using Xamarin.Forms;
+using ShowMe.Views;
 
 namespace ShowMe.Droid
 {
@@ -33,15 +36,23 @@ namespace ShowMe.Droid
             // Change notification icon
             LocalNotificationsImplementation.NotificationIconId = Resource.Drawable.eye_icon_round;
 
-            // Handle the periodic background task for notifications: 
-            // Every half-hour, the application wakes up to check what are the upcoming shows and schedules notifications
-            var alarmIntent = new Intent(this, typeof(BackgroundReceiver));
-            var pending = PendingIntent.GetBroadcast(this, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
+            // Once user is logged in
+            MessagingCenter.Subscribe<LoginPage>(this, "UserLoggedIn", (obj) =>
+            {
+                // Handle the periodic background task for notifications: 
+                // Every half-hour, the application wakes up to check what are the upcoming shows and schedules notifications
+                var alarmIntent = new Intent(this, typeof(BackgroundReceiver));
+                alarmIntent.PutStringArrayListExtra("name", new List<string>() { App.User.Name });
+                var pending = PendingIntent.GetBroadcast(this, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
 
-            var alarmManager = GetSystemService(AlarmService).JavaCast<AlarmManager>();
-            //alarmManager.SetRepeating(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime() + 60 * 1000, AlarmManager.IntervalHalfHour, pending);
-            alarmManager.SetRepeating(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime() + 60 * 1000, 60 * 1000, pending);
+                var alarmManager = GetSystemService(AlarmService).JavaCast<AlarmManager>();
+                //alarmManager.SetRepeating(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime() + 60 * 1000, AlarmManager.IntervalHalfHour, pending);
+                alarmManager.SetInexactRepeating(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime() + 60 * 1000, 60 * 1000, pending);
+            });
+            
         }
+
+       
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
