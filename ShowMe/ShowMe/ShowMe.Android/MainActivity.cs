@@ -8,7 +8,6 @@ using Xamarin.Auth;
 using Rg.Plugins.Popup.Services;
 using Android.Content;
 using Plugin.LocalNotifications;
-using System.Collections.Generic;
 using Xamarin.Forms;
 using ShowMe.Views;
 
@@ -40,14 +39,13 @@ namespace ShowMe.Droid
             MessagingCenter.Subscribe<LoginPage>(this, "UserLoggedIn", (obj) =>
             {
                 // Handle the periodic background task for notifications: 
-                // Every half-hour, the application wakes up to check what are the upcoming shows and schedules notifications
+                // Every half-day, the application wakes up to check what are the upcoming shows and schedules notifications
                 var alarmIntent = new Intent(this, typeof(BackgroundReceiver));
-                alarmIntent.PutStringArrayListExtra("name", new List<string>() { App.User.Name });
+                alarmIntent.PutExtra("userId", App.User.Id);
                 var pending = PendingIntent.GetBroadcast(this, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
 
                 var alarmManager = GetSystemService(AlarmService).JavaCast<AlarmManager>();
-                //alarmManager.SetRepeating(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime() + 60 * 1000, AlarmManager.IntervalHalfHour, pending);
-                alarmManager.SetInexactRepeating(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime() + 60 * 1000, 60 * 1000, pending);
+                alarmManager.SetInexactRepeating(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime() + 60 * 1000, AlarmManager.IntervalHalfDay, pending);
             });
             
         }

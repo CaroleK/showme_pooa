@@ -9,12 +9,13 @@ namespace ShowMe.Droid
     {
         public override void OnReceive(Context context, Intent intent)
         {
-            string name = intent.GetStringArrayListExtra("name")[0];
+            string userId = intent.GetStringExtra("userId");
             PowerManager pm = (PowerManager)context.GetSystemService(Context.PowerService);
             PowerManager.WakeLock wakeLock = pm.NewWakeLock(WakeLockFlags.Partial, "BackgroundReceiver");
+
             wakeLock.Acquire();
 
-            NotificationScheduler.ScheduleNotification(name); 
+            NotificationScheduler.ScheduleNotification(userId); 
 
             wakeLock.Release();
         }
