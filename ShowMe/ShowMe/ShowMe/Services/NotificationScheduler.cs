@@ -30,7 +30,9 @@ namespace ShowMe.Services
                     string notificationTitle = "Don't miss it! Tomorrow on TV";
                     string[] airtime = schedule.Airtime.Split(':');
                     DateTime notificationTime = new DateTime(DateTime.Year, DateTime.Month, DateTime.Day + 1, int.Parse(airtime[0]), int.Parse(airtime[1]), 0);
-                    CrossLocalNotifications.Current.Show(notificationTitle, notificationBody, schedule.Show.Id, notificationTime);                    
+                    string notificationId = schedule.Show.Id + "" + DateTime.Day + "" + DateTime.Month;
+
+                    CrossLocalNotifications.Current.Show(notificationTitle, notificationBody, int.Parse(notificationId), notificationTime);                    
                 }
             }            
         }
