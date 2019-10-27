@@ -117,7 +117,7 @@ namespace ShowMe.ViewModels
         public void modifyMyShow(int episodeInWatch, int seasonInWatch)
         {
             MyShow myShow = MyShowsCollection.Instance.FirstOrDefault(x => x.Id == this.Show.Id);
-            myShow.LastEpisodeWatched = new Dictionary<string, int> { { "episode", episodeInWatch }, { "season", seasonInWatch } };
+            myShow.LastEpisodeWatched = new EpisodeSeason(episodeInWatch, seasonInWatch);
             this.Show = myShow;
             MyShowsCollection.ModifyShowInMyShows(myShow);
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "ChangeLastEpisodeWatched", myShow);

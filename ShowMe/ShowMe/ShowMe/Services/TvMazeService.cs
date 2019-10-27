@@ -47,9 +47,9 @@ namespace ShowMe.Services
         /// </summary>
         /// <param name="id">The id of the show</param>
         /// <returns>A task that returns a dictionary in the form { "episode", int }, { "season", int } representing the last episode of the show</returns>
-        public async Task<Dictionary<string, int>> GetLastEpisodeInShow(int id)
+        public async Task<EpisodeSeason> GetLastEpisodeInShow(int id)
         {
-            Dictionary<string, int> lastEpisode = null;
+            EpisodeSeason lastEpisode = null;
             try
             {
                 HttpResponseMessage responseSeason = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + id + "/seasons"));
@@ -66,10 +66,7 @@ namespace ShowMe.Services
                         }
                     }
 
-                    lastEpisode = new Dictionary<string, int>{
-                                { "episode", maxSeason.NumberOfEpisodes },
-                                { "season", maxSeason.Number }
-                            };
+                    lastEpisode = new EpisodeSeason(maxSeason.NumberOfEpisodes, maxSeason.Number);
                 }
             }
             catch (Exception ex)
