@@ -43,7 +43,7 @@ namespace ShowMe.Models
 
         // Last episode that exists for this show
         // Must be like {{"epidose",1},{"season",1}}
-        public Dictionary<string,int> LastEpisode { get; set; }
+        public EpisodeSeason LastEpisode { get; set; }
 
         // Retrieves the (safe) url of the medium-sized image
         public string ImageMedium => ((Image != null)&&(Image["medium"] != null)) ? (Image["medium"]).Replace("http", "https") : "no_image_available.jpg";
@@ -60,24 +60,6 @@ namespace ShowMe.Models
         public override string ToString()
         {
             return Title;
-        }
-
-        /// <summary>
-        /// Takes two description of episodes and compares if they ahev the same season number and episode number
-        /// </summary>
-        /// <param name="dic1">First episode</param>
-        /// <param name="dic2">Second episode</param>
-        /// <returns>True if season number and episode number of both episodes are equals, false otherwise</returns>
-        static public bool AreEpisodeDictionariesEqual(Dictionary<string, int> dic1, Dictionary<string, int> dic2)
-        {
-            if ((dic1 != null) && (dic2 != null))
-            {
-                return ((dic1["episode"] == dic2["episode"]) && (dic1["season"] == dic2["season"]));
-            }
-            else
-            {
-                return false;
-            }
         }
 
         /// <summary>

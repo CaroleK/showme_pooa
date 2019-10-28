@@ -18,7 +18,7 @@ namespace ShowMe.Models
         public int Number { get; set; }
 
         [JsonProperty("episodeOrder")]
-        public int NumberOfEpisodes { get; set; }
+        public int ? NumberOfEpisodes { get; set; }
 
         public List<Episode> EpisodesOfSeason { get; set; }
 

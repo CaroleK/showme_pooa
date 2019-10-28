@@ -42,43 +42,7 @@ namespace ShowMe.Services
             return show;
         }
 
-        /// <summary>
-        /// This function retrieves the last episode from TVMazeAPI for the show with the given id 
-        /// </summary>
-        /// <param name="id">The id of the show</param>
-        /// <returns>A task that returns a dictionary in the form { "episode", int }, { "season", int } representing the last episode of the show</returns>
-        public async Task<Dictionary<string, int>> GetLastEpisodeInShow(int id)
-        {
-            Dictionary<string, int> lastEpisode = null;
-            try
-            {
-                HttpResponseMessage responseSeason = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + id + "/seasons"));
-                if (responseSeason.IsSuccessStatusCode)
-                {
-                    string jsonStringSeason = await responseSeason.Content.ReadAsStringAsync();
-                    List<Season> seasons = JsonConvert.DeserializeObject<List<Season>>(jsonStringSeason);
-                    Season maxSeason = null;
-                    foreach (Season season in seasons)
-                    {
-                        if ((maxSeason == null) || (season.Number > maxSeason.Number))
-                        {
-                            maxSeason = season;
-                        }
-                    }
-
-                    lastEpisode = new Dictionary<string, int>{
-                                { "episode", maxSeason.NumberOfEpisodes },
-                                { "season", maxSeason.Number }
-                            };
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("\tERROR {0}", ex.Message);
-            }
-            return lastEpisode;
-        }
-
+        
         /// <summary>
         /// This function retrieves the list of episodes from TVMazeAPI for the show with the given id
         /// </summary>

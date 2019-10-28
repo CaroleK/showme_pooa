@@ -28,8 +28,8 @@
                     LoadingPlaceholder="loading_image.jpg"
                     ErrorPlaceholder="no_image_available.jpg">
                 </forms:CachedImage>
-                <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="15">
+                <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Spacing="15">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Spacing="15" Padding="10,0,0,0">
                         <Image x:Name="Btn_Favorite" HeightRequest="25" WidthRequest="25" IsVisible="False">
                             <Image.Source>
                                 <OnPlatform x:TypeArguments="ImageSource">
@@ -56,17 +56,44 @@
                                                 NumberOfTapsRequired="1" />
                             </Image.GestureRecognizers>
                         </Image>
+                        <StackLayout Padding="60,0,0,0">
+                            <Image x:Name="Btn_DeleteFromMyShows" HeightRequest="25" WidthRequest="25" IsVisible="False">
+                                <Image.Source>
+                                    <OnPlatform x:TypeArguments="ImageSource">
+                                        <On Platform="Android" 
+                                        Value="trash.png"/>
+                                    </OnPlatform>
+                                </Image.Source>
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                                Tapped="OnGarbageTappedGestureRecognizer"
+                                                NumberOfTapsRequired="1" />
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </StackLayout>
                     </StackLayout>
                     <Label Text="{Binding Show.Title}" d:Text="Show name" FontSize="Large" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
                     <Button x:Name="Btn_AddToMyShows"
                             Text="Add to My Shows"
                             HorizontalOptions="Center"
                             Clicked="OnClickAddToMyShows"/>
-                    <Button x:Name="Btn_DeleteFromMyShows"
-                            Text="Delete From My Shows"
-                            HorizontalOptions="Center"
-                            Clicked="OnClickDeleteFromMyShows"
-                            IsVisible="False"/>
+                    <StackLayout x:Name ="DisplayLastEpisode" Orientation="Horizontal" IsVisible="False" HorizontalOptions="CenterAndExpand" Spacing="10">
+                        <Label Text="Last watched: "></Label>
+                        <Label Text="{Binding Show.LastEpisodeWatchedInString}"></Label>
+                        <Image x:Name="Btn_EditLastEpisodeWatched" HeightRequest="25" WidthRequest="25" IsVisible="False">
+                            <Image.Source>
+                                <OnPlatform x:TypeArguments="ImageSource">
+                                    <On Platform="Android" 
+                                        Value="pencil.png"/>
+                                </OnPlatform>
+                            </Image.Source>
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer
+                                                Tapped="OnPencilTappedGestureRecognizer"
+                                                NumberOfTapsRequired="1" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </StackLayout>
                 </StackLayout>
             </StackLayout>
             
@@ -89,6 +116,7 @@
                                     <ListView
                                             x:Name="ActorsListView"
                                             ItemsSource="{Binding Show.Cast}"
+                                            SelectionMode="None"
                                             HasUnevenRows="true"
                                             RefreshControlColor="LightSalmon">
                                         <ListView.ItemTemplate>
@@ -110,6 +138,7 @@
                         <ListView
                             x:Name="EpisodesListView"
                             ItemsSource="{Binding Show.EpisodesList}"
+                            SelectionMode="None"
                             HasUnevenRows="true"
                             RefreshControlColor="LightSalmon">
                             <ListView.ItemTemplate>

@@ -17,7 +17,12 @@ namespace ShowMe.ViewModels
 
         public FireBaseHelper MyFireBaseHelper = new FireBaseHelper();
 
-        public Show Show { get; set; }
+        private Show _show { get; set; }
+
+        public Show Show {
+            get { return _show; }
+            set { _show = value; OnPropertyChanged(); }
+        }
         public Season SelectedSeason { get; set; }
 
         public ShowDetailsViewModel(Show show = null) : base()
@@ -73,8 +78,18 @@ namespace ShowMe.ViewModels
 
         public async void AddShowToMyShowsCollection(MyShow myShowToAdd)
         {
-            // Fetch the last episode for this show, now that we're adding it to MyShows list we'll need this attribute
-            myShowToAdd.LastEpisode = await service.GetLastEpisodeInShow(myShowToAdd.Id); 
+            // Find the last episode for this show, now that we're adding it to MyShows list we'll need this attribute
+            Season maxSeason = null; 
+            foreach (Season season in this.Show.SeasonsList)
+            {
+                if ((maxSeason == null) || (season.Number > maxSeason.Number))
+                {
+                    maxSeason = season;
+                }
+            }
+
+            EpisodeSeason lastEpisode = new EpisodeSeason(maxSeason.EpisodesOfSeason.Max(e => e.Number), maxSeason.Number);
+            myShowToAdd.LastEpisode = lastEpisode; 
 
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", myShowToAdd);
 
@@ -111,6 +126,15 @@ namespace ShowMe.ViewModels
             myNoLongerFavoriteShow.IsFavorite = false;
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "ChangeToNotFavorite", myNoLongerFavoriteShow);
 
+        }
+
+        public void modifyMyShow(int episodeInWatch, int seasonInWatch)
+        {
+            MyShow myShow = MyShowsCollection.Instance.FirstOrDefault(x => x.Id == this.Show.Id);
+            myShow.LastEpisodeWatched = new EpisodeSeason(episodeInWatch, seasonInWatch);
+            this.Show = myShow;
+            MyShowsCollection.ModifyShowInMyShows(myShow);
+            MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "ChangeLastEpisodeWatched", myShow);
         }
     }
 }

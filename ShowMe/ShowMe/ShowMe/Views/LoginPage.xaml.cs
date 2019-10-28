@@ -138,6 +138,8 @@ namespace ShowMe.Views
             LoginActivityIndicator.IsVisible = false;
             LoginActivityIndicatorLayout.IsVisible = false;
             LoginActivityIndicatorLayout.IsEnabled = false;
+
+            MessagingCenter.Send<LoginPage>(this, "UserLoggedIn");
         }
     }
 }

@@ -42,6 +42,8 @@ namespace ShowMe.Views
                     Btn_Notification.Source = "empty_bell.png";
                 }
                 Btn_DeleteFromMyShows.IsVisible = true;
+                DisplayLastEpisode.IsVisible = true;
+                Btn_EditLastEpisodeWatched.IsVisible = true;
             }
         }
 
@@ -70,6 +72,8 @@ namespace ShowMe.Views
                 Btn_Favorite.IsVisible = true;
                 Btn_Notification.IsVisible = true;
                 Btn_DeleteFromMyShows.IsVisible = true;
+                DisplayLastEpisode.IsVisible = true;
+                Btn_EditLastEpisodeWatched.IsVisible = true;
             };
             DependencyService.Get<IMessage>().Show("Show added to your list");
         }
@@ -80,7 +84,7 @@ namespace ShowMe.Views
         private void AddShowPopUpClosed(object sender, PopUpArgs e)
         {
             //Add personnalized MyShow object to MyShowsCollection
-            myShow = new MyShow(this.viewModel.Show, false, true, new Dictionary<string, int> { { "episode", e.EpisodeInWatch }, { "season", e.SeasonInWatch } });
+            myShow = new MyShow(this.viewModel.Show, false, true, new EpisodeSeason(e.EpisodeInWatch, e.SeasonInWatch));
             viewModel.AddShowToMyShowsCollection(myShow);
            
             //Adapt UI
@@ -88,33 +92,14 @@ namespace ShowMe.Views
             Btn_Favorite.IsVisible = true;
             Btn_Notification.IsVisible = true;
             Btn_DeleteFromMyShows.IsVisible = true;
+            DisplayLastEpisode.IsVisible = true;
+            Btn_EditLastEpisodeWatched.IsVisible = true;
 
             //Unsubscribe to event
             _addShowPopUpPage.PopUpClosed -= AddShowPopUpClosed;
 
         }
 
-        /// <summary>
-        /// Back-code event triggered when user clicks on "Delete from MyShows"
-        /// </summary>
-        async void OnClickDeleteFromMyShows(object sender, EventArgs e)
-        {
-            bool userWantsToDelete = await DisplayAlert("Delete", "Are you sure?", "Yes", "No");
-
-            if (userWantsToDelete)
-            {
-                DependencyService.Get<IMessage>().Show("Show was deleted from your list");
-
-                MyShow myShowToDelete = MyShowsCollection.Instance.First(item => item.Id == this.viewModel.Show.Id);
-                viewModel.DeleteShowFromMyShowsCollection(myShowToDelete);
-
-                //Adapt UI
-                Btn_AddToMyShows.IsVisible = true;
-                Btn_Favorite.IsVisible = false;
-                Btn_Notification.IsVisible = false;
-                Btn_DeleteFromMyShows.IsVisible = false;
-            }
-        }
 
         /// <summary>
         /// Make "About" tab appear when "About" button is clicked
@@ -187,6 +172,47 @@ namespace ShowMe.Views
                 myShow.MustNotify = true;
                 DependencyService.Get<IMessage>().Show("You will receive alerts for this show");
             };
+        }
+
+        /// <summary>
+        /// Back-code event triggered when user clicks on "Delete from MyShows"
+        /// </summary>
+        private async void OnGarbageTappedGestureRecognizer(object sender, EventArgs e)
+        {
+            bool userWantsToDelete = await DisplayAlert("Delete", "Are you sure?", "Yes", "No");
+
+            if (userWantsToDelete)
+            {
+                DependencyService.Get<IMessage>().Show("Show was deleted from your list");
+
+                MyShow myShowToDelete = MyShowsCollection.Instance.First(item => item.Id == this.viewModel.Show.Id);
+                viewModel.DeleteShowFromMyShowsCollection(myShowToDelete);
+
+                //Adapt UI
+                Btn_AddToMyShows.IsVisible = true;
+                Btn_Favorite.IsVisible = false;
+                Btn_Notification.IsVisible = false;
+                Btn_DeleteFromMyShows.IsVisible = false;
+                DisplayLastEpisode.IsVisible = false;
+                Btn_EditLastEpisodeWatched.IsVisible = false;
+            }
+        }
+
+        private async void OnPencilTappedGestureRecognizer(object sender, EventArgs e)
+        {
+            _addShowPopUpPage = new AddShowPopUp(this.viewModel);
+            //Subscribe to event AddShowPopUpClosed before pushing addShowPopUpPage
+            _addShowPopUpPage.PopUpClosed += ChangeLastWatchedPopUpClosed;
+            await PopupNavigation.Instance.PushAsync(_addShowPopUpPage);
+        }
+
+        private void ChangeLastWatchedPopUpClosed(object sender, PopUpArgs e)
+        {
+            viewModel.modifyMyShow(e.EpisodeInWatch, e.SeasonInWatch);
+
+            //Unsubscribe to event
+            _addShowPopUpPage.PopUpClosed -= ChangeLastWatchedPopUpClosed;
+
         }
     }
 }

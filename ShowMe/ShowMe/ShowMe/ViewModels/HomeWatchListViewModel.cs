@@ -13,6 +13,7 @@ namespace ShowMe.ViewModels
     public class HomeWatchListViewModel : ContentPage
     {
         public TvMazeService service = new TvMazeService();
+        public FireBaseHelper MyFireBaseHelper = new FireBaseHelper(); 
         public ObservableCollection<MyShow> ShowsToDisplay { get; set; } = new ObservableCollection<MyShow>();
         public HomeWatchListViewModel()
         {
@@ -26,41 +27,43 @@ namespace ShowMe.ViewModels
             // Display only shows in progress
             foreach (MyShow ms in MyShows)
             {
-                if ((ms.LastEpisodeWatched != null) && !(Show.AreEpisodeDictionariesEqual(ms.LastEpisodeWatched, ms.LastEpisode)))
+                if (!(ms.LastEpisodeWatched.Equals(ms.LastEpisode)))
                 {
                     ShowsToDisplay.Add(ms);
                 }
             }
+        }        
+
+        /// <summary>
+        /// Deals with the logic when an episode has been watched
+        /// </summary>
+        /// <param name="myShow">The MyShow whose episode has been watched</param>
+        public void IncrementEpisode(MyShow myShow)
+        {
+            EpisodeSeason newLEW = myShow.NextEpisode();
+            myShow.LastEpisodeWatched = newLEW;
+            MyShowsCollection.ModifyShowInMyShows(myShow);
+            MessagingCenter.Send<HomeWatchListViewModel, MyShow>(this, "IncrementEpisode", myShow);
         }
 
-        public bool IncrementEpisode(MyShow myShow)
+        /// <summary>
+        /// Updates the watch list after an episode has been watched
+        /// </summary>
+        /// <param name="ms">The MyShow whose episode has been watched</param>
+        public void TransitionEpisode(MyShow ms)
         {
-            Dictionary<string, int> currentLEW = myShow.LastEpisodeWatched;
-            if (Show.AreEpisodeDictionariesEqual(currentLEW, myShow.LastEpisode))
+            int index = ShowsToDisplay.IndexOf(ms);
+            ShowsToDisplay.Remove(ms);
+            if (ms.NextEpisode() != null)
             {
-                return false;
+                ShowsToDisplay.Insert(index, ms);
             }
+            // If next episode is empty, the user finished watching the show
             else
             {
-                Dictionary<string, int> newLEW = new Dictionary<string, int> { { "episode", 1 }, { "season", 1 } }; 
-                List<Season> seasonsList = Task.Run(() => service.GetSeasonsListAsync(myShow.Id)).Result;
-                if (seasonsList == null)
-                {
-                    return false; 
-                }
-                if (currentLEW["episode"] == Season.FindSeasonBySeasonNumber(seasonsList, currentLEW["season"]).NumberOfEpisodes)
-                {
-                    newLEW["season"] = currentLEW["season"] + 1;
-                }
-                else
-                {
-                    newLEW["season"] = currentLEW["season"];
-                    newLEW["episode"] = currentLEW["episode"] + 1;
-                }
-                myShow.LastEpisodeWatched = newLEW;
-                MyShowsCollection.ModifyShowInMyShows(myShow);
-                return true; 
+                DependencyService.Get<IMessage>().Show("You finished \"" + ms.Title + "\" ! You can still find it if your list of shows."  );
             }
+            
         }
     }
 }

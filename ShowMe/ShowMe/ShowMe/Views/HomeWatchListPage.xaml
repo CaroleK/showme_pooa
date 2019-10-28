@@ -13,6 +13,7 @@
             <ListView
                 x:Name="MyShowsListView"
                 ItemsSource="{Binding ShowsToDisplay}"
+                SelectionMode="None"
                 IsGroupingEnabled="False"
                 HasUnevenRows="True">
                 <ListView.ItemTemplate>
@@ -44,7 +45,8 @@
                                         Text="{Binding Title}"
                                         TextColor="Salmon"/>
                                     <Label 
-                                        Text="{Binding LastEpisodeWatchedInString}"
+                                        
+                                        Text="{Binding NextEpisodeInString}"
                                         FontAttributes="Bold"
                                         FontSize="Medium"/>                                    
                                 </StackLayout>

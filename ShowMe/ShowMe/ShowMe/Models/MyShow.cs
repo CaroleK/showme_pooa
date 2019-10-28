@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
+using ShowMe.Services;
 using ShowMe.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ShowMe.Models
 {
@@ -21,20 +23,33 @@ namespace ShowMe.Models
         // Last episode that the user watched for this show
         // Must be like {{"epidose",1},{"season",1}}
         [JsonProperty("LastEpisodeWatched")]
-        public Dictionary<string, int> LastEpisodeWatched { get; set; }
+        public EpisodeSeason LastEpisodeWatched { get; set; }
         
         // Turns the LastEpisodeWatched dictionnary into a  readable string in the form "Not started watching", "S1E1" or "S2E24 (finished)"
         [JsonProperty("LastEpisodeWatchedInString")]
         public string LastEpisodeWatchedInString 
             => (LastEpisodeWatched != null) ? 
-            "S" + LastEpisodeWatched["season"] + "E" + LastEpisodeWatched["episode"] + (AreEpisodeDictionariesEqual(LastEpisode,LastEpisodeWatched) ?
+            "S" + LastEpisodeWatched.SeasonNumber + "E" + LastEpisodeWatched.EpisodeNumber + (LastEpisode.Equals(LastEpisodeWatched) ?
                 " (Finished)"
                 : "")
             : "Not started watching";
 
         // Adds "Last Watched: " at the beginning of LastEpisodeWatchedInString, useful for MyShowsPage 
         [JsonProperty("LastEpisodeWatchedInFullString")]
-        public string LastEpisodeWatchedInFullString => "Last watched: " + LastEpisodeWatchedInString;  
+        public string LastEpisodeWatchedInFullString => "Last watched: " + LastEpisodeWatchedInString; 
+        
+        // The next episode the user should watch
+        public string NextEpisodeInString {
+            get
+            {
+                EpisodeSeason NE = this.NextEpisode();
+                if (NE == null)
+                {
+                    return "";
+                }
+                return "S" + NE.SeasonNumber + "E" + NE.EpisodeNumber;
+            }
+        }
 
         /// <summary>
         /// Constructor to build MyShow with all attributes
@@ -52,7 +67,7 @@ namespace ShowMe.Models
         /// <param name="lastEpisode"></param>
         /// <param name="lastEpisodeWatched"></param>
         [JsonConstructor]
-        public MyShow(int id, string title, string language, string[] genres, string url, string description, Dictionary<string, string> image , bool isFavorite, bool mustNotify, Dictionary<string, int> lastEpisode, Dictionary<string, int> lastEpisodeWatched)
+        public MyShow(int id, string title, string language, string[] genres, string url, string description, Dictionary<string, string> image , bool isFavorite, bool mustNotify, EpisodeSeason lastEpisode, EpisodeSeason lastEpisodeWatched)
         { 
             Id = id;
             Title = title;
@@ -75,7 +90,7 @@ namespace ShowMe.Models
         /// <param name="isFavorite"></param>
         /// <param name="mustNotify"></param>
         /// <param name="lastEpisodeWatched"></param>
-        public MyShow (Show show, bool isFavorite, bool mustNotify, Dictionary<string, int> lastEpisodeWatched)
+        public MyShow (Show show, bool isFavorite, bool mustNotify, EpisodeSeason lastEpisodeWatched)
         {            
             Id = show.Id;
             Title = show.Title;
@@ -89,6 +104,44 @@ namespace ShowMe.Models
             IsFavorite = isFavorite;
             MustNotify = mustNotify;
             LastEpisodeWatched = lastEpisodeWatched; 
-        }      
+        }
+
+        /// <summary>
+        /// Finds the next episode to watch depending on this show's seasons list and episode list
+        /// </summary>
+        /// <returns>Null or a dictionnary of the {{"epidose",1},{"season",1}} format</returns>
+        public EpisodeSeason NextEpisode()
+        {
+            EpisodeSeason currentLEW = this.LastEpisodeWatched;
+            if (currentLEW == null)
+            {
+                return new EpisodeSeason(1, 1);
+            }
+            else if (currentLEW.Equals(this.LastEpisode))
+            {
+                return null;
+            }
+            else
+            {
+                TvMazeService service = new TvMazeService();
+                EpisodeSeason newLEW = new EpisodeSeason(1,1);
+                List<Season> seasonsList = Task.Run(() => service.GetSeasonsListAsync(this.Id)).Result;
+                if (seasonsList == null)
+                {
+                    return null;
+                }
+                if (currentLEW.EpisodeNumber == Season.FindSeasonBySeasonNumber(seasonsList, currentLEW.SeasonNumber).NumberOfEpisodes)
+                {
+                    newLEW.SeasonNumber = currentLEW.SeasonNumber + 1;
+                }
+                else
+                {
+                    newLEW.SeasonNumber = currentLEW.SeasonNumber;
+                    newLEW.EpisodeNumber = currentLEW.EpisodeNumber + 1;
+                }
+
+                return newLEW;
+            }
+        }
     }
 }
