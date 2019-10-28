@@ -62,7 +62,6 @@ namespace ShowMe.Services
 
         static public async Task ModifyUser(string userId, int TotalMinutesWatched)
         {
-            //TODO
             await Myfirebase
               .Child("Users")
               .Child(userId)
