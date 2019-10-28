@@ -87,37 +87,37 @@
                             Grid.Row="1"
                             Grid.Column="0"
                             HorizontalOptions="Center">
-                            <Label Text="00" FontSize="Medium" FontAttributes="Bold"/>
+                            <Label Text="{Binding daysWatched}" FontSize="Medium" FontAttributes="Bold"/>
                         </StackLayout>
                         <StackLayout
                             Grid.Row="2"
                             Grid.Column="0"
                             HorizontalOptions="Center">
-                            <Label Text="months" FontSize="Micro"/>
+                            <Label Text="days" FontSize="Micro"/>
                         </StackLayout>
                         <StackLayout
                             Grid.Row="1"
                             Grid.Column="1"
                             HorizontalOptions="CenterAndExpand">
-                            <Label Text="00" FontSize="Medium" FontAttributes="Bold"/>
+                            <Label Text="{Binding hoursWatched}" FontSize="Medium" FontAttributes="Bold"/>
                         </StackLayout>
                         <StackLayout
                             Grid.Row="2"
                             Grid.Column="1"
                             HorizontalOptions="CenterAndExpand">
-                            <Label Text="days" FontSize="Micro"/>
+                            <Label Text="hours" FontSize="Micro"/>
                         </StackLayout>
                         <StackLayout
                             Grid.Row="1"
                             Grid.Column="3"
                             HorizontalOptions="Center">
-                            <Label Text="00" FontSize="Medium" FontAttributes="Bold"/>
+                            <Label Text="{Binding minutesWatched}" FontSize="Medium" FontAttributes="Bold"/>
                         </StackLayout>
                         <StackLayout
                             Grid.Row="2"
                             Grid.Column="3"
                             HorizontalOptions="Center">
-                            <Label Text="days" FontSize="Micro"/>
+                            <Label Text="minutes" FontSize="Micro"/>
                         </StackLayout>
                     </Grid>
                 </Frame>
@@ -141,7 +141,7 @@
                         <StackLayout
                             Grid.Row="1"
                             HorizontalOptions="Center">
-                            <Label Text="00" FontSize="Medium" FontAttributes="Bold"/>
+                            <Label Text="{Binding TotalNbrEpisodesWatched}" FontSize="Medium" FontAttributes="Bold"/>
                         </StackLayout>
 
                     </Grid>

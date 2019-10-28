@@ -12,6 +12,7 @@
             <ListView
                 ItemsSource="{Binding SchedulesShows}"
                 IsGroupingEnabled="True"
+                SelectionMode="None"
                 GroupDisplayBinding="{Binding TitleDate}"
                 HasUnevenRows="True">
                 <ListView.ItemTemplate>

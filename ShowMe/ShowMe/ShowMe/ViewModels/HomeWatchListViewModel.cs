@@ -27,9 +27,12 @@ namespace ShowMe.ViewModels
             // Display only shows in progress
             foreach (MyShow ms in MyShows)
             {
-                if (!(Show.AreEpisodeDictionariesEqual(ms.LastEpisodeWatched, ms.LastEpisode)))
+                if (!(ms.LastEpisodeWatched == null))
                 {
-                    ShowsToDisplay.Add(ms);
+                    if (!(ms.LastEpisodeWatched.Equals(ms.LastEpisode)))
+                    {
+                        ShowsToDisplay.Add(ms);
+                    }
                 }
             }
         }        
@@ -38,12 +41,13 @@ namespace ShowMe.ViewModels
         /// Deals with the logic when an episode has been watched
         /// </summary>
         /// <param name="myShow">The MyShow whose episode has been watched</param>
-        public void IncrementEpisode(MyShow myShow)
+        public async void IncrementEpisode(MyShow myShow)
         {
-            Dictionary<string, int> newLEW = myShow.NextEpisode();
+            EpisodeSeason newLEW = myShow.NextEpisode();
             myShow.LastEpisodeWatched = newLEW;
             MyShowsCollection.ModifyShowInMyShows(myShow);
             MessagingCenter.Send<HomeWatchListViewModel, MyShow>(this, "IncrementEpisode", myShow);
+            await App.User.IncrementMinutestoTotalMinutesWatched(newLEW.Duration);
         }
 
         /// <summary>

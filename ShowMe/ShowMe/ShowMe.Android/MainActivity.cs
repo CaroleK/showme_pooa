@@ -6,6 +6,10 @@ using Android.Runtime;
 using Android.OS;
 using Xamarin.Auth;
 using Rg.Plugins.Popup.Services;
+using Android.Content;
+using Plugin.LocalNotifications;
+using Xamarin.Forms;
+using ShowMe.Views;
 
 namespace ShowMe.Droid
 {
@@ -26,8 +30,27 @@ namespace ShowMe.Droid
             CustomTabsConfiguration.CustomTabsClosingMessage = null;
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
 
-            LoadApplication(new App());   
+            LoadApplication(new App());
+
+            // Change notification icon
+            LocalNotificationsImplementation.NotificationIconId = Resource.Drawable.eye_icon_round;
+
+            // Once user is logged in
+            MessagingCenter.Subscribe<LoginPage>(this, "UserLoggedIn", (obj) =>
+            {
+                // Handle the periodic background task for notifications: 
+                // Every half-day, the application wakes up to check what are the upcoming shows and schedules notifications
+                var alarmIntent = new Intent(this, typeof(BackgroundReceiver));
+                alarmIntent.PutExtra("userId", App.User.Id);
+                var pending = PendingIntent.GetBroadcast(this, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
+
+                var alarmManager = GetSystemService(AlarmService).JavaCast<AlarmManager>();
+                alarmManager.SetInexactRepeating(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime() + 60 * 1000, AlarmManager.IntervalHalfDay, pending);
+            });
+            
         }
+
+       
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {

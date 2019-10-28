@@ -82,7 +82,7 @@ namespace ShowMe.Views
         private void AddShowPopUpClosed(object sender, PopUpArgs e)
         {
             //Add personnalized MyShow object to MyShowsCollection
-            myShow = new MyShow(this.viewModel.Show, false, true, new Dictionary<string, int> { { "episode", e.EpisodeInWatch }, { "season", e.SeasonInWatch } });
+            myShow = new MyShow(this.viewModel.Show, false, true, new EpisodeSeason(e.EpisodeInWatch, e.SeasonInWatch));
             viewModel.AddShowToMyShowsCollection(myShow);
 
             //Unsubscribe to event

@@ -48,7 +48,9 @@ namespace ShowMe.Views
         {
             if (PopUpClosed != null)
             {
-                PopUpClosed(this, new PopUpArgs() { SeasonInWatch = EnteredSeason.SelectedIndex + 1, EpisodeInWatch = EnteredEpisode.SelectedIndex +1 });
+                int seasonIndex = EnteredSeason.SelectedIndex;
+                int episodeIndex = EnteredEpisode.SelectedIndex;
+                PopUpClosed(this, new PopUpArgs() { SeasonInWatch = ((Season) EnteredSeason.ItemsSource[seasonIndex]).Number, EpisodeInWatch = ((Episode)EnteredEpisode.ItemsSource[episodeIndex]).Number });
             };
         }
 
