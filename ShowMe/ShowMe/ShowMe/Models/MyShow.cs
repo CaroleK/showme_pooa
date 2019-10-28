@@ -102,50 +102,16 @@ namespace ShowMe.Models
             Description = show.Description;
             Image = show.Image;
             LastEpisode = show.LastEpisode;
+            EpisodesList = show.EpisodesList;
+            SeasonsList = show.SeasonsList;
+            Cast = show.Cast;
 
             IsFavorite = isFavorite;
             MustNotify = mustNotify;
             LastEpisodeWatched = lastEpisodeWatched;
-            Task.Run(() => LoadEpisodes()).Wait();
-            Task.Run(() => LoadSeasons()).Wait();
-            Task.Run(() => LoadActors()).Wait();
-
-
+    
         }
 
-        public async Task LoadEpisodes()
-        {
-            TvMazeService service = new TvMazeService();
-        List<Episode> EpisodesList = await service.GetEpisodesListAsync(Id);
-            if (EpisodesList != null)
-            {
-                this.EpisodesList = EpisodesList;
-            }
-        }
-
-        public async Task LoadSeasons()
-        {
-            TvMazeService service = new TvMazeService();
-            List<Season> SeasonsList = await service.GetSeasonsListAsync(Id);
-            if (SeasonsList != null)
-            {
-                this.SeasonsList = SeasonsList;
-                foreach (Season s in SeasonsList)
-                {
-                    s.EpisodesOfSeason = this.EpisodesList.Where(e => e.Season == s.Number).ToList();
-                }
-            }
-        }
-
-        public async Task LoadActors()
-        {
-            TvMazeService service = new TvMazeService();
-            List<Actor> ActorsList = await service.GetCastAsync(Id);
-            if (ActorsList != null)
-            {
-                this.Cast = ActorsList;
-            }
-        }
         /// <summary>
         /// Finds the next episode to watch depending on this show's seasons list and episode list
         /// </summary>

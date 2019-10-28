@@ -28,20 +28,20 @@ namespace ShowMe.ViewModels
         public ShowDetailsViewModel(Show show = null) : base()
         {
             var s = MyShowsCollection.Instance;
-            if (s.Any(e => e.Id==show.Id))
+            if (s.Any(e => e.Id == show.Id))
             {
-                MyShow myshow = MyShowsCollection.Instance.First(e => e.Id == show.Id);
-                Title = myshow?.Title;
-                Show = myshow;
+                MyShow myShow = MyShowsCollection.Instance.First(e => e.Id == show.Id);
+                Title = myShow?.Title;
+                Show = myShow;
             }
             else
             {
                 Title = show?.Title;
                 Show = show;
+                Task.Run(() => LoadEpisodes()).Wait();
+                Task.Run(() => LoadSeasons()).Wait();
+                Task.Run(() => LoadActors()).Wait();
             }
-            Task.Run(() => LoadEpisodes()).Wait();
-            Task.Run(() => LoadSeasons()).Wait();
-            Task.Run(() => LoadActors()).Wait();
 
         }
 
