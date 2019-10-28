@@ -3,6 +3,7 @@ using ShowMe.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,10 +14,23 @@ namespace ShowMe.ViewModels
     public class HomeWatchListViewModel : ContentPage
     {
         public TvMazeService service = new TvMazeService();
-        public FireBaseHelper MyFireBaseHelper = new FireBaseHelper(); 
+        public FireBaseHelper MyFireBaseHelper = new FireBaseHelper();
         public ObservableCollection<MyShow> ShowsToDisplay { get; set; } = new ObservableCollection<MyShow>();
+
+        private bool _isEmptyShowsToDisplay;
+
+        public bool isEmptyShowsToDisplay { get {return _isEmptyShowsToDisplay; } set {
+                _isEmptyShowsToDisplay = value;  OnPropertyChanged(); }
+            } 
+
         public HomeWatchListViewModel()
         {
+            ShowsToDisplay.CollectionChanged += OnShowsToDisplayChanged;
+        }
+
+        private void OnShowsToDisplayChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            isEmptyShowsToDisplay = (ShowsToDisplay.Count() > 0) ? false : true;
         }
 
         public void Init()
