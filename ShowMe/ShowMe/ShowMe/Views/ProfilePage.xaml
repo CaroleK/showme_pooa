@@ -141,7 +141,7 @@
                         <StackLayout
                             Grid.Row="1"
                             HorizontalOptions="Center">
-                            <Label Text="00" FontSize="Medium" FontAttributes="Bold"/>
+                            <Label Text="{Binding TotalNbrEpisodesWatched}" FontSize="Medium" FontAttributes="Bold"/>
                         </StackLayout>
 
                     </Grid>

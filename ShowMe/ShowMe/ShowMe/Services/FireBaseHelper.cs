@@ -74,13 +74,22 @@ namespace ShowMe.Services
               .PutAsync(user);
         }
 
-        static public async Task ModifyUser(string userId, int TotalMinutesWatched)
+        static public async Task ModifyMinutesWatchedUser(string userId, int TotalMinutesWatched)
         {
             await Myfirebase
               .Child("Users")
               .Child(userId)
               .Child("TotalMinutesWatched")
               .PutAsync(TotalMinutesWatched);
+        }
+
+        static public async Task ModifyNbrEpisodesWatchedUser(string userId, int TotalNbrEpisodesWatched)
+        {
+            await Myfirebase
+              .Child("Users")
+              .Child(userId)
+              .Child("TotalNbrEpisodesWatched")
+              .PutAsync(TotalNbrEpisodesWatched);
         }
 
         static public async Task AddShowToUserList(string UserId, MyShow selectedShow)
@@ -91,6 +100,7 @@ namespace ShowMe.Services
               .Child(selectedShow.Title)
               .PutAsync(selectedShow);
         }
+
 
         static public async Task<List<MyShow>> GetUserShowList(string userId)
         {

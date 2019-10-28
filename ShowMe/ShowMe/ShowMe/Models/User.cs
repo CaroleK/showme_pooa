@@ -49,10 +49,16 @@ namespace ShowMe.Models
 
         public int  TotalMinutesWatched { get; set; }
 
-        public async Task AddMinutestoTotalMinutesWatched(Dictionary<string,int> lastEpisodeWatched, List<Season> seasonsList)
+
+
+        public async Task AddMinutestoTotalMinutesWatched(EpisodeSeason lastEpisodeWatched, List<Season> seasonsList)
         {
-            int lastSeasonNumber = lastEpisodeWatched["season"];
-            int lastEpisodeNumber = lastEpisodeWatched["episode"];
+
+            TotalMinutesWatched = App.User.TotalMinutesWatched;
+            TotalNbrEpisodesWatched = App.User.TotalNbrEpisodesWatched;
+
+            int lastSeasonNumber = lastEpisodeWatched.SeasonNumber;
+            int lastEpisodeNumber = lastEpisodeWatched.EpisodeNumber;
             
             for (int i=1; i<lastSeasonNumber; i++)
             {
@@ -60,6 +66,7 @@ namespace ShowMe.Models
                 foreach (Episode episode in seasonsList[index].EpisodesOfSeason)
                 {
                     TotalMinutesWatched += episode.DurationInMinutes;
+                    TotalNbrEpisodesWatched += 1;
                 }
 
             }
@@ -70,8 +77,21 @@ namespace ShowMe.Models
                 TotalMinutesWatched += seasonsList[indexSeason].EpisodesOfSeason[index].DurationInMinutes;
             }
 
-            await FireBaseHelper.ModifyUser(Id, TotalMinutesWatched);
+            await FireBaseHelper.ModifyMinutesWatchedUser(Id, TotalMinutesWatched);
+            await FireBaseHelper.ModifyNbrEpisodesWatchedUser(Id, TotalNbrEpisodesWatched);
         }
+
+        public async Task IncrementMinutestoTotalMinutesWatched(int Duration)
+        {
+
+            TotalMinutesWatched = App.User.TotalMinutesWatched;
+            TotalNbrEpisodesWatched = App.User.TotalNbrEpisodesWatched;
+            TotalMinutesWatched += Duration;
+            TotalNbrEpisodesWatched += 1;
+            await FireBaseHelper.ModifyMinutesWatchedUser(Id, TotalMinutesWatched);
+            await FireBaseHelper.ModifyNbrEpisodesWatchedUser(Id, TotalNbrEpisodesWatched);
+        }
+
     }
 }
 

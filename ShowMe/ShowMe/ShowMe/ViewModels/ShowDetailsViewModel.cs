@@ -99,6 +99,7 @@ namespace ShowMe.ViewModels
             await FireBaseHelper.AddShowToUserList(App.User.Id, myShowToAdd);
 
             if (myShowToAdd.LastEpisodeWatched != null){
+                
                 await App.User.AddMinutestoTotalMinutesWatched(myShowToAdd.LastEpisodeWatched,myShowToAdd.SeasonsList);
             }
 

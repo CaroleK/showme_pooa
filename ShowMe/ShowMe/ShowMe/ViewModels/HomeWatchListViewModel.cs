@@ -38,12 +38,13 @@ namespace ShowMe.ViewModels
         /// Deals with the logic when an episode has been watched
         /// </summary>
         /// <param name="myShow">The MyShow whose episode has been watched</param>
-        public void IncrementEpisode(MyShow myShow)
+        public async void IncrementEpisode(MyShow myShow)
         {
             EpisodeSeason newLEW = myShow.NextEpisode();
             myShow.LastEpisodeWatched = newLEW;
             MyShowsCollection.ModifyShowInMyShows(myShow);
             MessagingCenter.Send<HomeWatchListViewModel, MyShow>(this, "IncrementEpisode", myShow);
+            await App.User.IncrementMinutestoTotalMinutesWatched(newLEW.Duration);
         }
 
         /// <summary>

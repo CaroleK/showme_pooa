@@ -113,9 +113,21 @@ namespace ShowMe.Models
         public EpisodeSeason NextEpisode()
         {
             EpisodeSeason currentLEW = this.LastEpisodeWatched;
+            List<Season> seasonsList = this.SeasonsList;
+
+            TvMazeService service = new TvMazeService();
+            EpisodeSeason newLEW = new EpisodeSeason(1, 1);
+
+            if (seasonsList == null)
+            {
+                return null;
+            }
             if (currentLEW == null)
             {
-                return new EpisodeSeason(1, 1);
+                int indexSeason = seasonsList.FindIndex(s => s.Number == 1);
+                int indexEpisode = seasonsList[indexSeason].EpisodesOfSeason.FindIndex(s => s.Number == 1);
+                newLEW.Duration = seasonsList[indexSeason].EpisodesOfSeason[indexEpisode].DurationInMinutes;
+                return newLEW;
             }
             else if (currentLEW.Equals(this.LastEpisode))
             {
@@ -123,21 +135,25 @@ namespace ShowMe.Models
             }
             else
             {
-                TvMazeService service = new TvMazeService();
-                EpisodeSeason newLEW = new EpisodeSeason(1,1);
-                List<Season> seasonsList = Task.Run(() => service.GetSeasonsListAsync(this.Id)).Result;
-                if (seasonsList == null)
-                {
-                    return null;
-                }
+                int lastSeasonNumber = this.LastEpisodeWatched.SeasonNumber;
+                int lastEpisodeNumber = this.LastEpisodeWatched.EpisodeNumber;
+
                 if (currentLEW.EpisodeNumber == Season.FindSeasonBySeasonNumber(seasonsList, currentLEW.SeasonNumber).NumberOfEpisodes)
                 {
+
+                    int indexSeason = seasonsList.FindIndex(s => s.Number == currentLEW.SeasonNumber + 1);
+                    int indexEpisode = seasonsList[indexSeason].EpisodesOfSeason.FindIndex(s => s.Number == 1);
                     newLEW.SeasonNumber = currentLEW.SeasonNumber + 1;
+                    newLEW.Duration = seasonsList[indexSeason].EpisodesOfSeason[indexEpisode].DurationInMinutes;
                 }
                 else
                 {
+
+                    int indexSeason = seasonsList.FindIndex(s => s.Number == currentLEW.SeasonNumber);
+                    int indexEpisode = seasonsList[indexSeason].EpisodesOfSeason.FindIndex(s => s.Number == currentLEW.EpisodeNumber + 1);
                     newLEW.SeasonNumber = currentLEW.SeasonNumber;
                     newLEW.EpisodeNumber = currentLEW.EpisodeNumber + 1;
+                    newLEW.Duration = seasonsList[indexSeason].EpisodesOfSeason[indexEpisode].DurationInMinutes;
                 }
 
                 return newLEW;
