@@ -4,7 +4,9 @@ using Rg.Plugins.Popup.Services;
 using ShowMe.Models;
 using ShowMe.ViewModels;
 using Xamarin.Forms;
+using System.Threading;
 using Xamarin.Forms.Xaml;
+using System.Threading.Tasks;
 
 namespace ShowMe.Views
 {
@@ -37,7 +39,8 @@ namespace ShowMe.Views
             else
             {
                 await PopupNavigation.Instance.PopAsync();
-                OnPopUpClosed();
+
+                Task.Run(() => OnPopUpClosed()).Wait();
             }
         }
 
