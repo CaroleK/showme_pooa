@@ -81,6 +81,7 @@ namespace ShowMe.ViewModels
             // Fetch the last episode for this show, now that we're adding it to MyShows list we'll need this attribute
             myShowToAdd.LastEpisode = await service.GetLastEpisodeInShow(myShowToAdd.Id);
 
+            //Update Show attribute to update UI with OnPropertyChanged
             this.Show = myShowToAdd;
 
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", myShowToAdd);

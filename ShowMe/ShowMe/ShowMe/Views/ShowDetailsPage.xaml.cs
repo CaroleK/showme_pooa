@@ -7,8 +7,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Rg.Plugins.Popup.Services;
 using static ShowMe.Views.AddShowPopUp;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace ShowMe.Views
 {
@@ -19,7 +17,6 @@ namespace ShowMe.Views
         ShowDetailsViewModel viewModel;
         MyShow myShow = null;
         AddShowPopUp _addShowPopUpPage;
-        SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
         /// <summary>
         /// UI Page that shows to the user all the details of a Show (in 2 tabs called About and Episodes) 
@@ -55,14 +52,11 @@ namespace ShowMe.Views
         /// </summary>
         async void OnClickAddToMyShows(object sender, EventArgs e)
         {
-            
-
             //First pop-up
             bool userStartedWatchingShow = await DisplayAlert("Show added to your list!", "Did you start watching this show?", "Yes", "No");
             
             if (userStartedWatchingShow)
             {
-                await semaphoreSlim.WaitAsync();
                 _addShowPopUpPage = new AddShowPopUp(this.viewModel);
                 //Subscribe to event AddShowPopUpClosed before pushing addShowPopUpPage
                 _addShowPopUpPage.PopUpClosed += AddShowPopUpClosed;
@@ -72,24 +66,14 @@ namespace ShowMe.Views
                 //Add standard MyShow object with status "Not started watching" to MyShowsCollection
                 myShow = new MyShow(this.viewModel.Show, false, true, null);
                 viewModel.AddShowToMyShowsCollection(myShow);
-                viewModel.Show = myShow;
             };
-            //await semaphoreSlim.WaitAsync();
-            try
-            {
-                
-                Btn_AddToMyShows.IsVisible = false;
-                Btn_Favorite.IsVisible = true;
-                Btn_Notification.IsVisible = true;
-                Btn_DeleteFromMyShows.IsVisible = true;
-                DisplayLastEpisode.IsVisible = true;
-                Btn_EditLastEpisodeWatched.IsVisible = true;
-                DependencyService.Get<IMessage>().Show("Show added to your list");
-            }
-            finally
-            {
-                //semaphoreSlim.Release();
-            }
+            Btn_AddToMyShows.IsVisible = false;
+            Btn_Favorite.IsVisible = true;
+            Btn_Notification.IsVisible = true;
+            Btn_DeleteFromMyShows.IsVisible = true;
+            DisplayLastEpisode.IsVisible = true;
+            Btn_EditLastEpisodeWatched.IsVisible = true;
+            DependencyService.Get<IMessage>().Show("Show added to your list");
         }
 
         /// <summary>
@@ -103,9 +87,6 @@ namespace ShowMe.Views
 
             //Unsubscribe to event
             _addShowPopUpPage.PopUpClosed -= AddShowPopUpClosed;
-
-            //semaphoreSlim.Release();
-
         }
 
 
