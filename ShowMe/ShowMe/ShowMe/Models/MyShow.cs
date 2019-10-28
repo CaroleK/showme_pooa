@@ -108,6 +108,7 @@ namespace ShowMe.Models
             LastEpisodeWatched = lastEpisodeWatched;
             Task.Run(() => LoadEpisodes()).Wait();
             Task.Run(() => LoadSeasons()).Wait();
+            Task.Run(() => LoadActors()).Wait();
 
 
         }
@@ -133,6 +134,16 @@ namespace ShowMe.Models
                 {
                     s.EpisodesOfSeason = this.EpisodesList.Where(e => e.Season == s.Number).ToList();
                 }
+            }
+        }
+
+        public async Task LoadActors()
+        {
+            TvMazeService service = new TvMazeService();
+            List<Actor> ActorsList = await service.GetCastAsync(Id);
+            if (ActorsList != null)
+            {
+                this.Cast = ActorsList;
             }
         }
         /// <summary>

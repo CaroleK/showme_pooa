@@ -65,7 +65,7 @@ namespace ShowMe.Views
                 await semaphoreSlim.WaitAsync();
                 _addShowPopUpPage = new AddShowPopUp(this.viewModel);
                 //Subscribe to event AddShowPopUpClosed before pushing addShowPopUpPage
-                _addShowPopUpPage.PopUpClosed += async (send, ev) => await Task.Run(()=>AddShowPopUpClosed(send, ev));
+                _addShowPopUpPage.PopUpClosed += AddShowPopUpClosed;
                 await PopupNavigation.Instance.PushAsync(_addShowPopUpPage);
             }
             else {
@@ -73,16 +73,8 @@ namespace ShowMe.Views
                 myShow = new MyShow(this.viewModel.Show, false, true, null);
                 viewModel.AddShowToMyShowsCollection(myShow);
                 viewModel.Show = myShow;
-
-                //Adapt UI
-                //Btn_AddToMyShows.IsVisible = false;
-                //Btn_Favorite.IsVisible = true;
-                //Btn_Notification.IsVisible = true;
-                //Btn_DeleteFromMyShows.IsVisible = true;
-                //DisplayLastEpisode.IsVisible = true;
-                //Btn_EditLastEpisodeWatched.IsVisible = true;
             };
-            await semaphoreSlim.WaitAsync();
+            //await semaphoreSlim.WaitAsync();
             try
             {
                 
@@ -96,7 +88,7 @@ namespace ShowMe.Views
             }
             finally
             {
-                semaphoreSlim.Release();
+                //semaphoreSlim.Release();
             }
         }
 
@@ -108,19 +100,11 @@ namespace ShowMe.Views
             //Add personnalized MyShow object to MyShowsCollection
             myShow = new MyShow(this.viewModel.Show, false, true, new Dictionary<string, int> { { "episode", e.EpisodeInWatch }, { "season", e.SeasonInWatch } });
             viewModel.AddShowToMyShowsCollection(myShow);
-           
-            //Adapt UI
-            //Btn_AddToMyShows.IsVisible = false;
-            //Btn_Favorite.IsVisible = true;
-            //Btn_Notification.IsVisible = true;
-            //Btn_DeleteFromMyShows.IsVisible = true;
-            //DisplayLastEpisode.IsVisible = true;
-            //Btn_EditLastEpisodeWatched.IsVisible = true;
 
             //Unsubscribe to event
             _addShowPopUpPage.PopUpClosed -= AddShowPopUpClosed;
 
-            semaphoreSlim.Release();
+            //semaphoreSlim.Release();
 
         }
 
