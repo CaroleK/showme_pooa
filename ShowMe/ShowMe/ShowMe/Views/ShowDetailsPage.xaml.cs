@@ -66,6 +66,7 @@ namespace ShowMe.Views
                 //Add standard MyShow object with status "Not started watching" to MyShowsCollection
                 myShow = new MyShow(this.viewModel.Show, false, true, null);
                 viewModel.AddShowToMyShowsCollection(myShow);
+                viewModel.Show = myShow;
                 
                 //Adapt UI
                 Btn_AddToMyShows.IsVisible = false;

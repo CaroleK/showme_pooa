@@ -3,6 +3,7 @@ using ShowMe.Services;
 using ShowMe.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace ShowMe.Models
     /// </summary>
     public class MyShow : Show
     {
+        
         [JsonProperty("IsFavorite")]
         public bool IsFavorite { get; set; }
         
@@ -103,9 +105,36 @@ namespace ShowMe.Models
 
             IsFavorite = isFavorite;
             MustNotify = mustNotify;
-            LastEpisodeWatched = lastEpisodeWatched; 
+            LastEpisodeWatched = lastEpisodeWatched;
+            Task.Run(() => LoadEpisodes()).Wait();
+            Task.Run(() => LoadSeasons()).Wait();
+
+
         }
 
+        public async Task LoadEpisodes()
+        {
+            TvMazeService service = new TvMazeService();
+        List<Episode> EpisodesList = await service.GetEpisodesListAsync(Id);
+            if (EpisodesList != null)
+            {
+                this.EpisodesList = EpisodesList;
+            }
+        }
+
+        public async Task LoadSeasons()
+        {
+            TvMazeService service = new TvMazeService();
+            List<Season> SeasonsList = await service.GetSeasonsListAsync(Id);
+            if (SeasonsList != null)
+            {
+                this.SeasonsList = SeasonsList;
+                foreach (Season s in SeasonsList)
+                {
+                    s.EpisodesOfSeason = this.EpisodesList.Where(e => e.Season == s.Number).ToList();
+                }
+            }
+        }
         /// <summary>
         /// Finds the next episode to watch depending on this show's seasons list and episode list
         /// </summary>
