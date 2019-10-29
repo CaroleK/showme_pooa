@@ -28,20 +28,20 @@ namespace ShowMe.ViewModels
         public ShowDetailsViewModel(Show show = null) : base()
         {
             var s = MyShowsCollection.Instance;
-            if (s.Any(e => e.Id==show.Id))
+            if (s.Any(e => e.Id == show.Id))
             {
-                MyShow myshow = MyShowsCollection.Instance.First(e => e.Id == show.Id);
-                Title = myshow?.Title;
-                Show = myshow;
+                MyShow myShow = MyShowsCollection.Instance.First(e => e.Id == show.Id);
+                Title = myShow?.Title;
+                Show = myShow;
             }
             else
             {
                 Title = show?.Title;
                 Show = show;
+                Task.Run(() => LoadEpisodes()).Wait();
+                Task.Run(() => LoadSeasons()).Wait();
+                Task.Run(() => LoadActors()).Wait();
             }
-            Task.Run(() => LoadEpisodes()).Wait();
-            Task.Run(() => LoadSeasons()).Wait();
-            Task.Run(() => LoadActors()).Wait();
 
         }
 
@@ -90,6 +90,9 @@ namespace ShowMe.ViewModels
 
             EpisodeSeason lastEpisode = new EpisodeSeason(maxSeason.EpisodesOfSeason.Max(e => e.Number), maxSeason.Number);
             myShowToAdd.LastEpisode = lastEpisode; 
+            
+            //Update Show attribute to update UI with OnPropertyChanged
+            this.Show = myShowToAdd;
 
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", myShowToAdd);
 
@@ -97,6 +100,11 @@ namespace ShowMe.ViewModels
 
             //TODO : change method to not async by subscribing FBHelper
             await FireBaseHelper.AddShowToUserList(App.User.Id, myShowToAdd);
+
+            if (myShowToAdd.LastEpisodeWatched != null){
+                
+                await App.User.AddMinutestoTotalMinutesWatched(myShowToAdd.LastEpisodeWatched,myShowToAdd.SeasonsList);
+            }
 
         }
 

@@ -3,6 +3,7 @@ using ShowMe.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,10 +14,23 @@ namespace ShowMe.ViewModels
     public class HomeWatchListViewModel : ContentPage
     {
         public TvMazeService service = new TvMazeService();
-        public FireBaseHelper MyFireBaseHelper = new FireBaseHelper(); 
+        public FireBaseHelper MyFireBaseHelper = new FireBaseHelper();
         public ObservableCollection<MyShow> ShowsToDisplay { get; set; } = new ObservableCollection<MyShow>();
+
+        private bool _isEmptyShowsToDisplay;
+
+        public bool isEmptyShowsToDisplay { get {return _isEmptyShowsToDisplay; } set {
+                _isEmptyShowsToDisplay = value;  OnPropertyChanged(); }
+            } 
+
         public HomeWatchListViewModel()
         {
+            ShowsToDisplay.CollectionChanged += OnShowsToDisplayChanged;
+        }
+
+        private void OnShowsToDisplayChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            isEmptyShowsToDisplay = (ShowsToDisplay.Count() > 0) ? false : true;
         }
 
         public void Init()
@@ -32,8 +46,9 @@ namespace ShowMe.ViewModels
                     ShowsToDisplay.Add(ms);
                 }
                 else if ((ms.LastEpisodeWatched != null) && !(ms.LastEpisodeWatched.Equals(ms.LastEpisode)))
-                {
-                    ShowsToDisplay.Add(ms);
+                    {
+                        ShowsToDisplay.Add(ms);
+                    }
                 }
             }
         }        
@@ -42,12 +57,13 @@ namespace ShowMe.ViewModels
         /// Deals with the logic when an episode has been watched
         /// </summary>
         /// <param name="myShow">The MyShow whose episode has been watched</param>
-        public void IncrementEpisode(MyShow myShow)
+        public async void IncrementEpisode(MyShow myShow)
         {
             EpisodeSeason newLEW = myShow.NextEpisode();
             myShow.LastEpisodeWatched = newLEW;
             MyShowsCollection.ModifyShowInMyShows(myShow);
             MessagingCenter.Send<HomeWatchListViewModel, MyShow>(this, "IncrementEpisode", myShow);
+            await App.User.IncrementMinutestoTotalMinutesWatched(newLEW.Duration);
         }
 
         /// <summary>

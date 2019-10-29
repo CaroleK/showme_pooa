@@ -66,15 +66,13 @@ namespace ShowMe.Views
                 //Add standard MyShow object with status "Not started watching" to MyShowsCollection
                 myShow = new MyShow(this.viewModel.Show, false, true, null);
                 viewModel.AddShowToMyShowsCollection(myShow);
-                
-                //Adapt UI
-                Btn_AddToMyShows.IsVisible = false;
-                Btn_Favorite.IsVisible = true;
-                Btn_Notification.IsVisible = true;
-                Btn_DeleteFromMyShows.IsVisible = true;
-                DisplayLastEpisode.IsVisible = true;
-                Btn_EditLastEpisodeWatched.IsVisible = true;
             };
+            Btn_AddToMyShows.IsVisible = false;
+            Btn_Favorite.IsVisible = true;
+            Btn_Notification.IsVisible = true;
+            Btn_DeleteFromMyShows.IsVisible = true;
+            DisplayLastEpisode.IsVisible = true;
+            Btn_EditLastEpisodeWatched.IsVisible = true;
             DependencyService.Get<IMessage>().Show("Show added to your list");
         }
 
@@ -86,18 +84,9 @@ namespace ShowMe.Views
             //Add personnalized MyShow object to MyShowsCollection
             myShow = new MyShow(this.viewModel.Show, false, true, new EpisodeSeason(e.EpisodeInWatch, e.SeasonInWatch));
             viewModel.AddShowToMyShowsCollection(myShow);
-           
-            //Adapt UI
-            Btn_AddToMyShows.IsVisible = false;
-            Btn_Favorite.IsVisible = true;
-            Btn_Notification.IsVisible = true;
-            Btn_DeleteFromMyShows.IsVisible = true;
-            DisplayLastEpisode.IsVisible = true;
-            Btn_EditLastEpisodeWatched.IsVisible = true;
 
             //Unsubscribe to event
             _addShowPopUpPage.PopUpClosed -= AddShowPopUpClosed;
-
         }
 
 

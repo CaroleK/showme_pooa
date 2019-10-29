@@ -4,7 +4,9 @@ using Rg.Plugins.Popup.Services;
 using ShowMe.Models;
 using ShowMe.ViewModels;
 using Xamarin.Forms;
+using System.Threading;
 using Xamarin.Forms.Xaml;
+using System.Threading.Tasks;
 
 namespace ShowMe.Views
 {
@@ -37,7 +39,8 @@ namespace ShowMe.Views
             else
             {
                 await PopupNavigation.Instance.PopAsync();
-                OnPopUpClosed();
+
+                Task.Run(() => OnPopUpClosed()).Wait();
             }
         }
 
@@ -54,7 +57,11 @@ namespace ShowMe.Views
         public void OnSeasonValueSelected(object sender, EventArgs e)
         {
             //Method called every time Season picker selection is changed.
-            EnteredEpisode.ItemsSource = ((Season) EnteredSeason.SelectedItem).EpisodesOfSeason;
+            if (!(EnteredSeason.SelectedItem == null))
+            {
+                EnteredEpisode.ItemsSource = ((Season)EnteredSeason.SelectedItem).EpisodesOfSeason;
+            }
+            
         }
     }
 }

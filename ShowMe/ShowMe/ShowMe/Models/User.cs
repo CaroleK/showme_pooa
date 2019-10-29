@@ -1,7 +1,11 @@
 ﻿using Newtonsoft.Json;
+using ShowMe.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Xamarin.Forms.Internals;
 
 namespace ShowMe.Models
 {
@@ -37,6 +41,57 @@ namespace ShowMe.Models
 
         [JsonProperty("gender")]
         public string Gender { get; set; }
+
+        /// <summary>
+        /// Statistics parameters displays in the profile page
+        /// </summary>
+        public int TotalNbrEpisodesWatched { get; set; }
+
+        public int  TotalMinutesWatched { get; set; }
+
+
+
+        public async Task AddMinutestoTotalMinutesWatched(EpisodeSeason lastEpisodeWatched, List<Season> seasonsList)
+        {
+
+            TotalMinutesWatched = App.User.TotalMinutesWatched;
+            TotalNbrEpisodesWatched = App.User.TotalNbrEpisodesWatched;
+
+            int lastSeasonNumber = lastEpisodeWatched.SeasonNumber;
+            int lastEpisodeNumber = lastEpisodeWatched.EpisodeNumber;
+            
+            for (int i=1; i<lastSeasonNumber; i++)
+            {
+                int index = seasonsList.IndexOf(seasonsList.First(s => s.Number == i));
+                foreach (Episode episode in seasonsList[index].EpisodesOfSeason)
+                {
+                    TotalMinutesWatched += episode.DurationInMinutes;
+                    TotalNbrEpisodesWatched += 1;
+                }
+
+            }
+            int indexSeason = seasonsList.IndexOf(seasonsList.First(s => s.Number == lastSeasonNumber));
+            for (int i=1; i<lastEpisodeNumber+1; i++)
+            {
+                int index = seasonsList[indexSeason].EpisodesOfSeason.IndexOf(seasonsList[indexSeason].EpisodesOfSeason.First(e => e.Number == i));
+                TotalMinutesWatched += seasonsList[indexSeason].EpisodesOfSeason[index].DurationInMinutes;
+            }
+
+            await FireBaseHelper.ModifyMinutesWatchedUser(Id, TotalMinutesWatched);
+            await FireBaseHelper.ModifyNbrEpisodesWatchedUser(Id, TotalNbrEpisodesWatched);
+        }
+
+        public async Task IncrementMinutestoTotalMinutesWatched(int Duration)
+        {
+
+            TotalMinutesWatched = App.User.TotalMinutesWatched;
+            TotalNbrEpisodesWatched = App.User.TotalNbrEpisodesWatched;
+            TotalMinutesWatched += Duration;
+            TotalNbrEpisodesWatched += 1;
+            await FireBaseHelper.ModifyMinutesWatchedUser(Id, TotalMinutesWatched);
+            await FireBaseHelper.ModifyNbrEpisodesWatchedUser(Id, TotalNbrEpisodesWatched);
+        }
+
     }
 }
 

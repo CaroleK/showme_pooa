@@ -8,7 +8,10 @@
              NavigationPage.HasNavigationBar="false"
              x:Class="ShowMe.Views.HomeWatchListPage">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+            <Label x:Name ="IntroductionText" Text="Click on the Discover tab to start adding shows to your list !" Margin="20" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" 
+                   FontSize="Large" FontAttributes="Italic" IsVisible="{Binding isEmptyShowsToDisplay}" ></Label>
+            <StackLayout>
 
             <ListView
                 x:Name="MyShowsListView"
@@ -79,7 +82,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-
-        </StackLayout>
+                </StackLayout>
+                </StackLayout>
     </ContentPage.Content>
 </ContentPage>
