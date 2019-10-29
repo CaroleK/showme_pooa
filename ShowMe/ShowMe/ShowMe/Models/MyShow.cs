@@ -129,8 +129,12 @@ namespace ShowMe.Models
             }
             if (currentLEW == null)
             {
-                int indexSeason = seasonsList.FindIndex(s => s.Number == 1);
-                int indexEpisode = seasonsList[indexSeason].EpisodesOfSeason.FindIndex(s => s.Number == 1);
+                int minSeason = seasonsList.Min(s => s.Number);
+                int indexSeason = seasonsList.FindIndex(season => season.Number == minSeason);
+                int minEpisode = seasonsList[indexSeason].EpisodesOfSeason.Min(e => e.Number);
+                int indexEpisode = seasonsList[indexSeason].EpisodesOfSeason.FindIndex(episode => episode.Number == minEpisode);
+                newLEW.EpisodeNumber = minEpisode;
+                newLEW.SeasonNumber = minSeason;
                 newLEW.Duration = seasonsList[indexSeason].EpisodesOfSeason[indexEpisode].DurationInMinutes;
                 return newLEW;
             }
@@ -147,8 +151,10 @@ namespace ShowMe.Models
                 {
 
                     int indexSeason = seasonsList.FindIndex(s => s.Number == currentLEW.SeasonNumber + 1);
-                    int indexEpisode = seasonsList[indexSeason].EpisodesOfSeason.FindIndex(s => s.Number == 1);
+                    int minEpisode = seasonsList[indexSeason].EpisodesOfSeason.Min(e => e.Number);
+                    int indexEpisode = seasonsList[indexSeason].EpisodesOfSeason.FindIndex(e => e.Number == minEpisode);
                     newLEW.SeasonNumber = currentLEW.SeasonNumber + 1;
+                    newLEW.EpisodeNumber = minEpisode; 
                     newLEW.Duration = seasonsList[indexSeason].EpisodesOfSeason[indexEpisode].DurationInMinutes;
                 }
                 else
