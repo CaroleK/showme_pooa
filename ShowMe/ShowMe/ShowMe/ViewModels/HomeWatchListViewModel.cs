@@ -27,7 +27,11 @@ namespace ShowMe.ViewModels
             // Display only shows in progress
             foreach (MyShow ms in MyShows)
             {
-                if (!(ms.LastEpisodeWatched.Equals(ms.LastEpisode)))
+                if (ms.LastEpisodeWatched == null)
+                {
+                    ShowsToDisplay.Add(ms);
+                }
+                else if ((ms.LastEpisodeWatched != null) && !(ms.LastEpisodeWatched.Equals(ms.LastEpisode)))
                 {
                     ShowsToDisplay.Add(ms);
                 }
