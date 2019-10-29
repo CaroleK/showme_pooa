@@ -46,9 +46,8 @@ namespace ShowMe.ViewModels
                     ShowsToDisplay.Add(ms);
                 }
                 else if ((ms.LastEpisodeWatched != null) && !(ms.LastEpisodeWatched.Equals(ms.LastEpisode)))
-                    {
+                {
                         ShowsToDisplay.Add(ms);
-                    }
                 }
             }
         }        
