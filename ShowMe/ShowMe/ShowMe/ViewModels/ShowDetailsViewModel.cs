@@ -60,6 +60,7 @@ namespace ShowMe.ViewModels
             if (SeasonsList != null)
             {
                 this.Show.SeasonsList = SeasonsList;
+                // Add relevant episodes to the season's episodes list
                 foreach (Season s in SeasonsList)
                 {
                     s.EpisodesOfSeason = this.Show.EpisodesList.Where(e => e.Season == s.Number).ToList();
@@ -79,26 +80,31 @@ namespace ShowMe.ViewModels
         public async void AddShowToMyShowsCollection(MyShow myShowToAdd)
         {
             // Find the last episode for this show, now that we're adding it to MyShows list we'll need this attribute
+            // First find the max season with episodes in it
             Season maxSeason = null; 
             foreach (Season season in this.Show.SeasonsList)
             {
                 if ((maxSeason == null) || (season.Number > maxSeason.Number))
                 {
-                    maxSeason = season;
+                    if ((season.EpisodesOfSeason != null) && (season.EpisodesOfSeason.Count > 0))
+                    {
+                        maxSeason = season;
+                    }                    
                 }
             }
 
+            // Then find max episode in max season
             EpisodeSeason lastEpisode = new EpisodeSeason(maxSeason.EpisodesOfSeason.Max(e => e.Number), maxSeason.Number);
             myShowToAdd.LastEpisode = lastEpisode; 
             
-            //Update Show attribute to update UI with OnPropertyChanged
+            // Update Show attribute to update UI with OnPropertyChanged
             this.Show = myShowToAdd;
 
             MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", myShowToAdd);
 
             MyShowsCollection.AddToMyShows(myShowToAdd);
 
-            //TODO : change method to not async by subscribing FBHelper
+            // TODO : change method to not async by subscribing FBHelper
             await FireBaseHelper.AddShowToUserList(App.User.Id, myShowToAdd);
 
             if (myShowToAdd.LastEpisodeWatched != null){
@@ -114,7 +120,7 @@ namespace ShowMe.ViewModels
             
             MyShowsCollection.RemoveFromMyShows(myShowToDelete);
 
-            //TODO : change method to not async by subscribing FBHelper
+            // TODO : change method to not async by subscribing FBHelper
             await FireBaseHelper.DeleteShowFromUserList(App.User.Id, myShowToDelete);
 
         }
