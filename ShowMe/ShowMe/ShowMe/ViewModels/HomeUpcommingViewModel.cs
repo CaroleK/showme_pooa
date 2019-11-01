@@ -41,12 +41,9 @@ namespace ShowMe.ViewModels
         public async Task ExecuteUpCommingCommand()
         {
             DateTime DateTime = DateTime.Now;
-            int day = DateTime.Day;
-            int month = DateTime.Month;
-            int year = DateTime.Year;
-            string dateTimeToday = year + "-" + month + "-" + day;
-            string dateTimeTomorrow = year + "-" + month + "-" + (day+1);
-            string dateTimeAfterTomorrow = year + "-" + month + "-" + (day+2);
+            string dateTimeToday = DateTime.ToString("yyyy-MM-dd");
+            string dateTimeTomorrow = DateTime.AddDays(1).ToString("yyyy-MM-dd");
+            string dateTimeAfterTomorrow = DateTime.AddDays(2).ToString("yyyy-MM-dd");
             // Choice made to focus on US region because of the API's data 
             string regionISO = "US";
 

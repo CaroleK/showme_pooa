@@ -52,8 +52,8 @@ namespace ShowMe.Services
             CrossLocalNotifications.Current.Show("debug", "Woke up at " + DateTime.ToShortTimeString(), 0, DateTime);
 
             // We check what's on TV tomorrow and in two days, to be able to schedule notifications 24h before
-            string dateTimeTomorrow = DateTime.Year + "-" + DateTime.Month + "-" + (DateTime.Day + 1);
-            string dateTimeAfterTomorrow = DateTime.Year + "-" + DateTime.Month + "-" + (DateTime.Day + 2);
+            string dateTimeTomorrow = DateTime.AddDays(1).ToString("yyyy-MM-dd");
+            string dateTimeAfterTomorrow = DateTime.AddDays(2).ToString("yyyy-MM-dd");
 
             // Choice made to focus on US region because of the API's data 
             string regionISO = "US";
