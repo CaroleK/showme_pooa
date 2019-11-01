@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using ShowMe.Views;
 using ShowMe.Models;
+using Xamarin.Essentials;
 
 namespace ShowMe
 {
@@ -11,6 +12,7 @@ namespace ShowMe
         
         public App()
         {
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
             if (!IsLoggedIn)
             {
                 InitializeComponent();
@@ -19,6 +21,29 @@ namespace ShowMe
             else
             {
                 MainPage = new NavigationPage(new MainPage());
+            }
+        }
+
+        void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+
+            var access = e.NetworkAccess;
+            InitializeComponent();
+
+            if (access == NetworkAccess.None)
+            {
+                MainPage = new NoInternetPage();
+            }
+            else
+            {
+                if (!IsLoggedIn)
+                {
+                    MainPage = new NavigationPage(new LoginPage());
+                }
+                else
+                {
+                    MainPage = new NavigationPage(new MainPage());
+                }
             }
         }
 
