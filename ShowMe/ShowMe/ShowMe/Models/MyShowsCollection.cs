@@ -55,7 +55,11 @@ namespace ShowMe.Models
         /// <param name="ms">The show to add</param>
         public static void AddToMyShows(MyShow ms)
         {
-            Instance.Add(ms);
+            lock (padlock)
+            {
+                Instance.Add(ms);
+            }
+                
         }
 
         /// <summary>
@@ -65,9 +69,12 @@ namespace ShowMe.Models
         /// <param name="ms">The show to remove</param>
         public static void RemoveFromMyShows(MyShow ms)
         {
-            if (Instance.Contains(ms))
+            lock (padlock)
             {
-                Instance.Remove(ms);
+                if (Instance.Contains(ms))
+                {
+                    Instance.Remove(ms);
+                }
             }
         }
 
@@ -96,27 +103,17 @@ namespace ShowMe.Models
         /// <param name="ms">The show to modify</param>
         public static void ModifyShowInMyShows(MyShow newMyShow)
         {
-            for(int i = 0; i < Instance.Count; i ++)
+            lock (padlock)
             {
-                if (Instance[i].Id == newMyShow.Id)
+                for (int i = 0; i < Instance.Count; i++)
                 {
-                    Instance[i] = newMyShow;
+                    if (Instance[i].Id == newMyShow.Id)
+                    {
+                        Instance[i] = newMyShow;
+                    }
                 }
             }
         }
-
-        /// <summary>
-        /// Clears the Instance and retrieves the list of logged in user from Firebase database
-        /// </summary>
-        public static void Refresh()
-        {
-            Instance.Clear();
-            List<MyShow> s = FireBaseHelper.GetUserShowList(App.User.Id).Result;
-            foreach (MyShow myShow in s)
-            {
-                Instance.Add(myShow);
-            }
-        }
-
+        
     }
 }
