@@ -13,9 +13,15 @@ namespace ShowMe
         public App()
         {
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
-            if (!IsLoggedIn)
+            var access = Connectivity.NetworkAccess;
+            InitializeComponent();
+
+            if (access == NetworkAccess.None)
             {
-                InitializeComponent();
+                MainPage = new NavigationPage(new NoInternetPage());
+            }
+            else if (!IsLoggedIn)
+            {
                 MainPage = new NavigationPage(new LoginPage());
             }
             else
@@ -32,7 +38,7 @@ namespace ShowMe
 
             if (access == NetworkAccess.None)
             {
-                MainPage = new NoInternetPage();
+                MainPage = new NavigationPage(new NoInternetPage());
             }
             else
             {
