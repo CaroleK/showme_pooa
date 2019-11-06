@@ -37,9 +37,9 @@ namespace ShowMe.Services
                     string notificationIdString = schedule.Show.Id + "" + notificationTime.Hour + "" + notificationTime.Day + "" + notificationTime.Month;
                     int notificationId = int.Parse(notificationIdString);
 
-                    CrossLocalNotifications.Current.Show(notificationTitle, notificationBody, notificationId, notificationTime);                    
+                    CrossLocalNotifications.Current.Show(notificationTitle, notificationBody, notificationId, notificationTime);
                 }
-            }            
+            }
         }
 
         /// <summary>
@@ -52,8 +52,6 @@ namespace ShowMe.Services
             TvMazeService service = new TvMazeService();
             DateTime DateTime = DateTime.Now;
 
-            CrossLocalNotifications.Current.Show("debug", "Woke up at " + DateTime.ToShortTimeString(), 0, DateTime);
-
             // We check what's on TV tomorrow and in two days, to be able to schedule notifications 24h before
             string dateTimeTomorrow = DateTime.AddDays(1).ToString("yyyy-MM-dd");
             string dateTimeAfterTomorrow = DateTime.AddDays(2).ToString("yyyy-MM-dd");
@@ -61,7 +59,7 @@ namespace ShowMe.Services
             // Choice made to focus on US region because of the API's data 
             string regionISO = "US";
 
-            List<ScheduleShow> sTomorrow = Task.Run(() => service.GetUpCommingEpisode(myShows, dateTimeAfterTomorrow, regionISO)).Result;
+            List<ScheduleShow> sTomorrow = Task.Run(() => service.GetUpCommingEpisode(myShows, dateTimeTomorrow, regionISO)).Result;
             List<ScheduleShow> sAfterTomorrow = Task.Run(() => service.GetUpCommingEpisode(myShows, dateTimeAfterTomorrow, regionISO)).Result;
             sTomorrow.AddRange(sAfterTomorrow);
 
