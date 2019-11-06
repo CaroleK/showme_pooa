@@ -25,15 +25,18 @@ namespace ShowMe.Services
             {
                 if (GetByIdFromMyShows(myShows, schedule.Show.Id).MustNotify)
                 {
-                    string notificationIdString = schedule.Show.Id + "" + DateTime.Day + "" + DateTime.Month;
-                    int notificationId = int.Parse(notificationIdString);
 
                     string notificationBody = schedule.TitleEpisode + " -  on " + schedule.Show.Network.NetworkName + " at " + schedule.Airtime;
                     string notificationTitle = "Don't miss it! " + schedule.Show.Title + "is on TV tomorrow";
 
                     string[] airtime = schedule.Airtime.Split(':');
-                    DateTime notificationTime = new DateTime(DateTime.Year, DateTime.Month, DateTime.Day + 1, int.Parse(airtime[0]), int.Parse(airtime[1]), 0);
-                    
+                    string[] airdate = schedule.Airdate.Split('-');
+                    DateTime airDate = new DateTime(int.Parse(airdate[0]), int.Parse(airdate[1]), int.Parse(airdate[2]), int.Parse(airtime[0]), int.Parse(airtime[1]), 0);
+                    DateTime notificationTime = airDate.AddDays(-1);
+
+                    string notificationIdString = schedule.Show.Id + "" + notificationTime.Hour + "" + notificationTime.Day + "" + notificationTime.Month;
+                    int notificationId = int.Parse(notificationIdString);
+
                     CrossLocalNotifications.Current.Show(notificationTitle, notificationBody, notificationId, notificationTime);                    
                 }
             }            

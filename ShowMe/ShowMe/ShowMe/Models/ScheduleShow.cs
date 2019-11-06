@@ -19,6 +19,9 @@ namespace ShowMe.Models
         [JsonProperty("airtime")]
         public string Airtime { get; set; }
 
+        [JsonProperty("airdate")]
+        public string Airdate { get; set; }
+
         [JsonProperty("show")]
         public Show Show { get; set; }
         
