@@ -26,8 +26,8 @@ namespace ShowMe.Services
                 if (GetByIdFromMyShows(myShows, schedule.Show.Id).MustNotify)
                 {
 
-                    string notificationBody = schedule.TitleEpisode + " -  on " + schedule.Show.Network.NetworkName + " at " + schedule.Airtime;
-                    string notificationTitle = "Don't miss it! " + schedule.Show.Title + "is on TV tomorrow";
+                    string notificationBody = schedule.Airtime + " - " + schedule.Show.Network.NetworkName + " || " + schedule.TitleEpisode;
+                    string notificationTitle = "Don't miss it! " + schedule.Show.Title + " is on TV tomorrow";
 
                     string[] airtime = schedule.Airtime.Split(':');
                     string[] airdate = schedule.Airdate.Split('-');
