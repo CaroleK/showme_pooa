@@ -19,6 +19,29 @@ namespace ShowMe.Services
         }
 
         /// <summary>
+        /// Retrieves json string response from API client
+        /// </summary>
+        /// <param name="url">The url of the API</param>
+        /// <returns>Json data as string if response is successfull, null otherwise</returns>
+        public async Task<string> FetchResponseFromAPI(string url)
+        {
+            string jsonString = null; 
+            try
+            {
+                HttpResponseMessage responseShow = await client.GetAsync(new Uri(url));
+                if (responseShow.IsSuccessStatusCode)
+                {
+                    jsonString = await responseShow.Content.ReadAsStringAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("\tERROR {0}", ex.Message);
+            }
+            return jsonString;
+        }
+
+        /// <summary>
         /// This function retrieves the show from TVMazeAPI with the given id, with all available details
         /// </summary>
         /// <param name="id">The id of the show</param>
@@ -26,19 +49,13 @@ namespace ShowMe.Services
         public async Task<Show> GetShowAsync(int id)
         {
             Show show = null;
-            try
+
+            string jsonString = await FetchResponseFromAPI("https://api.tvmaze.com/shows/" + id);
+            if (jsonString != null )
             {
-                HttpResponseMessage responseShow = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + id));
-                if (responseShow.IsSuccessStatusCode)
-                {
-                    string jsonString = await responseShow.Content.ReadAsStringAsync();
-                    show = JsonConvert.DeserializeObject<Show>(jsonString);
-                }
+                show = JsonConvert.DeserializeObject<Show>(jsonString);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("\tERROR {0}", ex.Message);
-            }
+            
             return show;
         }
 
@@ -51,19 +68,13 @@ namespace ShowMe.Services
         public async Task<List<Episode>> GetEpisodesListAsync(int ShowId)
         {
             List<Episode> EpisodesList = null;
-            try
+
+            string jsonString = await FetchResponseFromAPI("https://api.tvmaze.com/shows/" + ShowId + "/episodes");
+            if (jsonString != null)
             {
-                HttpResponseMessage responseShow = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + ShowId + "/episodes"));
-                if (responseShow.IsSuccessStatusCode)
-                {
-                    string jsonString = await responseShow.Content.ReadAsStringAsync();
-                    EpisodesList = JsonConvert.DeserializeObject<List<Episode>>(jsonString);
-                }
+                EpisodesList = JsonConvert.DeserializeObject<List<Episode>>(jsonString);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("\tERROR {0}", ex.Message);
-            }
+            
             return EpisodesList;
         }
 
@@ -75,19 +86,13 @@ namespace ShowMe.Services
         public async Task<List<Season>> GetSeasonsListAsync(int ShowId)
         {
             List<Season> SeasonsList = null;
-            try
+
+            string jsonString = await FetchResponseFromAPI("https://api.tvmaze.com/shows/" + ShowId + "/seasons");
+            if (jsonString != null)
             {
-                HttpResponseMessage responseShow = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + ShowId + "/seasons"));
-                if (responseShow.IsSuccessStatusCode)
-                {
-                    string jsonString = await responseShow.Content.ReadAsStringAsync();
-                    SeasonsList = JsonConvert.DeserializeObject<List<Season>>(jsonString);
-                }
+                SeasonsList = JsonConvert.DeserializeObject<List<Season>>(jsonString);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("\tERROR {0}", ex.Message);
-            }
+            
             return SeasonsList;
         }
 
@@ -99,27 +104,19 @@ namespace ShowMe.Services
         public async Task<List<Show>> SearchShowAsync(string search)
         {
             List<Show> shows = null;
-            try
+
+            string jsonString = await FetchResponseFromAPI("https://api.tvmaze.com/search/shows?q=" + search);
+            if(jsonString != null)
             {
-                HttpResponseMessage response = await client.GetAsync(new Uri("https://api.tvmaze.com/search/shows?q=" + search));
-                if (response.IsSuccessStatusCode)
+                List<SearchResult> result = JsonConvert.DeserializeObject<List<SearchResult>>(jsonString);
+                shows = new List<Show>();
+                foreach (SearchResult searchresult in result)
                 {
-                    string jsonString = await response.Content.ReadAsStringAsync();
-                    List<SearchResult> result = JsonConvert.DeserializeObject<List<SearchResult>>(jsonString);
-                    shows = new List<Show>();
-                    foreach (SearchResult searchresult in result)
-                    {
-                        shows.Add(searchresult.Serie);
-                    }
+                    shows.Add(searchresult.Serie);
                 }
-                return shows;
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("\tERROR {0}", ex.Message);
-                return shows;
-            }
-            
+                    
+            return shows;            
         }
 
         /// <summary>
@@ -130,24 +127,18 @@ namespace ShowMe.Services
         public async Task<List<Actor>> GetCastAsync(int ShowId)
         {
             List<Actor> actors = null;
-            try
+
+            string jsonString = await FetchResponseFromAPI("https://api.tvmaze.com/shows/" + ShowId + "/cast");
+            if (jsonString != null)
             {
-                HttpResponseMessage response = await client.GetAsync(new Uri("https://api.tvmaze.com/shows/" + ShowId + "/cast"));
-                if (response.IsSuccessStatusCode)
+                List<SearchActor> result = JsonConvert.DeserializeObject<List<SearchActor>>(jsonString);
+                actors = new List<Actor>();
+                for (int i = 0; i < result.Count; i++)
                 {
-                    string jsonString = await response.Content.ReadAsStringAsync();
-                    List<SearchActor> result = JsonConvert.DeserializeObject<List<SearchActor>>(jsonString);
-                    actors = new List<Actor>();
-                    for (int i = 0; i < result.Count; i++)
-                    {
-                        actors.Add(result[i].Actor);
-                    }
+                    actors.Add(result[i].Actor);
                 }
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("\tERROR {0}", ex.Message);
-            }
+
             return actors;
         }
 
@@ -162,35 +153,26 @@ namespace ShowMe.Services
         {
             List<ScheduleShow> scheduleShows = new List<ScheduleShow>();
 
-            try
+            string jsonString = await FetchResponseFromAPI("https://api.tvmaze.com/schedule?country=" + regionISO + "&date=" + dateTime);
+            if (jsonString != null)
             {
-               
-                HttpResponseMessage response = await client.GetAsync(new Uri("https://api.tvmaze.com/schedule?country=" + regionISO + "&date=" + dateTime));
-                if (response.IsSuccessStatusCode)
+                List<ScheduleShow> results = JsonConvert.DeserializeObject<List<ScheduleShow>>(jsonString);
+
+                foreach (MyShow show in MyShows)
                 {
-                    string jsonString = await response.Content.ReadAsStringAsync();
-                    List<ScheduleShow> results = JsonConvert.DeserializeObject<List<ScheduleShow>>(jsonString);
-
-                    foreach (MyShow show in MyShows)
+                    int id = show.Id;
+                    foreach (ScheduleShow r in results)
                     {
-                        int id = show.Id;
-                        foreach (ScheduleShow r in results)
+                        if (id == r.Show.Id)
                         {
-                            if (id == r.Show.Id)
-                            {
-                                scheduleShows.Add(r);
-                            }
+                            scheduleShows.Add(r);
                         }
-
                     }
+
                 }
-                return (scheduleShows);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("\tERROR {0}", ex.Message);
-                return (scheduleShows);
-            }
+
+            return scheduleShows;
         }
     }
 
