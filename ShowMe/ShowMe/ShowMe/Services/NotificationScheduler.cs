@@ -14,11 +14,11 @@ namespace ShowMe.Services
         /// Schedules notifications 24 hours before a show present in the user's list airs on US TV
         /// </summary>
         /// <param name="userId">The user id</param>
-        static public void ScheduleNotification(string userId)
+        static public async Task ScheduleNotification(string userId)
         {
             DateTime DateTime = DateTime.Now;
 
-            ObservableCollection<MyShow> myShows = new ObservableCollection<MyShow>(Task.Run(() => FireBaseHelper.GetUserShowList(userId)).Result);
+            ObservableCollection<MyShow> myShows = new ObservableCollection<MyShow>(await FireBaseHelper.GetUserShowList(userId));
             List<ScheduleShow> scheduledShows = RetrieveScheduledShows(myShows); 
 
             foreach (ScheduleShow schedule in scheduledShows)
