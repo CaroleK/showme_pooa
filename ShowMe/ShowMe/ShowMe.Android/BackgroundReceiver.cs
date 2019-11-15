@@ -8,7 +8,7 @@ namespace ShowMe.Droid
     public class BackgroundReceiver : BroadcastReceiver
     {
         // This function is called everytime the alarm manager repeats
-        public override void OnReceive(Context context, Intent intent)
+        public override async void OnReceive(Context context, Intent intent)
         {
             // Fetch the user id from the intent
             string userId = intent.GetStringExtra("userId");
@@ -20,7 +20,7 @@ namespace ShowMe.Droid
             wakeLock.Acquire();
 
             // Schedule notifications
-            NotificationScheduler.ScheduleNotification(userId); 
+            await NotificationScheduler.ScheduleNotification(userId); 
 
             wakeLock.Release();
         }
