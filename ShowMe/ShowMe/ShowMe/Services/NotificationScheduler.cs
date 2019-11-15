@@ -34,7 +34,7 @@ namespace ShowMe.Services
                     DateTime airDate = new DateTime(int.Parse(airdate[0]), int.Parse(airdate[1]), int.Parse(airdate[2]), int.Parse(airtime[0]), int.Parse(airtime[1]), 0);
                     DateTime notificationTime = airDate.AddDays(-1);
 
-                    string notificationIdString = schedule.Show.Id + "" + notificationTime.Hour + "" + notificationTime.Day + "" + notificationTime.Month;
+                    string notificationIdString = (schedule.IdEpisode != null) ? schedule.IdEpisode + "" : schedule.Show.Id + "" + notificationTime.Hour + "" + notificationTime.Day ;
                     int notificationId = int.Parse(notificationIdString);
 
                     CrossLocalNotifications.Current.Show(notificationTitle, notificationBody, notificationId, notificationTime);
