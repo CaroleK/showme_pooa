@@ -53,6 +53,10 @@ namespace ShowMe.ViewModels
                 };
         }
 
+        /// <summary>
+        /// Called when the property to only show favorite shows is changed
+        /// Display shows according to settings
+        /// </summary>
         public void ToggleFavorite()
         {       
             if (OnlyFavorites)
@@ -84,6 +88,10 @@ namespace ShowMe.ViewModels
             }
         }        
 
+        /// <summary>
+        /// Called when the filter settings is changed
+        /// Displays shows according to filter
+        /// </summary>
         public void FilterItems()
         {
             ShowsToDisplay.Clear();
@@ -140,6 +148,10 @@ namespace ShowMe.ViewModels
             }          
         }
 
+        /// <summary>
+        /// Init is called on page appearance
+        /// Clears previous list and displays user's show according to settings
+        /// </summary>
         public void Init()
         {
             ShowsToDisplay.Clear();

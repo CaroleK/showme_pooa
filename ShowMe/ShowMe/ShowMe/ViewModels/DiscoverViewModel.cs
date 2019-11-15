@@ -26,6 +26,10 @@ namespace ShowMe.ViewModels
             Task.Run(() => ExecuteLoadShowCommand());
         }
 
+        /// <summary>
+        /// Retrieves 10 new shows from API and adds them to shows list
+        /// </summary>
+        /// <returns>Void task</returns>
         public async Task ExecuteLoadShowCommand()
         {
             await semaphoreSlim.WaitAsync();
@@ -50,6 +54,11 @@ namespace ShowMe.ViewModels
             
         }
 
+        /// <summary>
+        /// Searches for shows matching with user input. Clears the show list and adds results instead
+        /// </summary>
+        /// <param name="search">The user's input</param>
+        /// <returns>Void task</returns>
         public async Task ExecuteSearchShowCommand(string search)
         {
             List<Show> s = await service.SearchShowAsync(search);

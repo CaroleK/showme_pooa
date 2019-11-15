@@ -42,7 +42,6 @@ namespace ShowMe.Models
 
 
         // Last episode that exists for this show
-        // Must be like {{"epidose",1},{"season",1}}
         public EpisodeSeason LastEpisode { get; set; }
 
         // Retrieves the (safe) url of the medium-sized image

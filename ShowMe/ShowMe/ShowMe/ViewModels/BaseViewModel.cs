@@ -11,6 +11,7 @@ namespace ShowMe.ViewModels
     {
         string title = string.Empty;
 
+        // Defines the Title of tabs on the UI
         public string Title
         {
             get { return title; }

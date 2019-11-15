@@ -33,6 +33,10 @@ namespace ShowMe.ViewModels
             isEmptyShowsToDisplay = (ShowsToDisplay.Count() > 0) ? false : true;
         }
 
+        /// <summary>
+        /// Init is called on page appearance
+        /// Clears previous list and display shows in progress
+        /// </summary>
         public void Init()
         {
             ShowsToDisplay.Clear();

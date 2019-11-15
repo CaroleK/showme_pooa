@@ -38,7 +38,7 @@ namespace ShowMe.Models
         }
 
         /// <summary>
-        /// Retrieves the list of logged in user from Firebase database
+        /// Retrieves the list of episodes for logged in user from Firebase database
         /// </summary>
         public static void FetchMyShows()
         {

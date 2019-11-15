@@ -5,6 +5,9 @@ using System.Text;
 
 namespace ShowMe.Models
 {
+    /// <summary>
+    /// Class that describes an episode really simply, with just its number, season and duration
+    /// </summary>
     public class EpisodeSeason
     {
         [JsonProperty("episode")]

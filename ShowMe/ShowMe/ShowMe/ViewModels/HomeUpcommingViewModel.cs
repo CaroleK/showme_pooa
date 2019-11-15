@@ -19,7 +19,10 @@ namespace ShowMe.ViewModels
         public ObservableCollection<PageScheduleShow> SchedulesShows { get; set; } = new ObservableCollection<PageScheduleShow>();
         public List<Show> Favorites { get; set; }
 
-
+        /// <summary>
+        /// Init is called on page appearance
+        /// Clears all previous lists and fetches upcoming shows
+        /// </summary>
         public void Init(){
             ScheduleToday.Clear();
             ScheduleTomorrow.Clear();
@@ -38,6 +41,11 @@ namespace ShowMe.ViewModels
             Title = "Up Coming Shows";
         }
 
+        /// <summary>
+        /// Fetches schedules for current days and the two days to come
+        /// Updates schedules list
+        /// </summary>
+        /// <returns>Void task</returns>
         public async Task ExecuteUpCommingCommand()
         {
             DateTime DateTime = DateTime.Now;

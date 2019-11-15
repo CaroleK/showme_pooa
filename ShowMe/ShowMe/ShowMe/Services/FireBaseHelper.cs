@@ -17,42 +17,51 @@ namespace ShowMe.Services
 {
     public class FireBaseHelper
     {
+        // The firebase client
         static FirebaseClient Myfirebase = new FirebaseClient(Constants.FireBaseUrl, new FirebaseOptions
         {
             OfflineDatabaseFactory = (t, s) => new OfflineDatabase(t, s),
         });
 
+        /// <summary>
+        /// Constructor for the helper
+        /// Helper initialized with subscrictions to database events
+        /// </summary>
         public FireBaseHelper()
         {
             MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "ChangeToFavorite", async (obj, item) =>
             {
 
-                await UpdateMyShow(item);
+                await UpdateMyShow(App.User.Id, item);
             });
 
             MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "ChangeToNotFavorite", async (obj, item) =>
             {
 
-                await UpdateMyShow(item);
+                await UpdateMyShow(App.User.Id, item);
             });
 
             MessagingCenter.Subscribe<HomeWatchListViewModel, MyShow>(this, "IncrementEpisode", async (obj, item) =>
             {
 
-                await UpdateMyShow(item);
+                await UpdateMyShow(App.User.Id, item);
             });
 
             MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "ChangeLastEpisodeWatched", async (obj, item) =>
             {
 
-                await UpdateMyShow(item);
+                await UpdateMyShow(App.User.Id, item);
             });
             //TODO : use one event called "UpdateMyShowProperties"? with BaseViewModel as sender?
 
         }
 
-
-         static public async Task<bool> CheckIfUserExists(string userId)
+        /// <summary>
+        /// Check is the given id matches with an existing user
+        /// </summary>
+        /// <param name="userId">The user id to check for</param>
+        /// <returns>Boolean task, true is user exists, fasle otherwise</returns>
+        static public async Task<bool> CheckIfUserExists(string userId)
         {
             var toCheckUser = (await Myfirebase
               .Child("Users")
@@ -63,8 +72,14 @@ namespace ShowMe.Services
             return false;
         }
 
-       
 
+        /// <summary>
+        /// Add new user to databse
+        /// </summary>
+        /// <param name="userId">The user id</param>
+        /// <param name="name">The user's name</param>
+        /// <param name="picture">The user's profile picture</param>
+        /// <returns>Void task</returns>
         static public async Task AddUser(string userId, string name, string picture)
         {
             User user = new User() { Id = userId, Name = name, Picture = picture };
@@ -92,6 +107,12 @@ namespace ShowMe.Services
               .PutAsync(TotalNbrEpisodesWatched);
         }
 
+        /// <summary>
+        /// Add a new show to user's show list
+        /// </summary>
+        /// <param name="UserId">The user id</param>
+        /// <param name="selectedShow">The show to add</param>
+        /// <returns>Void task</returns>
         static public async Task AddShowToUserList(string UserId, MyShow selectedShow)
         {
             await Myfirebase
@@ -101,7 +122,11 @@ namespace ShowMe.Services
               .PutAsync(selectedShow);
         }
 
-
+        /// <summary>
+        /// Retrieves the user show list
+        /// </summary>
+        /// <param name="userId">The user id</param>
+        /// <returns>A task with a list of MyShow objects</returns>
         static public async Task<List<MyShow>> GetUserShowList(string userId)
         {
             List<MyShow> showList = new List<MyShow>();
@@ -119,6 +144,12 @@ namespace ShowMe.Services
             return showList;
         }
 
+        /// <summary>
+        /// Deletes given show from user's list
+        /// </summary>
+        /// <param name="UserId">The user id</param>
+        /// <param name="myShowToDelete">The show to delete</param>
+        /// <returns>Void task</returns>
         internal static async Task DeleteShowFromUserList(string UserId, MyShow myShowToDelete)
         {
             await Myfirebase
@@ -128,12 +159,17 @@ namespace ShowMe.Services
               .DeleteAsync();
         }
 
-
-        internal async Task UpdateMyShow(MyShow showToUpdate)
+        /// <summary>
+        /// Updates given show in the user's list
+        /// </summary>
+        /// <param name="UserId">The user id</param>
+        /// <param name="showToUpdate">The show to update</param>
+        /// <returns>Void task</returns>
+        internal async Task UpdateMyShow(string UserId, MyShow showToUpdate)
         {
             await Myfirebase
                 .Child("Users_Shows_List")
-                .Child(App.User.Id)
+                .Child(UserId)
                 .Child(showToUpdate.Title)
                 .PutAsync(showToUpdate);
         }
