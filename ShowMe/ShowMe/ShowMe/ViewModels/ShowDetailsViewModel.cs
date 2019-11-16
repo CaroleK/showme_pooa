@@ -128,13 +128,13 @@ namespace ShowMe.ViewModels
         public void AddShowToFavorites(MyShow myToBeFavoriteShow)
         {
             myToBeFavoriteShow.IsFavorite = true;
-            MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "ChangeToFavorite", myToBeFavoriteShow);
+            MessagingCenter.Send<BaseViewModel, MyShow>(this, "UpdateMyShow", myToBeFavoriteShow);
         }
 
         public void RemoveShowFromFavorites(MyShow myNoLongerFavoriteShow)
         {
             myNoLongerFavoriteShow.IsFavorite = false;
-            MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "ChangeToNotFavorite", myNoLongerFavoriteShow);
+            MessagingCenter.Send<BaseViewModel, MyShow>(this, "UpdateMyShow", myNoLongerFavoriteShow);
 
         }
 
@@ -148,7 +148,7 @@ namespace ShowMe.ViewModels
             {
                 myShowToUpdate.MustNotify = true;
             }
-            MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "UpdateMyShow", myShowToUpdate);
+            MessagingCenter.Send<BaseViewModel, MyShow>(this, "UpdateMyShow", myShowToUpdate);
 
         }
 
@@ -158,7 +158,7 @@ namespace ShowMe.ViewModels
             myShow.LastEpisodeWatched = new EpisodeSeason(episodeInWatch, seasonInWatch);
             this.Show = myShow;
             MyShowsCollection.ModifyShowInMyShows(myShow);
-            MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "ChangeLastEpisodeWatched", myShow);
+            MessagingCenter.Send<BaseViewModel, MyShow>(this, "UpdateMyShow", myShow);
         }
     }
 }

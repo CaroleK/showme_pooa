@@ -29,37 +29,11 @@ namespace ShowMe.Services
         /// </summary>
         public FireBaseHelper()
         {
-            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "ChangeToFavorite", async (obj, item) =>
+            MessagingCenter.Subscribe<BaseViewModel, MyShow>(this, "UpdateMyShow", async (obj, item) =>
             {
 
                 await UpdateMyShow(App.User.Id, item);
             });
-
-            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "ChangeToNotFavorite", async (obj, item) =>
-            {
-
-                await UpdateMyShow(App.User.Id, item);
-            });
-
-            MessagingCenter.Subscribe<HomeWatchListViewModel, MyShow>(this, "IncrementEpisode", async (obj, item) =>
-            {
-
-                await UpdateMyShow(App.User.Id, item);
-            });
-
-            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "ChangeLastEpisodeWatched", async (obj, item) =>
-            {
-
-                await UpdateMyShow(App.User.Id, item);
-            });
-
-            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "UpdateMyShow", async (obj, item) =>
-            {
-
-                await UpdateMyShow(App.User.Id, item);
-            });
-            //TODO : use one event called "UpdateMyShowProperties"? with BaseViewModel as sender?
-
         }
 
         /// <summary>

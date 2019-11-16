@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace ShowMe.ViewModels
 {
-    public class HomeWatchListViewModel : ContentPage
+    public class HomeWatchListViewModel : BaseViewModel
     {
         public TvMazeService service = new TvMazeService();
         public FireBaseHelper MyFireBaseHelper = new FireBaseHelper();
@@ -65,7 +65,7 @@ namespace ShowMe.ViewModels
             EpisodeSeason newLEW = myShow.NextEpisode();
             myShow.LastEpisodeWatched = newLEW;
             MyShowsCollection.ModifyShowInMyShows(myShow);
-            MessagingCenter.Send<HomeWatchListViewModel, MyShow>(this, "IncrementEpisode", myShow);
+            MessagingCenter.Send<BaseViewModel, MyShow>(this, "UpdateMyShow", myShow);
             await App.User.IncrementMinutestoTotalMinutesWatched(newLEW.Duration);
         }
 
