@@ -45,6 +45,11 @@ namespace ShowMe.Services
             {
                 await DeleteShowFromUserList(App.User.Id, item);
             });
+
+            MessagingCenter.Subscribe<User, User>(this, "UpdateUser", async (obj, item) =>
+            {
+                await UpdateUser(App.User.Id, item);
+            });
         }
 
         /// <summary>
@@ -106,6 +111,14 @@ namespace ShowMe.Services
               .Child(userId)
               .Child("TotalNbrEpisodesWatched")
               .PutAsync(TotalNbrEpisodesWatched);
+        }
+
+        static public async Task UpdateUser(string userId, User user)
+        {
+            await Myfirebase
+              .Child("Users")
+              .Child(userId)
+              .PutAsync(user);
         }
 
         /// <summary>

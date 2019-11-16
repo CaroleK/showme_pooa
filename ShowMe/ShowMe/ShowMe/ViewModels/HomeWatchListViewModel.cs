@@ -60,13 +60,20 @@ namespace ShowMe.ViewModels
         /// Deals with the logic when an episode has been watched
         /// </summary>
         /// <param name="myShow">The MyShow whose episode has been watched</param>
-        public async void IncrementEpisode(MyShow myShow)
+        public void IncrementEpisode(MyShow myShow)
         {
             EpisodeSeason newLEW = myShow.NextEpisode();
             myShow.LastEpisodeWatched = newLEW;
             MyShowsCollection.ModifyShowInMyShows(myShow);
+
+            //Inform FireBase and App.User for stats
             MessagingCenter.Send<BaseViewModel, MyShow>(this, "UpdateMyShow", myShow);
-            await App.User.IncrementMinutestoTotalMinutesWatched(newLEW.Duration);
+            
+            //TODO: make messaging center work
+            App.User.TotalNbrEpisodesWatched += 1;
+            App.User.TotalMinutesWatched += newLEW.Duration;
+            Task.Run(()=> FireBaseHelper.UpdateUser(App.User.Id, App.User));
+            //MessagingCenter.Send<BaseViewModel, MyShow>(this, "IncrementOneEpisode", myShow);
         }
 
         /// <summary>

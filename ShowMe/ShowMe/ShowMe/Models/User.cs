@@ -1,10 +1,12 @@
 ﻿using Newtonsoft.Json;
 using ShowMe.Services;
+using ShowMe.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
 namespace ShowMe.Models
@@ -49,47 +51,68 @@ namespace ShowMe.Models
 
         public int  TotalMinutesWatched { get; set; }
 
-
-
-        public async Task AddMinutestoTotalMinutesWatched(EpisodeSeason lastEpisodeWatched, List<Season> seasonsList)
+        public User()
         {
-
-            TotalMinutesWatched = App.User.TotalMinutesWatched;
-            TotalNbrEpisodesWatched = App.User.TotalNbrEpisodesWatched;
-
-            int lastSeasonNumber = lastEpisodeWatched.SeasonNumber;
-            int lastEpisodeNumber = lastEpisodeWatched.EpisodeNumber;
-            
-            for (int i=1; i<lastSeasonNumber; i++)
+            MessagingCenter.Subscribe<BaseViewModel, MyShow>(this, "AddToMyShows", (obj, item) =>
             {
-                int index = seasonsList.IndexOf(seasonsList.First(s => s.Number == i));
-                foreach (Episode episode in seasonsList[index].EpisodesOfSeason)
-                {
-                    TotalMinutesWatched += episode.DurationInMinutes;
-                    TotalNbrEpisodesWatched += 1;
-                }
+                UpdateNumberOfEpisodesWatched(item.LastEpisodeWatched, item.SeasonsList, true);
+            });
 
-            }
-            int indexSeason = seasonsList.IndexOf(seasonsList.First(s => s.Number == lastSeasonNumber));
-            for (int i=1; i<lastEpisodeNumber+1; i++)
+            MessagingCenter.Subscribe<BaseViewModel, MyShow>(this, "DeleteFromMyShows", (obj, item) =>
             {
-                int index = seasonsList[indexSeason].EpisodesOfSeason.IndexOf(seasonsList[indexSeason].EpisodesOfSeason.First(e => e.Number == i));
-                TotalMinutesWatched += seasonsList[indexSeason].EpisodesOfSeason[index].DurationInMinutes;
-            }
+                UpdateNumberOfEpisodesWatched(item.LastEpisodeWatched, item.SeasonsList, false);
+            });
 
-            await FireBaseHelper.ModifyMinutesWatchedUser(Id, TotalMinutesWatched);
-            await FireBaseHelper.ModifyNbrEpisodesWatchedUser(Id, TotalNbrEpisodesWatched);
+            MessagingCenter.Subscribe<BaseViewModel, MyShow>(this, "IncrementOneEpisode", (obj, item) =>
+            {
+                IncrementEpisodeInNumberOfEpisodesWatched(item.LastEpisodeWatched.Duration);
+            });
         }
 
-        public async Task IncrementMinutestoTotalMinutesWatched(int Duration)
+        private void UpdateNumberOfEpisodesWatched(EpisodeSeason lastEpisodeWatched, List<Season> seasonsList, bool AddingEpisodes)
+        {
+            int variation = AddingEpisodes ? 1 : -1;
+
+            if (lastEpisodeWatched != null)
+            {
+                TotalNbrEpisodesWatched = App.User.TotalNbrEpisodesWatched;
+
+                int lastSeasonNumber = lastEpisodeWatched.SeasonNumber;
+                int lastEpisodeNumber = lastEpisodeWatched.EpisodeNumber;
+
+                for (int i = 1; i < lastSeasonNumber; i++)
+                {
+                    int index = seasonsList.IndexOf(seasonsList.First(s => s.Number == i));
+                    foreach (Episode episode in seasonsList[index].EpisodesOfSeason)
+                    {
+                        TotalNbrEpisodesWatched += variation;
+                        UpdateMinutesInTotalMinutesWatched(episode.DurationInMinutes, variation);
+                    }
+                }
+                int indexSeason = seasonsList.IndexOf(seasonsList.First(s => s.Number == lastSeasonNumber));
+                for (int i = 1; i < lastEpisodeNumber + 1; i++)
+                {
+                    TotalNbrEpisodesWatched += variation;
+                    int index = seasonsList[indexSeason].EpisodesOfSeason.IndexOf(seasonsList[indexSeason].EpisodesOfSeason.First(e => e.Number == i));
+                    UpdateMinutesInTotalMinutesWatched(seasonsList[indexSeason].EpisodesOfSeason[index].DurationInMinutes, variation);
+                }
+                //Send Message to Firebase for update
+                MessagingCenter.Send(this, "UpdateUser", App.User);
+            }
+        }
+
+
+        public void UpdateMinutesInTotalMinutesWatched(int Duration, int increasingOrDecreasingVariation)
         {
 
-            TotalMinutesWatched = App.User.TotalMinutesWatched;
-            TotalNbrEpisodesWatched = App.User.TotalNbrEpisodesWatched;
-            TotalMinutesWatched += Duration;
-            TotalNbrEpisodesWatched += 1;
-            await FireBaseHelper.ModifyMinutesWatchedUser(Id, TotalMinutesWatched);
-            await FireBaseHelper.ModifyNbrEpisodesWatchedUser(Id, TotalNbrEpisodesWatched);
+            App.User.TotalMinutesWatched += increasingOrDecreasingVariation*Duration;
+        }
+
+        public void IncrementEpisodeInNumberOfEpisodesWatched(int Duration)
+        {
+            App.User.TotalNbrEpisodesWatched += 1;
+            App.User.TotalMinutesWatched +=  Duration;
+            //MessagingCenter.Send(this, "UpdateUser", App.User);
         }
 
     }

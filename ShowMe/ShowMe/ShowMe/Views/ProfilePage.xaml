@@ -101,7 +101,7 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             HorizontalOptions="CenterAndExpand">
-                                <Label Text="{Binding hoursWatched}" FontSize="Medium" FontAttributes="Bold"/>
+                            <Label Text="{Binding hoursWatchedWhenSubstractingDays}" FontSize="Medium" FontAttributes="Bold"/>
                             </StackLayout>
                             <StackLayout
                             Grid.Row="2"
@@ -113,7 +113,7 @@
                             Grid.Row="1"
                             Grid.Column="3"
                             HorizontalOptions="Center">
-                                <Label Text="{Binding minutesWatched}" FontSize="Medium" FontAttributes="Bold"/>
+                            <Label Text="{Binding minutesWatchedWhenSubstractingDaysAndHours}" FontSize="Medium" FontAttributes="Bold"/>
                             </StackLayout>
                             <StackLayout
                             Grid.Row="2"

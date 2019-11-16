@@ -75,7 +75,7 @@ namespace ShowMe.ViewModels
             }
         }
 
-        public async void AddShowToMyShowsCollection(MyShow myShowToAdd)
+        public void AddShowToMyShowsCollection(MyShow myShowToAdd)
         {
             // Find the last episode for this show, now that we're adding it to MyShows list we'll need this attribute
             // First find the max season with episodes in it
@@ -98,19 +98,15 @@ namespace ShowMe.ViewModels
             // Update Show attribute to update UI with OnPropertyChanged
             this.Show = myShowToAdd;
 
+            //Send message to FireBase and App.User for stats
             MessagingCenter.Send<BaseViewModel, MyShow>(this, "AddToMyShows", myShowToAdd);
 
             MyShowsCollection.AddToMyShows(myShowToAdd);
-
-            if (myShowToAdd.LastEpisodeWatched != null){
-                
-                await App.User.AddMinutestoTotalMinutesWatched(myShowToAdd.LastEpisodeWatched,myShowToAdd.SeasonsList);
-            }
-
         }
 
         public void DeleteShowFromMyShowsCollection(MyShow myShowToDelete)
         {
+            //Send message to FireBase and App.User for stats
             MessagingCenter.Send<BaseViewModel, MyShow>(this, "DeleteFromMyShows", myShowToDelete);
             
             MyShowsCollection.RemoveFromMyShows(myShowToDelete);
@@ -151,6 +147,7 @@ namespace ShowMe.ViewModels
             this.Show = myShow;
             MyShowsCollection.ModifyShowInMyShows(myShow);
             MessagingCenter.Send<BaseViewModel, MyShow>(this, "UpdateMyShow", myShow);
+            //TODO : change user stats
         }
     }
 }
