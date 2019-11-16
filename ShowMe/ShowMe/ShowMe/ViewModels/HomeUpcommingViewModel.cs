@@ -3,6 +3,7 @@ using ShowMe.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -17,6 +18,17 @@ namespace ShowMe.ViewModels
         public PageScheduleShow ScheduleAfterTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "On TV after tomorrow" };
 
         public ObservableCollection<PageScheduleShow> SchedulesShows { get; set; } = new ObservableCollection<PageScheduleShow>();
+
+        private bool _isEmptySchedulesShows;
+
+        public bool isEmptySchedulesShows
+        {
+            get { return _isEmptySchedulesShows; }
+            set
+            {
+                _isEmptySchedulesShows = value; OnPropertyChanged();
+            }
+        }
         public List<Show> Favorites { get; set; }
 
         /// <summary>
@@ -39,7 +51,19 @@ namespace ShowMe.ViewModels
         public HomeUpcommingViewModel() : base()
         {
             Title = "Up Coming Shows";
+            SchedulesShows.CollectionChanged += OnSchedulesShowsChanged;
         }
+
+        private void OnSchedulesShowsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            int totalSchedulesShows = 0;
+            foreach (PageScheduleShow dateCollection in SchedulesShows)
+            {
+                totalSchedulesShows += dateCollection.Count;
+            }
+            isEmptySchedulesShows = (totalSchedulesShows > 0) ? false : true;
+        }
+
 
         /// <summary>
         /// Fetches schedules for current days and the two days to come
