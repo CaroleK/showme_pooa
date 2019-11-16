@@ -34,6 +34,17 @@ namespace ShowMe.Services
 
                 await UpdateMyShow(App.User.Id, item);
             });
+
+            MessagingCenter.Subscribe<BaseViewModel, MyShow>(this, "AddToMyShows", async (obj, item) =>
+            {
+
+                await AddShowToUserList(App.User.Id, item);
+            });
+
+            MessagingCenter.Subscribe<BaseViewModel, MyShow>(this, "DeleteFromMyShows", async (obj, item) =>
+            {
+                await DeleteShowFromUserList(App.User.Id, item);
+            });
         }
 
         /// <summary>

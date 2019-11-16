@@ -15,8 +15,6 @@ namespace ShowMe.ViewModels
     {
         public TvMazeService service = new TvMazeService();
 
-        public FireBaseHelper MyFireBaseHelper = new FireBaseHelper();
-
         private Show _show { get; set; }
 
         public Show Show {
@@ -100,12 +98,9 @@ namespace ShowMe.ViewModels
             // Update Show attribute to update UI with OnPropertyChanged
             this.Show = myShowToAdd;
 
-            MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "AddToMyShows", myShowToAdd);
+            MessagingCenter.Send<BaseViewModel, MyShow>(this, "AddToMyShows", myShowToAdd);
 
             MyShowsCollection.AddToMyShows(myShowToAdd);
-
-            // TODO : change method to not async by subscribing FBHelper
-            await FireBaseHelper.AddShowToUserList(App.User.Id, myShowToAdd);
 
             if (myShowToAdd.LastEpisodeWatched != null){
                 
@@ -114,14 +109,11 @@ namespace ShowMe.ViewModels
 
         }
 
-        public async void DeleteShowFromMyShowsCollection(MyShow myShowToDelete)
+        public void DeleteShowFromMyShowsCollection(MyShow myShowToDelete)
         {
-            MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "DeleteFromMyShows", myShowToDelete);
+            MessagingCenter.Send<BaseViewModel, MyShow>(this, "DeleteFromMyShows", myShowToDelete);
             
             MyShowsCollection.RemoveFromMyShows(myShowToDelete);
-
-            // TODO : change method to not async by subscribing FBHelper
-            await FireBaseHelper.DeleteShowFromUserList(App.User.Id, myShowToDelete);
 
         }
 
