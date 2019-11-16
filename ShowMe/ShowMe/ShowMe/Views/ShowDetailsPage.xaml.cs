@@ -20,7 +20,7 @@ namespace ShowMe.Views
 
         /// <summary>
         /// UI Page that shows to the user all the details of a Show (in 2 tabs called About and Episodes) 
-        /// and the gives the possibility to the user to add the show to his list "MyShows" and then to his favorites.
+        /// and gives the possibility to the user to add the show to his list "MyShows" and then to his favorites.
         /// </summary>
         /// <param name="viewModel">ShowDetailsViewModel associated with this View </param>
         public ShowDetailsPage(ShowDetailsViewModel viewModel)
@@ -152,15 +152,14 @@ namespace ShowMe.Views
             if (myShow.MustNotify)
             {
                 imageSender.Source = "empty_bell.png";
-                myShow.MustNotify = false;
                 DependencyService.Get<IMessage>().Show("No more alerts for this show!");
             }
             else
             {
                 imageSender.Source = "full_bell.png";
-                myShow.MustNotify = true;
                 DependencyService.Get<IMessage>().Show("You will receive alerts for this show");
             };
+            viewModel.ChangeNotifyValue(myShow);
         }
 
         /// <summary>

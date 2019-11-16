@@ -52,6 +52,12 @@ namespace ShowMe.Services
 
                 await UpdateMyShow(App.User.Id, item);
             });
+
+            MessagingCenter.Subscribe<ShowDetailsViewModel, MyShow>(this, "UpdateMyShow", async (obj, item) =>
+            {
+
+                await UpdateMyShow(App.User.Id, item);
+            });
             //TODO : use one event called "UpdateMyShowProperties"? with BaseViewModel as sender?
 
         }

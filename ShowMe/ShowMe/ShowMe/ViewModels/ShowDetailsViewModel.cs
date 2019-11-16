@@ -138,6 +138,20 @@ namespace ShowMe.ViewModels
 
         }
 
+        public void ChangeNotifyValue(MyShow myShowToUpdate)
+        {
+            if (myShowToUpdate.MustNotify)
+            {
+                myShowToUpdate.MustNotify = false;
+            }
+            else
+            {
+                myShowToUpdate.MustNotify = true;
+            }
+            MessagingCenter.Send<ShowDetailsViewModel, MyShow>(this, "UpdateMyShow", myShowToUpdate);
+
+        }
+
         public void modifyMyShow(int episodeInWatch, int seasonInWatch)
         {
             MyShow myShow = MyShowsCollection.Instance.FirstOrDefault(x => x.Id == this.Show.Id);
