@@ -14,16 +14,25 @@ namespace ShowMe.Views
 
     public partial class ProfilePage : ContentPage
     {
-        ProfileViewModel viewModel = new ProfileViewModel();
-        User user = App.User;
+        ProfileViewModel viewModel;
+
         public ProfilePage()
         {
             InitializeComponent();
-            BindingContext = App.User;
-            user.TotalMinutesWatched = App.User.TotalMinutesWatched;
-            user.TotalNbrEpisodesWatched = App.User.TotalNbrEpisodesWatched;
-            viewModel.DisplayStatistics(App.User);
+            //BindingContext = App.User;
+            this.BindingContext = viewModel = new ProfileViewModel();
 
+            //user.TotalMinutesWatched = App.User.TotalMinutesWatched;
+            //user.TotalNbrEpisodesWatched = App.User.TotalNbrEpisodesWatched;
+            //viewModel.DisplayStatistics(App.User);
+
+
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            viewModel.Init();
         }
 
         private void OnLogOutClicked(object sender, EventArgs e)

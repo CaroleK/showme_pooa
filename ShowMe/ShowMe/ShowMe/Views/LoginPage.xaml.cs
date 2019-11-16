@@ -109,10 +109,15 @@ namespace ShowMe.Views
 
                 if (!task.Result)
                 {
-                    await FireBaseHelper.AddUser(user.Id, user.Email, user.Picture);
+                    await FireBaseHelper.AddUser(user.Id, user.Name, user.Picture);
+                    App.User = user;
                 }
-               
-                App.User = user;
+                // Retrieve User information (especially data about episodes watched)
+                else
+                {
+                    App.User = Task.Run(()=>FireBaseHelper.RetrieveUser(user.Id)).Result;
+                }
+                
                 // Re-initialize MyShowsCollection for user that just logged in
                 MyShowsCollection.Instance = null;
             }

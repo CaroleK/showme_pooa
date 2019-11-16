@@ -63,6 +63,16 @@ namespace ShowMe.Services
             return false;
         }
 
+        static public async Task<User> RetrieveUser(string userId)
+        {
+            var toCheckUser = (await Myfirebase
+              .Child("Users")
+              .OnceAsync<User>()).Where(a => a.Object.Id == userId).FirstOrDefault();
+
+            User identifiedUser = toCheckUser.Object;
+            return identifiedUser;
+        }
+
 
         /// <summary>
         /// Add new user to databse
