@@ -16,11 +16,7 @@ namespace ShowMe.ViewModels
             set { _myUser = value; OnPropertyChanged(); }
         }
 
-        public int daysWatched => (MyUser.TotalMinutesWatched / 1440);
-        public int hoursWatchedWhenSubstractingDays => (MyUser.TotalMinutesWatched % 1440) / 60;
-        public int minutesWatchedWhenSubstractingDaysAndHours => ((MyUser.TotalMinutesWatched % 1400) % 60);
-
-
+       
         public ProfileViewModel()
         {
             this.MyUser = App.User;
