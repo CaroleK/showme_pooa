@@ -143,11 +143,20 @@ namespace ShowMe.ViewModels
         public void modifyMyShow(int episodeInWatch, int seasonInWatch)
         {
             MyShow myShow = MyShowsCollection.Instance.FirstOrDefault(x => x.Id == this.Show.Id);
-            myShow.LastEpisodeWatched = new EpisodeSeason(episodeInWatch, seasonInWatch);
+            
+            EpisodeSeason newLastEpisodeWatched = new EpisodeSeason(episodeInWatch, seasonInWatch);
+            EpisodeSeason oldLastEpisodeWatched = myShow.LastEpisodeWatched;
+            //bool IsNewLEWAfterCurrent = newLastEpisodeWatched.IsAfter(myShow.LastEpisodeWatched);
+            myShow.LastEpisodeWatched = newLastEpisodeWatched;
+            
             this.Show = myShow;
+            
             MyShowsCollection.ModifyShowInMyShows(myShow);
+            object[] oldLEWAndShow = new object[] { oldLastEpisodeWatched, myShow };
+
             MessagingCenter.Send<BaseViewModel, MyShow>(this, "UpdateMyShow", myShow);
-            //TODO : change user stats
+            MessagingCenter.Send<BaseViewModel, object[]>(this, "UpdateStats", oldLEWAndShow);
+           
         }
     }
 }

@@ -31,5 +31,64 @@ namespace ShowMe.Models
             }
             return base.Equals(obj);
         }
+
+        public bool IsAfter(object obj)
+        {
+            EpisodeSeason es = obj as EpisodeSeason;
+            try
+            {
+                if (SeasonNumber > es.SeasonNumber)
+                {
+                    return true;
+                }
+                else if (SeasonNumber < es.SeasonNumber){
+                    return false;
+                }
+                else
+                {
+                    return (EpisodeNumber <= es.EpisodeNumber)? false : true;
+                }
+            }
+            catch (Exception) 
+            {
+                return false;
+            }
+            ;
+        }
+
+        public int IsApartInNumberOfEpisodes(EpisodeSeason es, Show show)
+        {
+            int difference = 0;
+            int AddOrRemove = 1;
+            if (SeasonNumber == es.SeasonNumber)
+            {
+                difference = EpisodeNumber - es.EpisodeNumber;
+            }
+            
+            else 
+            {
+                if (SeasonNumber < es.SeasonNumber)
+                {
+                    int tempNumber = SeasonNumber;
+                    SeasonNumber = es.SeasonNumber;
+                    es.SeasonNumber = tempNumber;
+                    AddOrRemove = -1;
+                }
+
+                difference += (int) show.SeasonsList[es.SeasonNumber].NumberOfEpisodes - es.EpisodeNumber;
+                
+                if (!(SeasonNumber == es.SeasonNumber +1))
+                {
+                    for (int s = es.SeasonNumber + 1; s < SeasonNumber; s++)
+                    {
+                        difference += (int)show.SeasonsList[s].NumberOfEpisodes;
+                    }
+                }
+
+                difference += EpisodeNumber;
+                
+            }
+            return difference*AddOrRemove;
+        }
     }
 }

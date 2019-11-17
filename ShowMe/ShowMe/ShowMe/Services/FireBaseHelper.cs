@@ -46,7 +46,7 @@ namespace ShowMe.Services
                 await DeleteShowFromUserList(App.User.Id, item);
             });
 
-            MessagingCenter.Subscribe<User, User>(this, "UpdateUser", async (obj, item) =>
+            MessagingCenter.Subscribe<BaseViewModel, User>(this, "UpdateUser", async (obj, item) =>
             {
                 await UpdateUser(App.User.Id, item);
             });
