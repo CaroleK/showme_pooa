@@ -14,7 +14,6 @@ namespace ShowMe.ViewModels
     public class HomeWatchListViewModel : BaseViewModel
     {
         public TvMazeService service = new TvMazeService();
-        public FireBaseHelper MyFireBaseHelper = new FireBaseHelper();
         public ObservableCollection<MyShow> ShowsToDisplay { get; set; } = new ObservableCollection<MyShow>();
 
         private bool _isEmptyShowsToDisplay;
