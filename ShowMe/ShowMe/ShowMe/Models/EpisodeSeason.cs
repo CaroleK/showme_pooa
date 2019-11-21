@@ -69,9 +69,12 @@ namespace ShowMe.Models
             {
                 if (SeasonNumber < es.SeasonNumber)
                 {
-                    int tempNumber = SeasonNumber;
+                    int tempSeasonNumber = SeasonNumber;
+                    int tempEpisodeNumber = EpisodeNumber;
                     SeasonNumber = es.SeasonNumber;
-                    es.SeasonNumber = tempNumber;
+                    EpisodeNumber = es.EpisodeNumber;
+                    es.SeasonNumber = tempSeasonNumber;
+                    es.EpisodeNumber = tempEpisodeNumber;
                     AddOrRemove = -1;
                 }
 
