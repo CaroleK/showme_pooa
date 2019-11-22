@@ -97,6 +97,34 @@ namespace ShowMe.Services
         }
 
         /// <summary>
+        /// This function retrieves the list of pisodes and seasons from TVMazeAPI for the show with the given id
+        /// It cleans out the empty data from the API
+        /// </summary>
+        /// <param name="ShowId">The id of the show</param>
+        /// <returns>A task that returns a tuple with the list of episodes and the clean list of seasons with all available details in the API</returns>
+        public async Task<Tuple<List<Episode>, List<Season>>> GetEpisodesAndSeasonsListAsync(int ShowId)
+        {
+            List<Episode> EpisodesList = await GetEpisodesListAsync(ShowId);
+
+            List<Season> SeasonsList = await GetSeasonsListAsync(ShowId);
+
+            // Sometimes, empty seasons (with no matching episodes) exists in the API
+            // So we're cleaning the useless (and error inducing) data
+            List<Season> SeasonsListNew = new List<Season>();
+            foreach (Season season in SeasonsList)
+            {
+                int numberOfEpisodes = EpisodesList.FindAll(e => e.Season == season.Number).Count;
+                if (numberOfEpisodes > 0)
+                {
+                    season.NumberOfEpisodes = numberOfEpisodes;
+                    SeasonsListNew.Add(season);
+                }
+            }
+
+            return new Tuple<List<Episode>, List<Season>>(EpisodesList, SeasonsListNew);
+        }
+
+        /// <summary>
         /// This function retrieves the list of shows from TVMazeAPI matching a string search for the title
         /// </summary>
         /// <param name="search">The string search</param>

@@ -119,55 +119,77 @@ namespace ShowMe.Models
         /// <returns>Null or a dictionnary of the {{"episode",1},{"season",1}} format</returns>
         public EpisodeSeason NextEpisode()
         {
+            // Where the user left off
             EpisodeSeason currentLEW = this.LastEpisodeWatched;
+
+            // Seasons List
             List<Season> seasonsList = this.SeasonsList;
 
             TvMazeService service = new TvMazeService();
 
+            // First episode
             EpisodeSeason newLEW = GetFirstEpisodeSeason();
             FirstEpisodeToWatch = newLEW;
 
+            // Shouldn't happen
             if (seasonsList == null)
             {
                 return null;
             }
+            // If user has not started watching, return firt episode of show 
             if (currentLEW == null)
             {
                 return newLEW;
             }
+            // If last episode watched is last episode of show, return null
             else if (currentLEW.Equals(this.LastEpisode))
             {
                 return null;
             }
             else
             {
-                int lastSeasonNumber = this.LastEpisodeWatched.SeasonNumber;
-                int lastEpisodeNumber = this.LastEpisodeWatched.EpisodeNumber;
+                // Where the user left off
+                int lastSeasonNumber = currentLEW.SeasonNumber;
+                int lastEpisodeNumber = currentLEW.EpisodeNumber;
+                int indexLastSeason = seasonsList.FindIndex(s => s.Number == lastSeasonNumber);
 
-                if (currentLEW.EpisodeNumber == Season.FindSeasonBySeasonNumber(seasonsList, currentLEW.SeasonNumber).NumberOfEpisodes)
+                // If user left off at last episode of a season (ie maximum episode number), move on to next season
+                if (lastEpisodeNumber == seasonsList[indexLastSeason].EpisodesOfSeason.Max(e => e.Number))
                 {
+                    // The next season number is the minimum season number that is greater than current season number
+                    newLEW.SeasonNumber = seasonsList.FindAll(s => s.Number > lastSeasonNumber).Min(s => s.Number);
+                    int indexSeason = seasonsList.FindIndex(s => s.Number == newLEW.SeasonNumber);
 
-                    int indexSeason = seasonsList.FindIndex(s => s.Number == currentLEW.SeasonNumber + 1);
-                    int minEpisode = seasonsList[indexSeason].EpisodesOfSeason.Min(e => e.Number);
+                    // The first episode of this season is the one with minimum number
+                    int minEpisode = seasonsList[indexSeason].EpisodesOfSeason.Min(e => e.Number);                 
                     int indexEpisode = seasonsList[indexSeason].EpisodesOfSeason.FindIndex(e => e.Number == minEpisode);
-                    newLEW.SeasonNumber = currentLEW.SeasonNumber + 1;
                     newLEW.EpisodeNumber = minEpisode; 
+
+                    // Store duration
                     newLEW.Duration = seasonsList[indexSeason].EpisodesOfSeason[indexEpisode].DurationInMinutes;
                 }
+                // The user left off somewhere in the middle of a season
                 else
                 {
-
-                    int indexSeason = seasonsList.FindIndex(s => s.Number == currentLEW.SeasonNumber);
-                    int indexEpisode = seasonsList[indexSeason].EpisodesOfSeason.FindIndex(s => s.Number == currentLEW.EpisodeNumber + 1);
+                    // Still in the same season                    
                     newLEW.SeasonNumber = currentLEW.SeasonNumber;
-                    newLEW.EpisodeNumber = currentLEW.EpisodeNumber + 1;
-                    newLEW.Duration = seasonsList[indexSeason].EpisodesOfSeason[indexEpisode].DurationInMinutes;
+
+                    // The next episode number is the minimum episode number that is greater than current episode number
+                    newLEW.EpisodeNumber = seasonsList[indexLastSeason].EpisodesOfSeason.FindAll(e => e.Number > lastEpisodeNumber).Min(e => e.Number);
+                    int indexEpisode = seasonsList[indexLastSeason].EpisodesOfSeason.FindIndex(s => s.Number == newLEW.EpisodeNumber);
+                    
+                    // Store duration
+                    newLEW.Duration = seasonsList[indexLastSeason].EpisodesOfSeason[indexEpisode].DurationInMinutes;
                 }
 
                 return newLEW;
             }
         }
 
+        /// <summary>
+        /// Computes the first episode of show (minimal season and minimal episode)
+        /// </summary>
+        /// <returns>An EpisodeSeason object representing first episode of show</returns>
         private EpisodeSeason GetFirstEpisodeSeason()
         {
             List<Season> seasonsList = this.SeasonsList;

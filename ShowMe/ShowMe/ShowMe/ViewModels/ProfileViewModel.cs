@@ -100,36 +100,47 @@ namespace ShowMe.ViewModels
                     //j starts at the next episode user was going to watch
                     for (int j = nextEpisodeSeason.EpisodeNumber; j < finalNumber + 1; j++)
                     {
-                        App.User.TotalNbrEpisodesWatched += variation;
-                        int index = seasonsList[nextSeasonIndex].EpisodesOfSeason.IndexOf(seasonsList[nextSeasonIndex].EpisodesOfSeason.First(e => e.Number == j));
-                        UpdateMinutesInTotalMinutesWatched(seasonsList[nextSeasonIndex].EpisodesOfSeason[index].DurationInMinutes, variation);
+                        if (seasonsList[nextSeasonIndex].EpisodesOfSeason.Exists(e => e.Number == j))
+                        {
+                            App.User.TotalNbrEpisodesWatched += variation;
+                            int index = seasonsList[nextSeasonIndex].EpisodesOfSeason.IndexOf(seasonsList[nextSeasonIndex].EpisodesOfSeason.First(e => e.Number == j));
+                            UpdateMinutesInTotalMinutesWatched(seasonsList[nextSeasonIndex].EpisodesOfSeason[index].DurationInMinutes, variation);
+                        }
                     }
                 }
                 else
                 {   //Step 1 : start with episodes in nextEpisodeSeason.Season 
 
                     //Last episode number of nextEpisodeSeason.Season 
-                    finalNumber = (int)seasonsList[nextSeasonIndex].EpisodesOfSeason.LastOrDefault().Number;
-                    
+                    finalNumber = (int)seasonsList[nextSeasonIndex].EpisodesOfSeason.Max(e => e.Number);
+
                     for (int j = nextEpisodeSeason.EpisodeNumber; j < finalNumber + 1; j++)
                     {
-                        App.User.TotalNbrEpisodesWatched += variation;
-                        //retrieve index of episode j
-                        int index = seasonsList[nextSeasonIndex].EpisodesOfSeason.IndexOf(seasonsList[nextSeasonIndex].EpisodesOfSeason.First(e => e.Number == j));
-                        UpdateMinutesInTotalMinutesWatched(seasonsList[nextSeasonIndex].EpisodesOfSeason[index].DurationInMinutes, variation);
+                        if (seasonsList[nextSeasonIndex].EpisodesOfSeason.Exists(e => e.Number == j))
+                        {
+                            App.User.TotalNbrEpisodesWatched += variation;
+                            //retrieve index of episode j
+                            int index = seasonsList[nextSeasonIndex].EpisodesOfSeason.IndexOf(seasonsList[nextSeasonIndex].EpisodesOfSeason.First(e => e.Number == j));
+                            UpdateMinutesInTotalMinutesWatched(seasonsList[nextSeasonIndex].EpisodesOfSeason[index].DurationInMinutes, variation);
+                        }
                     }
 
                     //Step 2 : all episodes in all seasons after nextEpisodeSeason.Season and before LastEpisodedWatched.Season
-                    for (int i = nextEpisodeSeason.SeasonNumber + 1; i < lastSeasonNumber; i++)
-                    {
-                        //retrieve index of season i
-                        int index = seasonsList.IndexOf(seasonsList.First(s => s.Number == i));
+                    int nextSeasonAfterLastSeasonNumber = seasonsList.FindAll(s => s.Number > nextEpisodeSeason.SeasonNumber).Min(s => s.Number);
 
-                        foreach (Episode episode in seasonsList[index].EpisodesOfSeason)
+                    for (int i = nextSeasonAfterLastSeasonNumber; i < lastSeasonNumber; i++)
+                    {
+                        if (seasonsList.Exists(s => s.Number == i))
                         {
-                            App.User.TotalNbrEpisodesWatched += variation;
-                            UpdateMinutesInTotalMinutesWatched(episode.DurationInMinutes, variation);
-                        }
+                            //retrieve index of season i
+                            int index = seasonsList.IndexOf(seasonsList.First(s => s.Number == i));
+
+                            foreach (Episode episode in seasonsList[index].EpisodesOfSeason)
+                            {
+                                App.User.TotalNbrEpisodesWatched += variation;
+                                UpdateMinutesInTotalMinutesWatched(episode.DurationInMinutes, variation);
+                            }
+                        }                        
                     }
 
 
@@ -143,10 +154,13 @@ namespace ShowMe.ViewModels
 
                     for (int i = minEpisode; i < lastEpisodeNumber + 1; i++)
                     {
-                        App.User.TotalNbrEpisodesWatched += variation;
-                        //retrieve index of episode
-                        int index = seasonsList[indexSeason].EpisodesOfSeason.IndexOf(seasonsList[indexSeason].EpisodesOfSeason.First(e => e.Number == i));
-                        UpdateMinutesInTotalMinutesWatched(seasonsList[indexSeason].EpisodesOfSeason[index].DurationInMinutes, variation);
+                        if (seasonsList[indexSeason].EpisodesOfSeason.Exists(e => e.Number == i))
+                        {
+                            App.User.TotalNbrEpisodesWatched += variation;
+                            //retrieve index of episode
+                            int index = seasonsList[indexSeason].EpisodesOfSeason.IndexOf(seasonsList[indexSeason].EpisodesOfSeason.First(e => e.Number == i));
+                            UpdateMinutesInTotalMinutesWatched(seasonsList[indexSeason].EpisodesOfSeason[index].DurationInMinutes, variation);
+                        }
                     }
                 }
                 MyUser = App.User;
