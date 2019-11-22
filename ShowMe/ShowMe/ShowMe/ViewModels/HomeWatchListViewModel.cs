@@ -21,7 +21,7 @@ namespace ShowMe.ViewModels
         // The list of shows binded to the UI
         public ObservableCollection<MyShow> ShowsToDisplay { get; set; } = new ObservableCollection<MyShow>();
 
-        // Boolean to check is list is empty and display message in that case
+        // Boolean to check if list is empty and display message in that case
         private bool _isEmptyShowsToDisplay;
         public bool isEmptyShowsToDisplay { get {return _isEmptyShowsToDisplay; } set {
                 _isEmptyShowsToDisplay = value;  OnPropertyChanged(); }
@@ -66,18 +66,15 @@ namespace ShowMe.ViewModels
         /// <param name="myShow">The MyShow whose episode has been watched</param>
         public void IncrementEpisode(MyShow myShow)
         {
-            EpisodeSeason newLEW = myShow.NextEpisode();
-            myShow.LastEpisodeWatched = newLEW;
+            //Update Stats
+            MessagingCenter.Send<BaseViewModel, MyShow>(this, "IncrementOneEpisode", myShow);
+
+            //Change myShow object
+            myShow.LastEpisodeWatched = myShow.NextEpisode();
             MyShowsCollection.ModifyShowInMyShows(myShow);
 
-            //Inform FireBase and App.User for stats
+            //Inform FireBase 
             MessagingCenter.Send<BaseViewModel, MyShow>(this, "UpdateMyShow", myShow);
-            
-            //TODO: make messaging center work
-            App.User.TotalNbrEpisodesWatched += 1;
-            App.User.TotalMinutesWatched += newLEW.Duration;
-            Task.Run(()=> FireBaseHelper.UpdateUser(App.User.Id, App.User));
-            //MessagingCenter.Send<BaseViewModel, MyShow>(this, "IncrementOneEpisode", myShow);
         }
 
         /// <summary>

@@ -38,8 +38,10 @@ namespace ShowMe.Models
 
         // Adds "Last Watched: " at the beginning of LastEpisodeWatchedInString, useful for MyShowsPage 
         [JsonProperty("LastEpisodeWatchedInFullString")]
-        public string LastEpisodeWatchedInFullString => "Last watched: " + LastEpisodeWatchedInString; 
-        
+        public string LastEpisodeWatchedInFullString => "Last watched: " + LastEpisodeWatchedInString;
+
+        public EpisodeSeason FirstEpisodeToWatch { get { return GetFirstEpisodeSeason(); } set { } }
+
         // The next episode the user should watch
         public string NextEpisodeInString {
             get
@@ -114,14 +116,16 @@ namespace ShowMe.Models
         /// <summary>
         /// Finds the next episode to watch depending on this show's seasons list and episode list
         /// </summary>
-        /// <returns>Null or a dictionnary of the {{"epidose",1},{"season",1}} format</returns>
+        /// <returns>Null or a dictionnary of the {{"episode",1},{"season",1}} format</returns>
         public EpisodeSeason NextEpisode()
         {
             EpisodeSeason currentLEW = this.LastEpisodeWatched;
             List<Season> seasonsList = this.SeasonsList;
 
             TvMazeService service = new TvMazeService();
-            EpisodeSeason newLEW = new EpisodeSeason(1, 1);
+
+            EpisodeSeason newLEW = GetFirstEpisodeSeason();
+            FirstEpisodeToWatch = newLEW;
 
             if (seasonsList == null)
             {
@@ -129,13 +133,6 @@ namespace ShowMe.Models
             }
             if (currentLEW == null)
             {
-                int minSeason = seasonsList.Min(s => s.Number);
-                int indexSeason = seasonsList.FindIndex(season => season.Number == minSeason);
-                int minEpisode = seasonsList[indexSeason].EpisodesOfSeason.Min(e => e.Number);
-                int indexEpisode = seasonsList[indexSeason].EpisodesOfSeason.FindIndex(episode => episode.Number == minEpisode);
-                newLEW.EpisodeNumber = minEpisode;
-                newLEW.SeasonNumber = minSeason;
-                newLEW.Duration = seasonsList[indexSeason].EpisodesOfSeason[indexEpisode].DurationInMinutes;
                 return newLEW;
             }
             else if (currentLEW.Equals(this.LastEpisode))
@@ -168,6 +165,28 @@ namespace ShowMe.Models
                 }
 
                 return newLEW;
+            }
+        }
+
+        private EpisodeSeason GetFirstEpisodeSeason()
+        {
+            List<Season> seasonsList = this.SeasonsList;
+
+            if (this.SeasonsList == null)
+            {
+                return null;
+            }
+            else
+            {
+                int minSeason = seasonsList.Min(s => s.Number);
+                int indexSeason = seasonsList.FindIndex(season => season.Number == minSeason);
+                int minEpisode = seasonsList[indexSeason].EpisodesOfSeason.Min(e => e.Number);
+                int indexEpisode = seasonsList[indexSeason].EpisodesOfSeason.FindIndex(episode => episode.Number == minEpisode);
+
+                EpisodeSeason FirstEpisodeSeason = new EpisodeSeason(minEpisode, minSeason);
+                FirstEpisodeSeason.Duration = seasonsList[indexSeason].EpisodesOfSeason[indexEpisode].DurationInMinutes;
+
+                return FirstEpisodeSeason;
             }
         }
     }

@@ -31,8 +31,9 @@ namespace ShowMe.ViewModels
 
         public ShowDetailsViewModel(Show show = null) : base()
         {
-            var s = MyShowsCollection.Instance;
-            if (s.Any(e => e.Id == show.Id))
+            var showsCollection = MyShowsCollection.Instance;
+            //If show is in MyShowsCollection, display this object
+            if (showsCollection.Any(e => e.Id == show.Id))
             {
                 MyShow myShow = MyShowsCollection.Instance.First(e => e.Id == show.Id);
                 Title = myShow?.Title;
@@ -189,10 +190,9 @@ namespace ShowMe.ViewModels
 
             EpisodeSeason oldNextEpisodeWatched = myShow.NextEpisode();
             EpisodeSeason oldLastEpisodeWatched = myShow.LastEpisodeWatched;
-
-            //bool IsNewLEWAfterCurrent = newLastEpisodeWatched.IsAfter(myShow.LastEpisodeWatched);
+           
             myShow.LastEpisodeWatched = newLastEpisodeWatched;
-            
+            // Update Show attribute to update UI with OnPropertyChanged
             this.Show = myShow;
             
             MyShowsCollection.ModifyShowInMyShows(myShow);
