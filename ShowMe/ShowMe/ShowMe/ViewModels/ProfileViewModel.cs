@@ -10,10 +10,13 @@ using Xamarin.Forms;
 
 namespace ShowMe.ViewModels
 {
+    /// <summary>
+    /// View Model associated with the Profile Page
+    /// </summary>
     public class ProfileViewModel : BaseViewModel
     {
+        // Current logged in user
         private User _myUser { get; set; }
-
         public User MyUser
         {
             get { return _myUser; }
@@ -54,7 +57,6 @@ namespace ShowMe.ViewModels
         public void Init()
         {
             this.MyUser = App.User;
-
         }
 
         private void UpdateNumberOfEpisodesWatched(EpisodeSeason lastEpisodeWatched, List<Season> seasonsList, bool AddingEpisodes)

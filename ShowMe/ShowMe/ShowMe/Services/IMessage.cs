@@ -4,6 +4,9 @@ using System.Text;
 
 namespace ShowMe.ViewModels
 {
+    /// <summary>
+    /// Interface to describe the possibility to send a toast message
+    /// </summary>
     public interface IMessage
     {
         void Show(string message);

@@ -7,6 +7,9 @@ using ShowMe.Models;
 
 namespace ShowMe.ViewModels
 {
+    /// <summary>
+    /// Class describing the base of View Models, with a Title attribute used in the UI
+    /// </summary>
     public class BaseViewModel : INotifyPropertyChanged
     {
         string title = string.Empty;

@@ -11,13 +11,18 @@ using Xamarin.Forms;
 
 namespace ShowMe.ViewModels
 {
+    /// <summary>
+    /// View Model associated with the WatchList Page
+    /// </summary>
     public class HomeWatchListViewModel : BaseViewModel
     {
         public TvMazeService service = new TvMazeService();
+
+        // The list of shows binded to the UI
         public ObservableCollection<MyShow> ShowsToDisplay { get; set; } = new ObservableCollection<MyShow>();
 
+        // Boolean to check is list is empty and display message in that case
         private bool _isEmptyShowsToDisplay;
-
         public bool isEmptyShowsToDisplay { get {return _isEmptyShowsToDisplay; } set {
                 _isEmptyShowsToDisplay = value;  OnPropertyChanged(); }
             } 

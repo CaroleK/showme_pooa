@@ -10,17 +10,24 @@ using Xamarin.Forms;
 
 namespace ShowMe.ViewModels
 {
+    /// <summary>
+    /// View Model associated with the Upcoming Page
+    /// </summary>
     public class HomeUpcommingViewModel : BaseViewModel
     {
+        // TV Maze service
         TvMazeService service = new TvMazeService();
+
+        // Lists of scheduled shows each day, with titles
         public PageScheduleShow ScheduleToday { get; set; } = new PageScheduleShow() { TitleDate = "On TV today" };
         public PageScheduleShow ScheduleTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "On TV tomorrow" };
         public PageScheduleShow ScheduleAfterTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "On TV after tomorrow" };
 
+        // Global list of scheduled shows, binded to the UI
         public ObservableCollection<PageScheduleShow> SchedulesShows { get; set; } = new ObservableCollection<PageScheduleShow>();
 
+        // Boolean to check is list is empty and display message in that case
         private bool _isEmptySchedulesShows;
-
         public bool isEmptySchedulesShows
         {
             get { return _isEmptySchedulesShows; }
@@ -29,7 +36,6 @@ namespace ShowMe.ViewModels
                 _isEmptySchedulesShows = value; OnPropertyChanged();
             }
         }
-        public List<Show> Favorites { get; set; }
 
         /// <summary>
         /// Init is called on page appearance
@@ -79,6 +85,7 @@ namespace ShowMe.ViewModels
             // Choice made to focus on US region because of the API's data 
             string regionISO = "US";
 
+            // Today
             List<ScheduleShow> sToday = await service.GetUpCommingEpisode(MyShowsCollection.Instance, dateTimeToday, regionISO);
             foreach (ScheduleShow schedule in sToday)
             {
@@ -86,6 +93,7 @@ namespace ShowMe.ViewModels
             }
             SchedulesShows.Add(ScheduleToday);
 
+            // Tomorrow
             List<ScheduleShow> sTomorrow = await service.GetUpCommingEpisode(MyShowsCollection.Instance, dateTimeTomorrow, regionISO);
             foreach (ScheduleShow schedule in sTomorrow)
             {
@@ -93,6 +101,7 @@ namespace ShowMe.ViewModels
             }
             SchedulesShows.Add(ScheduleTomorrow);
 
+            // After tomorrow
             List<ScheduleShow> sAfterTomorrow = await service.GetUpCommingEpisode(MyShowsCollection.Instance, dateTimeAfterTomorrow, regionISO);
             foreach (ScheduleShow schedule in sAfterTomorrow)
             {

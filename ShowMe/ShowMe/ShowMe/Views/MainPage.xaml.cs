@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using ShowMe.Models;
+using ShowMe.Services;
 using ShowMe.ViewModels;
 using Xamarin.Forms;
 
@@ -16,15 +17,12 @@ namespace ShowMe.Views
     [DesignTimeVisible(false)]
     public partial class MainPage : TabbedPage
     {
-        MainPageViewModel mainPageViewModel;
 
         // Instanciates FirebaseHelper once and for all that listens to relevant messages
         FireBaseHelper MyFireBaseHelper = new FireBaseHelper();
 
         public MainPage()
-        {
-            BindingContext = mainPageViewModel = new MainPageViewModel();
-            
+        {            
             InitializeComponent();
             if (!App.IsLoggedIn)
             {

@@ -46,8 +46,6 @@ namespace ShowMe.Views
                     break;
             }
 
-            // TODO: Unable the annoying "customtabs" message
-
             var authenticator = new OAuth2Authenticator(
                 clientId,
                 null,
