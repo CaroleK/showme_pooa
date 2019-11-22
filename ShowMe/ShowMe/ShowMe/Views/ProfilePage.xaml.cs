@@ -19,14 +19,7 @@ namespace ShowMe.Views
         public ProfilePage()
         {
             InitializeComponent();
-            //BindingContext = App.User;
             this.BindingContext = viewModel = new ProfileViewModel();
-
-            //user.TotalMinutesWatched = App.User.TotalMinutesWatched;
-            //user.TotalNbrEpisodesWatched = App.User.TotalNbrEpisodesWatched;
-            //viewModel.DisplayStatistics(App.User);
-
-
         }
 
         protected override void OnAppearing()

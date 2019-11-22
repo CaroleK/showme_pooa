@@ -23,7 +23,7 @@ namespace ShowMe.Models
         public bool MustNotify { get; set; }
 
         // Last episode that the user watched for this show
-        // Must be like {{"epidose",1},{"season",1}}
+        // Must be like {{"episode",1},{"season",1}}
         [JsonProperty("LastEpisodeWatched")]
         public EpisodeSeason LastEpisodeWatched { get; set; }
         

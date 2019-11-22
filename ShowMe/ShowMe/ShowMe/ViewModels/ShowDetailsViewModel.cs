@@ -145,17 +145,22 @@ namespace ShowMe.ViewModels
             MyShow myShow = MyShowsCollection.Instance.FirstOrDefault(x => x.Id == this.Show.Id);
             
             EpisodeSeason newLastEpisodeWatched = new EpisodeSeason(episodeInWatch, seasonInWatch);
+
+            EpisodeSeason oldNextEpisodeWatched = myShow.NextEpisode();
             EpisodeSeason oldLastEpisodeWatched = myShow.LastEpisodeWatched;
+
             //bool IsNewLEWAfterCurrent = newLastEpisodeWatched.IsAfter(myShow.LastEpisodeWatched);
             myShow.LastEpisodeWatched = newLastEpisodeWatched;
             
             this.Show = myShow;
             
             MyShowsCollection.ModifyShowInMyShows(myShow);
-            object[] oldLEWAndShow = new object[] { oldLastEpisodeWatched, myShow };
+
+
+            object[] oldNEWAndShow = new object[] { oldNextEpisodeWatched, oldLastEpisodeWatched, myShow };
 
             MessagingCenter.Send<BaseViewModel, MyShow>(this, "UpdateMyShow", myShow);
-            MessagingCenter.Send<BaseViewModel, object[]>(this, "UpdateStats", oldLEWAndShow);
+            MessagingCenter.Send<BaseViewModel, object[]>(this, "UpdateStats", oldNEWAndShow);
            
         }
     }

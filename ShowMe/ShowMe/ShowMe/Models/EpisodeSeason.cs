@@ -46,7 +46,7 @@ namespace ShowMe.Models
                 }
                 else
                 {
-                    return (EpisodeNumber <= es.EpisodeNumber)? false : true;
+                    return (EpisodeNumber < es.EpisodeNumber)? false : true;
                 }
             }
             catch (Exception) 
