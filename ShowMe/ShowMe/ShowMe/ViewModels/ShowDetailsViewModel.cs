@@ -42,42 +42,36 @@ namespace ShowMe.ViewModels
             {
                 Title = show?.Title;
                 Show = show;
-                Task.Run(() => LoadEpisodes()).Wait();
-                Task.Run(() => LoadSeasons()).Wait();
+                Task.Run(() => LoadEpisodesAndSeasons()).Wait();
                 Task.Run(() => LoadActors()).Wait();
             }
 
         }
 
-        /// <summary>
-        /// Loads all episodes for this show
-        /// And stores them in Show object
-        /// </summary>
-        /// <returns>Void task</returns>
-        public async Task LoadEpisodes()
-        {
-            List<Episode> EpisodesList = await service.GetEpisodesListAsync(Show.Id);
-            if (EpisodesList != null)
-            {
-                this.Show.EpisodesList = EpisodesList;
-            }
-        }
 
         /// <summary>
-        /// Loads all seasons for this show
+        /// Loads all episodes and seasons for this show
         /// And stores them in Show object
         /// </summary>
         /// <returns>Void task</returns>
-        public async Task LoadSeasons()
+        public async Task LoadEpisodesAndSeasons()
         {
-            List<Season> SeasonsList = await service.GetSeasonsListAsync(Show.Id);
-            if (SeasonsList != null)
+            Tuple<List<Episode>, List<Season>> tuple = await service.GetEpisodesAndSeasonsListAsync(Show.Id);
+            List<Episode> episodesList = tuple.Item1;
+            List<Season> seasonsList = tuple.Item2;
+
+            if (episodesList != null)
             {
-                this.Show.SeasonsList = SeasonsList;
+                this.Show.EpisodesList = episodesList;
+            }
+
+            if (seasonsList != null)
+            {
+                this.Show.SeasonsList = seasonsList;
                 // Add relevant episodes to the season's episodes list
-                foreach (Season s in SeasonsList)
+                foreach (Season s in seasonsList)
                 {
-                    s.EpisodesOfSeason = this.Show.EpisodesList.Where(e => e.Season == s.Number).ToList();
+                    s.EpisodesOfSeason = episodesList.Where(e => e.Season == s.Number).ToList();
                 }
             }
         }
