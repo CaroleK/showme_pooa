@@ -129,6 +129,7 @@ namespace ShowMe.Models
 
             // First episode
             EpisodeSeason newLEW = GetFirstEpisodeSeason();
+            FirstEpisodeToWatch = newLEW;
 
             // Shouldn't happen
             if (seasonsList == null)
