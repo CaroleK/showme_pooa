@@ -17,15 +17,12 @@ namespace ShowMe.Views
     [DesignTimeVisible(false)]
     public partial class MainPage : TabbedPage
     {
-        MainPageViewModel mainPageViewModel;
 
         // Instanciates FirebaseHelper once and for all that listens to relevant messages
         FireBaseHelper MyFireBaseHelper = new FireBaseHelper();
 
         public MainPage()
-        {
-            BindingContext = mainPageViewModel = new MainPageViewModel();
-            
+        {            
             InitializeComponent();
             if (!App.IsLoggedIn)
             {

@@ -5,11 +5,18 @@ using System.Collections.ObjectModel;
 
 namespace ShowMe.ViewModels
 {
+    /// <summary>
+    /// View Model associated with the MyShows Page
+    /// </summary>
     class MyShowsViewModel : BaseViewModel
     {
+        // The list of shows binded in the UI
         public ObservableCollection<MyShow> ShowsToDisplay { get; set; } = new ObservableCollection<MyShow>();
+
+        // Filter options
         public ObservableCollection<string> FilterOptions { get; }
 
+        // Favorite options selected or not
         bool onlyFavorites;
         public bool OnlyFavorites
         {
@@ -24,6 +31,7 @@ namespace ShowMe.ViewModels
             }
         }
 
+        // Selected filter
         string selectedFilter = "All";
         public string SelectedFilter
         {
@@ -37,7 +45,6 @@ namespace ShowMe.ViewModels
             }
         }
 
-        TvMazeService service = new TvMazeService();
         public  MyShowsViewModel() 
         {
             Title = "Browse my shows";

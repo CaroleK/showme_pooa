@@ -20,9 +20,11 @@ namespace ShowMe.Services
             {
                 DateTime DateTime = DateTime.Now;
 
+                // Fetch user's show list and shows scheduled in the days to come
                 ObservableCollection<MyShow> myShows = new ObservableCollection<MyShow>(await FireBaseHelper.GetUserShowList(userId));
                 List<ScheduleShow> scheduledShows = RetrieveScheduledShows(myShows);
 
+                // Schedule notifications
                 foreach (ScheduleShow schedule in scheduledShows)
                 {
                     if (GetMustNotifyByIdFromMyShows(myShows, schedule.Show.Id))
@@ -34,11 +36,18 @@ namespace ShowMe.Services
                         string[] airtime = schedule.Airtime.Split(':');
                         string[] airdate = schedule.Airdate.Split('-');
                         DateTime airDate = new DateTime(int.Parse(airdate[0]), int.Parse(airdate[1]), int.Parse(airdate[2]), int.Parse(airtime[0]), int.Parse(airtime[1]), 0);
+                        
+                        // If the date is already passed, notification is sent right away 
+                        // This behaviour would not be ideal in the real applications, 
+                        // but for demonstration purposes it allows us to prove that notifications work without having to wait
                         DateTime notificationTime = airDate.AddDays(-1);
 
+                        // If two notifications have the same id, the last one created overrides the first
+                        // That way, we never send notifications twice for the same episode
                         string notificationIdString = (schedule.IdEpisode != null) ? schedule.IdEpisode + "" : schedule.Show.Id + "" + notificationTime.Hour + "" + notificationTime.Day;
                         int notificationId = int.Parse(notificationIdString);
 
+                        // We use a plugin to send notifications
                         CrossLocalNotifications.Current.Show(notificationTitle, notificationBody, notificationId, notificationTime);
                     }
                 }
@@ -90,7 +99,7 @@ namespace ShowMe.Services
                 }
             }
 
-            // if no matching show was found, return null
+            // if no matching show was found, return false
             return false;
         }
     }
