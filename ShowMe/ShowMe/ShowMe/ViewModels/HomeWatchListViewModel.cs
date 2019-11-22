@@ -21,7 +21,7 @@ namespace ShowMe.ViewModels
         // The list of shows binded to the UI
         public ObservableCollection<MyShow> ShowsToDisplay { get; set; } = new ObservableCollection<MyShow>();
 
-        // Boolean to check is list is empty and display message in that case
+        // Boolean to check if list is empty and display message in that case
         private bool _isEmptyShowsToDisplay;
         public bool isEmptyShowsToDisplay { get {return _isEmptyShowsToDisplay; } set {
                 _isEmptyShowsToDisplay = value;  OnPropertyChanged(); }
@@ -75,7 +75,6 @@ namespace ShowMe.ViewModels
 
             //Inform FireBase 
             MessagingCenter.Send<BaseViewModel, MyShow>(this, "UpdateMyShow", myShow);
-         
         }
 
         /// <summary>
