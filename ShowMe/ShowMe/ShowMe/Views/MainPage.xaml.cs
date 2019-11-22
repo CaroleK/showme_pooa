@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using ShowMe.Models;
+using ShowMe.Services;
 using ShowMe.ViewModels;
 using Xamarin.Forms;
 
