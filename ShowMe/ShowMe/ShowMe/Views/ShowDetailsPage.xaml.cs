@@ -67,12 +67,15 @@ namespace ShowMe.Views
                 myShow = new MyShow(this.viewModel.Show, false, true, null);
                 viewModel.AddShowToMyShowsCollection(myShow);
             };
+            //Change UI
             Btn_AddToMyShows.IsVisible = false;
             Btn_Favorite.IsVisible = true;
             Btn_Notification.IsVisible = true;
             Btn_DeleteFromMyShows.IsVisible = true;
             DisplayLastEpisode.IsVisible = true;
             Btn_EditLastEpisodeWatched.IsVisible = true;
+            
+            //ToastMessage
             DependencyService.Get<IMessage>().Show("Show added to your list");
         }
 

@@ -37,7 +37,7 @@ namespace ShowMe.ViewModels
 
             MessagingCenter.Subscribe<BaseViewModel, MyShow>(this, "IncrementOneEpisode", (obj, item) =>
             {
-                IncrementOrDecrementNumberOfEpisodesWatched(item.NextEpisode().Duration);
+                IncrementNumberOfEpisodesWatched(item.NextEpisode().Duration);
             });
 
             MessagingCenter.Subscribe<BaseViewModel, object[]>(this, "UpdateStats", (obj, item) =>
@@ -58,30 +58,44 @@ namespace ShowMe.ViewModels
             });
         }
 
+        /// <summary>
+        /// Everytime ProfilePage is displayed, make sure MyUser object takes (new) values of App.User
+        /// </summary>
         public void Init()
         {
             this.MyUser = App.User;
 
         }
 
+
+        /// <summary>
+        /// Calculate all the new stats by updtating TotalNbrOfEpisodesWatched and TotalMinutesWatched (App.User attributes)
+        /// </summary>
+        /// <param name="lastEpisodeWatched"></param> new input of user (where he said he stoppped watching)
+        /// <param name="seasonsList"></param> the show's seasons in order to navigate within episodes and seasons
+        /// <param name="AddingEpisodes"></param> indicates if we are adding or substracting episodes 
+        /// <param name="nextEpisodeSeason"></param> current state for user (what he was supposed to watch next)
         private void UpdateNumberOfEpisodesWatched(EpisodeSeason lastEpisodeWatched, List<Season> seasonsList, bool AddingEpisodes, EpisodeSeason nextEpisodeSeason)
         {
             int variation = AddingEpisodes ? 1 : -1;
 
             int nextSeasonIndex = seasonsList.IndexOf(seasonsList.First(s => s.Number == nextEpisodeSeason.SeasonNumber));
-            //int initialEpisodeIndex = seasonsList[initialSeasonIndex].EpisodesOfSeason.IndexOf(seasonsList[initialSeasonIndex].EpisodesOfSeason.First(s => s.Number == initialLastEW.EpisodeNumber)); 
 
+            // verify that user is currently watching
             if (lastEpisodeWatched != null)
             {
                 int lastSeasonNumber = lastEpisodeWatched.SeasonNumber;
                 int lastEpisodeNumber = lastEpisodeWatched.EpisodeNumber;
 
                 int finalNumber;
+                
                 finalNumber = (int)seasonsList[nextSeasonIndex].EpisodesOfSeason.LastOrDefault().Number;
 
+                //if change of LastEpisodeWatched occurs within same season
                 if (lastSeasonNumber == nextEpisodeSeason.SeasonNumber)
                 {
                     finalNumber = lastEpisodeWatched.EpisodeNumber;
+                    //j starts at the next episode user was going to watch
                     for (int j = nextEpisodeSeason.EpisodeNumber; j < finalNumber + 1; j++)
                     {
                         App.User.TotalNbrEpisodesWatched += variation;
@@ -130,13 +144,22 @@ namespace ShowMe.ViewModels
         }
 
 
+        /// <summary>
+        /// Increment or decrement TotalMinutesWatched (App.User attribute) with duration of an episode
+        /// </summary>
+        /// <param name="Duration"></param> duration of the episode
+        /// <param name="increasingOrDecreasingVariation"></param> add or remove episode
         public void UpdateMinutesInTotalMinutesWatched(int Duration, int increasingOrDecreasingVariation)
         {
 
             App.User.TotalMinutesWatched += increasingOrDecreasingVariation * Duration;
         }
 
-        public void IncrementOrDecrementNumberOfEpisodesWatched(int Duration)
+        /// <summary>
+        /// When users increments one episode in Watchlist page, add this info in stats
+        /// </summary>
+        /// <param name="Duration"></param> duration of episode watched
+        public void IncrementNumberOfEpisodesWatched(int Duration)
         {
             App.User.TotalNbrEpisodesWatched += 1;
             App.User.TotalMinutesWatched += Duration;
