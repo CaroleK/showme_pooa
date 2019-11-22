@@ -16,30 +16,38 @@ namespace ShowMe.Services
         /// <param name="userId">The user id</param>
         static public async Task ScheduleNotification(string userId)
         {
-            DateTime DateTime = DateTime.Now;
-
-            ObservableCollection<MyShow> myShows = new ObservableCollection<MyShow>(await FireBaseHelper.GetUserShowList(userId));
-            List<ScheduleShow> scheduledShows = RetrieveScheduledShows(myShows); 
-
-            foreach (ScheduleShow schedule in scheduledShows)
+            try
             {
-                if (GetByIdFromMyShows(myShows, schedule.Show.Id).MustNotify)
+                DateTime DateTime = DateTime.Now;
+
+                ObservableCollection<MyShow> myShows = new ObservableCollection<MyShow>(await FireBaseHelper.GetUserShowList(userId));
+                List<ScheduleShow> scheduledShows = RetrieveScheduledShows(myShows);
+
+                foreach (ScheduleShow schedule in scheduledShows)
                 {
+                    if (GetMustNotifyByIdFromMyShows(myShows, schedule.Show.Id))
+                    {
 
-                    string notificationBody = schedule.Airtime + " - " + schedule.Show.Network.NetworkName + " || " + schedule.TitleEpisode;
-                    string notificationTitle = "Don't miss it! " + schedule.Show.Title + " is on TV tomorrow";
+                        string notificationBody = schedule.Airtime + " - " + schedule.Show.Network.NetworkName + " || " + schedule.TitleEpisode;
+                        string notificationTitle = "Don't miss it! " + schedule.Show.Title + " is on TV tomorrow";
 
-                    string[] airtime = schedule.Airtime.Split(':');
-                    string[] airdate = schedule.Airdate.Split('-');
-                    DateTime airDate = new DateTime(int.Parse(airdate[0]), int.Parse(airdate[1]), int.Parse(airdate[2]), int.Parse(airtime[0]), int.Parse(airtime[1]), 0);
-                    DateTime notificationTime = airDate.AddDays(-1);
+                        string[] airtime = schedule.Airtime.Split(':');
+                        string[] airdate = schedule.Airdate.Split('-');
+                        DateTime airDate = new DateTime(int.Parse(airdate[0]), int.Parse(airdate[1]), int.Parse(airdate[2]), int.Parse(airtime[0]), int.Parse(airtime[1]), 0);
+                        DateTime notificationTime = airDate.AddDays(-1);
 
-                    string notificationIdString = (schedule.IdEpisode != null) ? schedule.IdEpisode + "" : schedule.Show.Id + "" + notificationTime.Hour + "" + notificationTime.Day ;
-                    int notificationId = int.Parse(notificationIdString);
+                        string notificationIdString = (schedule.IdEpisode != null) ? schedule.IdEpisode + "" : schedule.Show.Id + "" + notificationTime.Hour + "" + notificationTime.Day;
+                        int notificationId = int.Parse(notificationIdString);
 
-                    CrossLocalNotifications.Current.Show(notificationTitle, notificationBody, notificationId, notificationTime);
+                        CrossLocalNotifications.Current.Show(notificationTitle, notificationBody, notificationId, notificationTime);
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                CrossLocalNotifications.Current.Show("Oops, an exception occurred while scheduling notifications", e.Message, 0, DateTime.Now);
+            }
+            
         }
 
         /// <summary>
@@ -68,22 +76,22 @@ namespace ShowMe.Services
 
 
         /// <summary>
-        /// Retrieves a show MyShow from the Instance of the user's MyShow list by its ID
+        /// Retrieves the MustNotify property of a show from the instance of the user's MyShow list by the show ID
         /// </summary>
         /// <param name="id">The ID of the MyShow to retrieve</param>
-        /// <returns>The matching MyShow, or null if no show matches the ID</returns>
-        static protected MyShow GetByIdFromMyShows(ObservableCollection<MyShow> myShows, int id)
+        /// <returns>The matching MustNotifiy (or false if no show matches the ID)</returns>
+        static protected bool GetMustNotifyByIdFromMyShows(ObservableCollection<MyShow> myShows, int id)
         {
             foreach (MyShow myShow in myShows)
             {
                 if (myShow.Id == id)
                 {
-                    return myShow;
+                    return myShow.MustNotify;
                 }
             }
 
             // if no matching show was found, return null
-            return null;
+            return false;
         }
     }
 }
