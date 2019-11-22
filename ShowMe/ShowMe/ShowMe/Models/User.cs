@@ -53,7 +53,7 @@ namespace ShowMe.Models
 
         public int daysWatched => (TotalMinutesWatched / 1440);
         public int hoursWatchedWhenSubstractingDays => (TotalMinutesWatched % 1440) / 60;
-        public int minutesWatchedWhenSubstractingDaysAndHours => ((TotalMinutesWatched % 1400) % 60);
+        public int minutesWatchedWhenSubstractingDaysAndHours => ((TotalMinutesWatched % 1440) % 60);
 
     }
 }
