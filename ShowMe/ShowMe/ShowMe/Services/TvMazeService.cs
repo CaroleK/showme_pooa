@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace ShowMe.Services
 {
@@ -37,6 +38,7 @@ namespace ShowMe.Services
             catch (Exception ex)
             {
                 Debug.WriteLine("\tERROR {0}", ex.Message);
+                DependencyService.Get<IMessage>().Show("Sorry, a problem occured.");
             }
             return jsonString;
         }
