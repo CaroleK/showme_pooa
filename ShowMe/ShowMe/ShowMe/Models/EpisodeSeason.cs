@@ -22,6 +22,12 @@ namespace ShowMe.Models
             SeasonNumber = seasonNumber;
         }
 
+        /// <summary>
+        /// Override of the Equals method for EpisodeSeason objects
+        /// Two EpisodeSeason objects are equals if they have same episode number and season number
+        /// </summary>
+        /// <param name="obj">The object to compare to</param>
+        /// <returns>True if objects are equals, false otherwise</returns>
         public override bool Equals(object obj)
         {
             EpisodeSeason es = obj as EpisodeSeason;
@@ -32,6 +38,11 @@ namespace ShowMe.Models
             return base.Equals(obj);
         }
 
+        /// <summary>
+        /// Determines whether a given EpisodeSeason comes after (meaning has higher episode number or season number) than this one
+        /// </summary>
+        /// <param name="obj">The object to compare to</param>
+        /// <returns>True is given EpisodeSeason comes after, false otherwise</returns>
         public bool IsAfter(object obj)
         {
             EpisodeSeason es = obj as EpisodeSeason;
@@ -56,42 +67,5 @@ namespace ShowMe.Models
             ;
         }
 
-        public int IsApartInNumberOfEpisodes(EpisodeSeason es, Show show)
-        {
-            int difference = 0;
-            int AddOrRemove = 1;
-            if (SeasonNumber == es.SeasonNumber)
-            {
-                difference = EpisodeNumber - es.EpisodeNumber;
-            }
-            
-            else 
-            {
-                if (SeasonNumber < es.SeasonNumber)
-                {
-                    int tempSeasonNumber = SeasonNumber;
-                    int tempEpisodeNumber = EpisodeNumber;
-                    SeasonNumber = es.SeasonNumber;
-                    EpisodeNumber = es.EpisodeNumber;
-                    es.SeasonNumber = tempSeasonNumber;
-                    es.EpisodeNumber = tempEpisodeNumber;
-                    AddOrRemove = -1;
-                }
-
-                difference += (int) show.SeasonsList[es.SeasonNumber].NumberOfEpisodes - es.EpisodeNumber;
-                
-                if (!(SeasonNumber == es.SeasonNumber +1))
-                {
-                    for (int s = es.SeasonNumber + 1; s < SeasonNumber; s++)
-                    {
-                        difference += (int)show.SeasonsList[s].NumberOfEpisodes;
-                    }
-                }
-
-                difference += EpisodeNumber;
-                
-            }
-            return difference*AddOrRemove;
-        }
     }
 }
