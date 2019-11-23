@@ -3,7 +3,7 @@
 The project consists in creating an Android application that allows a user to manage the watching of his shows:
 
 * The user can make a list of shows that he is watching.
-Note : When adding a show to the list of watching shows the user has access to the summarry of the show, the list of episodes, the actors present in the show. The user can also indicate the last episode he watched.
+Note : When adding a show to the list of watching shows the user has access to the summary of the show, the list of episodes, the actors present in the show. The user can also indicate the last episode he watched.
 
 * The user can follow the last episode watched of each show and increment it easily
 
@@ -21,7 +21,7 @@ Note : The user can indicate his wish not to be notified.
  2. Select System (on Android 8.0 or higher)
  3. Scroll to the bottom and select About phone
  4. Scroll to the bottom and tap Build number 7 times
- 5. Return to the previous screen to the previous screen to find Developer options near the bottom
+ 5. Return to the previous screen to find Developer options near the bottom
 
  * Build the application on your device
  1. Connect your mobile device to your computer via USB
@@ -49,7 +49,7 @@ Note : The user can indicate his wish not to be notified.
  Install and manage packages in Visual Studio using the NuGet Package Manager:
 
 * Find and install a package
-1. In Solution Explorer, right-click either References or a project and select ```MAnage NuGet Packages...```
+1. In Solution Explorer, right-click either References or a project and select ```Manage NuGet Packages...```
 2. Search for a specific package using the search box on the upper left. Select a package from the list to display its information, which also enables the ```Install``` button along with a version-selection drop-down.
 3. Select the desired version from the drop-down and select ```Install```. Visual Studio installs the packages and its dependencies into the project. You may be asked to accept license terms. 
 
@@ -73,19 +73,19 @@ b. Browsing section - To discover shows by swiping up```
 
 2.bis. Clicking on a show, the user accesses to the Show Details Page
 ```The user can : 
-a. Access the shows details (summary, cast, episodes list) , 
-b. Add the show to his watch list, 
+a. Access the shows details (summary, cast, episodes list)
+b. Add the show to his watch list
 c. Indicate if he started to watch the show, and indicate the last episode watched
-d. Indicate that the show is one of his favorite (by clicking on the heart button)
-e. Indicate that he does not want to be notified of this show transmissions on TV
+d. Indicate that the show is one of his favorites (by clicking on the heart button)
+e. Indicate that he does not want to be notified of this show transmissions on TV (by click on the bell button)
 f. Change the last episode watched
 g. Delete the show from his watch list``
 
 3. Browse my shows
 ```Browse my shows page is divided into three sections:
 a. Selection bar - To filter the shows of the watching list by advancement criterias (Not started - In progress - Finished)
-b. Favorites button - To`filter favorites shows
-c. Browsing section - To see the statuts of each show of the watching list```
+b. Favorites button - To`filter favorite shows
+c. Browsing section - To see the status of each show of the watching list```
 
 4. Profile page
 ```Profile page is divided into three sections:
@@ -126,9 +126,9 @@ c. Log out button```
 
 *Add several shows to your watch list:
 1. Add a show and indicate that it's one of your favorites by clicking on the heart button
-2. Add a show saying that you did not start watching it
-3. Add a show saying that you finished it (select the last episode of the last season)
-4. Add a show that is scheduled on TV (examples : Big City Greens, General Hospital, PBs NewsHour)
+2. Add a show and indicate that you did not start watching it
+3. Add a show and indicate that you finished it (select the last episode of the last season)
+4. Add a show that is scheduled on TV (examples : Big City Greens (on Saturdays), General Hospital (on weekdays), PBS NewsHour (on weekdays))
 
 *Verify several properties:
 1. Verify that you can filter by ```Favorites``` in the ```Browse my show``` page
