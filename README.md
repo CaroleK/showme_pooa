@@ -5,7 +5,7 @@ The project consists in creating an Android application that allows a user to ma
 * The user can make a list of shows that he is watching.
 Note : When adding a show to the list of watching shows the user has access to the summarry of the show, the list of episodes, the actors present in the show. The user can also indicate the last episode he watched.
 
-* The user can follow the last episode watched of each show and incremente it easily
+* The user can follow the last episode watched of each show and increment it easily
 
 * The user can see the next television transmissions of his shows and be notified of these transmissions.
 Note : The user can indicate his wish not to be notified.
@@ -26,7 +26,7 @@ Note : The user can indicate his wish not to be notified.
  * Build the application on your device
  1. Connect your mobile device to your computer via USB
  2. In the ```ShowMe``` folder : Open the ```ShowMe.sln``` file with Visual Studio
- 3. Wait until visual studio recognizes your device (once it's good your device's name will be display on the top of Visual Studio Windows)
+ 3. Wait until visual studio recognizes your device (once it's good your device's name will be displayed on the top of Visual Studio Windows)
  4. Build the application on your device by clicking on the green arrow on the top of Visual Studio windows
 
  * Play with the application on your device
@@ -63,13 +63,13 @@ Note : The user can indicate his wish not to be notified.
 * ShowMe application is divided into four tab pages:
 1. Home TV 
 ```Home TV page is divided into two tab pages: 
-a. To Watch - The user can follow the last episode watched of each show and incremente it easily
+a. To Watch - The user can follow the last episode watched of each show and increment it easily
 b. Upcoming - The user can see the next television transmissions of his shows```
 
 2. Browse
 ```Browse page is divided into two sections:
 a. Search bar - To search for specific shows
-b. Browsing section - To discover shows by swiping```
+b. Browsing section - To discover shows by swiping up```
 
 2.bis. Clicking on a show, the user accesses to the Show Details Page
 ```The user can : 
@@ -97,25 +97,25 @@ c. Log out button```
 
 *Browse through the pages to verify initialization:
 1. Home TV page : Verify that you get the message ```Click on the Discover tab to start adding shows to your list !``` on the To Watch tab, and ```No shows on your list is scheduled on TV, try adding another show!```on the upcoming tab.
-2. Browse : Verify that you are able to discover more show by swiping up (note: a loading image should appear if the API call is too long)
+2. Browse : Verify that you are able to discover more shows by swiping up (note: a loading image should appear if the API call is too long)
 3. Browse my show : Empty
-4. Profile page : Verify that your profile picture and user name is display and that your statistics are up to 0
+4. Profile page : Verify that your profile picture and user name are displayed and that your statistics are up to 0
 
 *Add a show to your watch list:
 1. Click on a show (for example ```Under the Dome```) 
-1.a. Verify that you see the Summary, the Cast (with a list of actor - name and picture), the Episodes list (picture and title)
+1.a. Verify that you see the Summary, the Cast (with a list of actors - name and picture), the Episodes list (picture and title)
 2. Click on the button ```Add to my shows```
 2.a Click on ```Yes``` to indicate that you already started to watch the show
-2.b Click on ```Choose season``` and chose a number (same for choose episode)
+2.b Click on ```Choose season``` and choose a number (do the same to choose the episode)
 2.c Click on ```Save```
 
 *Verify that the show has been added to your Watch list:
 1. Click on the ```Browse my show``` page 
-2. Verify that the show is display
+2. Verify that the show is displayed
 
-*Verify that you can incremente the last episode seen:
+*Verify that you can increment the last episode seen:
 1. Click on the ```Home TV``` page 
-2. Verify that the show is display 
+2. Verify that the show is displayed 
 3. Click on the check-button
 4. Verify that the check-button goes green
 5. Verify that the last episode number has been incremented
@@ -125,10 +125,10 @@ c. Log out button```
 2. Verify that your statistics have been incremented
 
 *Add several shows to your watch list:
-1. Add a show and indicate that it's one of your favorite by clicking on the heart button
+1. Add a show and indicate that it's one of your favorites by clicking on the heart button
 2. Add a show saying that you did not start watching it
-3. Add a show saying that you finished it (select the last episode of the las season)
-4. Add a show that is schedule on TV (examples : Big City Greens, General Hospital, PBs NewsHour)
+3. Add a show saying that you finished it (select the last episode of the last season)
+4. Add a show that is scheduled on TV (examples : Big City Greens, General Hospital, PBs NewsHour)
 
 *Verify several properties:
 1. Verify that you can filter by ```Favorites``` in the ```Browse my show``` page

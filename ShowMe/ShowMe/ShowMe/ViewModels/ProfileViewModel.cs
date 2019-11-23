@@ -28,12 +28,13 @@ namespace ShowMe.ViewModels
         {
             this.MyUser = App.User;
             
-            //
+            //When we add a show, we consider the initial NextEpisode to be the first episode to watch 
             MessagingCenter.Subscribe<BaseViewModel, MyShow>(this, "AddToMyShows", (obj, item) =>
             {
                 UpdateNumberOfEpisodesWatched(item.LastEpisodeWatched, item.SeasonsList, true, item.FirstEpisodeToWatch);
             });
 
+            //When we delete a show, we consider the initial NextEpisode to be the first episode to watch 
             MessagingCenter.Subscribe<BaseViewModel, MyShow>(this, "DeleteFromMyShows", (obj, item) =>
             {
                 UpdateNumberOfEpisodesWatched(item.LastEpisodeWatched, item.SeasonsList, false, item.FirstEpisodeToWatch);
