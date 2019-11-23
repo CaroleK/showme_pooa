@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using ShowMe.Models;
 using ShowMe.ViewModels;
@@ -7,6 +6,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Rg.Plugins.Popup.Services;
 using static ShowMe.Views.AddShowPopUp;
+using ShowMe.Services;
 
 namespace ShowMe.Views
 {

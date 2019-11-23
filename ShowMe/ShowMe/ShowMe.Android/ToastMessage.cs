@@ -10,7 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using ShowMe.Droid;
-using ShowMe.ViewModels;
+using ShowMe.Services;
 
 [assembly: Xamarin.Forms.Dependency(typeof(ToastMessage))]
 

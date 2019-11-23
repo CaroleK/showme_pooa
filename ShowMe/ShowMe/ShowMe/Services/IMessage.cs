@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShowMe.ViewModels
+namespace ShowMe.Services
 {
     /// <summary>
     /// Interface to describe the possibility to send a toast message
