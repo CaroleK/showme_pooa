@@ -122,10 +122,19 @@ namespace ShowMe.Services
 
         static public async Task UpdateUser(string userId, User user)
         {
-            await Myfirebase
-              .Child("Users")
-              .Child(userId)
-              .PutAsync(user);
+            try
+            {
+                await Myfirebase
+                  .Child("Users")
+                  .Child(userId)
+                  .PutAsync(user);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("\tERROR {0}", e.Message);
+                DependencyService.Get<IMessage>().Show("Sorry, a problem occured... We failed to save your changes in our database.");
+            }
+
         }
 
         /// <summary>
@@ -136,11 +145,20 @@ namespace ShowMe.Services
         /// <returns>Void task</returns>
         static public async Task AddShowToUserList(string UserId, MyShow selectedShow)
         {
-            await Myfirebase
-              .Child("Users_Shows_List")
-              .Child(UserId)
-              .Child(selectedShow.Title)
-              .PutAsync(selectedShow);
+            try
+            {
+                await Myfirebase
+                  .Child("Users_Shows_List")
+                  .Child(UserId)
+                  .Child(selectedShow.Title)
+                  .PutAsync(selectedShow);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("\tERROR {0}", e.Message);
+                DependencyService.Get<IMessage>().Show("Sorry, a problem occured... We failed to save your changes in our database.");
+            }
+            
         }
 
         /// <summary>
@@ -182,11 +200,20 @@ namespace ShowMe.Services
         /// <returns>Void task</returns>
         internal static async Task DeleteShowFromUserList(string UserId, MyShow myShowToDelete)
         {
-            await Myfirebase
-              .Child("Users_Shows_List")
-              .Child(UserId)
-              .Child(myShowToDelete.Title)
-              .DeleteAsync();
+            try
+            {
+                await Myfirebase
+                  .Child("Users_Shows_List")
+                  .Child(UserId)
+                  .Child(myShowToDelete.Title)
+                  .DeleteAsync();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("\tERROR {0}", e.Message);
+                DependencyService.Get<IMessage>().Show("Sorry, a problem occured... We failed to save your changes in our database.");
+            }
+            
         }
 
         /// <summary>
@@ -197,11 +224,19 @@ namespace ShowMe.Services
         /// <returns>Void task</returns>
         internal async Task UpdateMyShow(string UserId, MyShow showToUpdate)
         {
-            await Myfirebase
-                .Child("Users_Shows_List")
-                .Child(UserId)
-                .Child(showToUpdate.Title)
-                .PutAsync(showToUpdate);
+            try
+            {
+                await Myfirebase
+                    .Child("Users_Shows_List")
+                    .Child(UserId)
+                    .Child(showToUpdate.Title)
+                    .PutAsync(showToUpdate);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("\tERROR {0}", e.Message);
+                DependencyService.Get<IMessage>().Show("Sorry, a problem occured... We failed to save your changes in our database.");
+            }            
         }
     }
 }
