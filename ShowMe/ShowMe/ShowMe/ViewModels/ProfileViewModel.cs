@@ -27,7 +27,8 @@ namespace ShowMe.ViewModels
         public ProfileViewModel()
         {
             this.MyUser = App.User;
-            
+            Title = "My profile";
+
             //When we add a show, we consider the initial NextEpisode to be the first episode to watch 
             MessagingCenter.Subscribe<BaseViewModel, MyShow>(this, "AddToMyShows", (obj, item) =>
             {
