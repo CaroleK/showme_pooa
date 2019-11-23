@@ -9,9 +9,8 @@ using ShowMe.Models;
 using Xamarin.Forms;
 using System.Linq;
 using ShowMe.ViewModels;
-using System.Collections.ObjectModel;
-using LiteDB;
-using Newtonsoft.Json;
+using Xamarin.Forms.Internals;
+using System.Diagnostics;
 
 namespace ShowMe.Services
 {
@@ -59,23 +58,39 @@ namespace ShowMe.Services
         /// <returns>Boolean task, true is user exists, fasle otherwise</returns>
         static public async Task<bool> CheckIfUserExists(string userId)
         {
-            var toCheckUser = (await Myfirebase
-              .Child("Users")
-              .OnceAsync<User>()).Where(a => a.Object.Id == userId).FirstOrDefault();
+            try
+            {
+                var toCheckUser = (await Myfirebase
+                  .Child("Users")
+                  .OnceAsync<User>()).Where(a => a.Object.Id == userId).FirstOrDefault();
 
-            if (!(toCheckUser == null)) { return true; }
+                if (!(toCheckUser == null)) { return true; }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("\tERROR {0}", e.Message);
+            }            
 
             return false;
         }
 
         static public async Task<User> RetrieveUser(string userId)
         {
-            var toCheckUser = (await Myfirebase
-              .Child("Users")
-              .OnceAsync<User>()).Where(a => a.Object.Id == userId).FirstOrDefault();
+            try
+            {
+                var toCheckUser = (await Myfirebase
+                  .Child("Users")
+                  .OnceAsync<User>()).Where(a => a.Object.Id == userId).FirstOrDefault();
 
-            User identifiedUser = toCheckUser.Object;
-            return identifiedUser;
+                User identifiedUser = toCheckUser.Object;
+                return identifiedUser;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("\tERROR {0}", e.Message);
+                return null;
+            }
+
         }
 
 
@@ -85,32 +100,24 @@ namespace ShowMe.Services
         /// <param name="userId">The user id</param>
         /// <param name="name">The user's name</param>
         /// <param name="picture">The user's profile picture</param>
-        /// <returns>Void task</returns>
-        static public async Task AddUser(string userId, string name, string picture)
+        /// <returns>Bool task that's true if addition succeded, false otherwise</returns>
+        static public async Task<bool> AddUser(string userId, string name, string picture)
         {
-            User user = new User() { Id = userId, Name = name, Picture = picture };
-            await Myfirebase
-              .Child("Users")
-              .Child(user.Id)
-              .PutAsync(user);
-        }
-
-        static public async Task ModifyMinutesWatchedUser(string userId, int TotalMinutesWatched)
-        {
-            await Myfirebase
-              .Child("Users")
-              .Child(userId)
-              .Child("TotalMinutesWatched")
-              .PutAsync(TotalMinutesWatched);
-        }
-
-        static public async Task ModifyNbrEpisodesWatchedUser(string userId, int TotalNbrEpisodesWatched)
-        {
-            await Myfirebase
-              .Child("Users")
-              .Child(userId)
-              .Child("TotalNbrEpisodesWatched")
-              .PutAsync(TotalNbrEpisodesWatched);
+            try
+            {
+                User user = new User() { Id = userId, Name = name, Picture = picture };
+                await Myfirebase
+                  .Child("Users")
+                  .Child(user.Id)
+                  .PutAsync(user);
+                return true;
+            }
+            
+            catch (Exception e)
+            {                
+                Debug.WriteLine("\tERROR {0}", e.Message);
+                return false;
+            }
         }
 
         static public async Task UpdateUser(string userId, User user)
@@ -144,16 +151,25 @@ namespace ShowMe.Services
         static public async Task<List<MyShow>> GetUserShowList(string userId)
         {
             List<MyShow> showList = new List<MyShow>();
-            var shows = await Myfirebase
-              .Child("Users_Shows_List")
-              .Child(userId)
-              .OnceAsync<MyShow>();
-
-            foreach (var show in shows)
+            try
             {
-                MyShow newShow = show.Object; 
-                showList.Add(newShow);
+                var shows = await Myfirebase
+                  .Child("Users_Shows_List")
+                  .Child(userId)
+                  .OnceAsync<MyShow>();
+
+                foreach (var show in shows)
+                {
+                    MyShow newShow = show.Object;
+                    showList.Add(newShow);
+                }
             }
+            catch (Exception e)
+            {
+                DependencyService.Get<IMessage>().Show("Sorry, a problem occured... Your shows couldn't be retrieved.");
+                Debug.WriteLine("\tERROR {0}", e.Message);
+            }
+            
 
             return showList;
         }
