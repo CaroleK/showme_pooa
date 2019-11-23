@@ -22,6 +22,11 @@ namespace ShowMe.Views
             BindingContext = viewModel = new MyShowsViewModel();
         }
 
+        /// <summary>
+        /// Defines what happens when user clicks on one of the shows in the list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             Show selectedItem = e.SelectedItem as Show;

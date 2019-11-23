@@ -27,7 +27,11 @@ namespace ShowMe.Views
             BindingContext = viewModel = new DiscoverViewModel();
         }
 
-
+        /// <summary>
+        /// Defines what happens when user clicks on one of the shows in the list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             
@@ -42,7 +46,11 @@ namespace ShowMe.Views
             DiscoverListView.SelectedItem = null;
         }
 
-
+        /// <summary>
+        /// If user scrolls down to the bottom, load more elements
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Handle_ItemAppearing (object sender, ItemVisibilityEventArgs e)
         {
             if (String.IsNullOrEmpty(DiscoverSearchBar.Text))
@@ -56,12 +64,22 @@ namespace ShowMe.Views
 
         }
 
+        /// <summary>
+        /// When user clicks on search button, fetch results
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Discover_SearchButtonPressed(object sender, EventArgs e)
         {
             // Displays shows depending on the search
             Task.Run(() => viewModel.ExecuteSearchShowCommand(DiscoverSearchBar.Text));
         }
 
+        /// <summary>
+        /// If the search bar is empty, display random shows
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Discover_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.NewTextValue))
@@ -71,17 +89,6 @@ namespace ShowMe.Views
                 Task.Run(() => viewModel.ExecuteLoadShowCommand());
                 
             }
-        }
-
-        private void Discover_Focused(object sender, FocusEventArgs e)
-        {
-            // append when the element receives focus
-            // TO DELETE Btn_LoadMore.IsVisible = false;
-        }
-
-        private void Discover_Unfocused(object sender, FocusEventArgs e)
-        {
-            // TO DELETE Btn_LoadMore.IsVisible = true;
         }
     }
 }

@@ -20,6 +20,9 @@ namespace ShowMe.Views
             BindingContext = viewModel = new HomeUpcommingViewModel();
         }
 
+        /// <summary>
+        /// When page appears, be sure to init correctly
+        /// </summary>
         protected override void OnAppearing()
         {
             

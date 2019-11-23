@@ -74,6 +74,11 @@ namespace ShowMe.Services
             return false;
         }
 
+        /// <summary>
+        /// Fetches user in the database according to its id
+        /// </summary>
+        /// <param name="userId">Th user id</param>
+        /// <returns>A task with the user matching the id</returns>
         static public async Task<User> RetrieveUser(string userId)
         {
             try
@@ -120,6 +125,12 @@ namespace ShowMe.Services
             }
         }
 
+        /// <summary>
+        /// Update a user in the databse
+        /// </summary>
+        /// <param name="userId">The id of the user to update</param>
+        /// <param name="user">The user object with its changes</param>
+        /// <returns>Void task</returns>
         static public async Task UpdateUser(string userId, User user)
         {
             try

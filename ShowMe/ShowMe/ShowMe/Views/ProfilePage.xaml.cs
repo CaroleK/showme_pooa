@@ -22,12 +22,20 @@ namespace ShowMe.Views
             this.BindingContext = viewModel = new ProfileViewModel();
         }
 
+        /// <summary>
+        /// When page appears, be sure to init correctly
+        /// </summary>
         protected override void OnAppearing()
         {
             base.OnAppearing();
             viewModel.Init();
         }
 
+        /// <summary>
+        /// Actions to take when user clicks on log out button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnLogOutClicked(object sender, EventArgs e)
         {
             App.IsLoggedIn = false;

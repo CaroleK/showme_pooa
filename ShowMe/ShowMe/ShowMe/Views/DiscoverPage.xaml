@@ -16,8 +16,6 @@
                 Placeholder="Search for shows..."
                 SearchButtonPressed="Discover_SearchButtonPressed"
                 TextChanged="Discover_TextChanged"
-                Focused="Discover_Focused"
-                Unfocused="Discover_Unfocused"
                 HeightRequest="42"/>
 
             <ListView
