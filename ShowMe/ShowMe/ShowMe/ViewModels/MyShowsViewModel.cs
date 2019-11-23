@@ -49,8 +49,6 @@ namespace ShowMe.ViewModels
         {
             Title = "Browse my shows";
 
-            Init();
-
             FilterOptions = new ObservableCollection<string>
                 {
                     "All",

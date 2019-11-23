@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ShowMe.Models;
 using ShowMe.Services;
@@ -31,10 +32,6 @@ namespace ShowMe.Views
                          
         }
 
-        // Both properties are useful to make navigation's logic smoother 
-        protected Page currentPage = null;
-        protected Page lastPage = null;
-
         /// <summary>
         /// Triggered when user navigates to new tab
         /// Implements base.OnCurrentPageChanged()
@@ -42,17 +39,12 @@ namespace ShowMe.Views
         /// </summary>
         protected async override void OnCurrentPageChanged()
         {
-            // Updates the last visited 
-            lastPage = currentPage;
-
             // CurrentPage is the new tab the user just clicked on 
-            currentPage = CurrentPage;
-
             // Resets the tab the user just exited to its root 
-            if (lastPage != null)
+            if (CurrentPage != null)
             {
-                await lastPage.Navigation.PopToRootAsync();
-            }
+                await CurrentPage.Navigation.PopToRootAsync();
+            }            
 
             base.OnCurrentPageChanged();
         }
