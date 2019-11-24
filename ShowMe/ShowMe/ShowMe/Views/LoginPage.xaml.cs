@@ -165,6 +165,10 @@ namespace ShowMe.Views
                     // Re-initialize MyShowsCollection for user that just logged in
                     App.User = loggedinUser;
                     MyShowsCollection.Instance = null;
+
+                    // Warn that user has logged in, triggers alarmManager for notifications scheduling
+                    MessagingCenter.Send<LoginPage>(this, "UserLoggedIn");
+
                     return true;
                 }                
             }
@@ -202,9 +206,6 @@ namespace ShowMe.Views
             LoginActivityIndicator.IsVisible = false;
             LoginActivityIndicatorLayout.IsVisible = false;
             LoginActivityIndicatorLayout.IsEnabled = false;
-
-            // Warn that user has logged in, triggers alarmManager for notifications scheduling
-            MessagingCenter.Send<LoginPage>(this, "UserLoggedIn");
         }
     }
 }

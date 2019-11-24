@@ -45,7 +45,7 @@ namespace ShowMe.Droid
                 var pending = PendingIntent.GetBroadcast(this, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
 
                 var alarmManager = GetSystemService(AlarmService).JavaCast<AlarmManager>();
-                alarmManager.SetInexactRepeating(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime() + 60 * 1000, AlarmManager.IntervalHalfDay, pending);
+                alarmManager.SetInexactRepeating(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime() + 30 * 1000, AlarmManager.IntervalHalfDay, pending);
             });
             
         }

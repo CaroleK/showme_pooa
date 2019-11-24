@@ -3,7 +3,6 @@ using ShowMe.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ShowMe.Services
@@ -36,7 +35,7 @@ namespace ShowMe.Services
                         string[] airtime = schedule.Airtime.Split(':');
                         string[] airdate = schedule.Airdate.Split('-');
                         DateTime airDate = new DateTime(int.Parse(airdate[0]), int.Parse(airdate[1]), int.Parse(airdate[2]), int.Parse(airtime[0]), int.Parse(airtime[1]), 0);
-                        
+
                         // If the date is already passed, notification is sent right away 
                         // This behaviour would not be ideal in the real applications, 
                         // but for demonstration purposes it allows us to prove that notifications work without having to wait
@@ -56,7 +55,7 @@ namespace ShowMe.Services
             {
                 CrossLocalNotifications.Current.Show("Oops, an exception occurred while scheduling notifications", e.Message, 0, DateTime.Now);
             }
-            
+
         }
 
         /// <summary>
@@ -80,7 +79,7 @@ namespace ShowMe.Services
             List<ScheduleShow> sAfterTomorrow = Task.Run(() => service.GetUpCommingEpisode(myShows, dateTimeAfterTomorrow, regionISO)).Result;
             sTomorrow.AddRange(sAfterTomorrow);
 
-            return sTomorrow; 
+            return sTomorrow;
         }
 
 
