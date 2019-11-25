@@ -26,7 +26,7 @@ namespace ShowMe.ViewModels
         // Global list of scheduled shows, binded to the UI
         public ObservableCollection<PageScheduleShow> SchedulesShows { get; set; } = new ObservableCollection<PageScheduleShow>();
 
-        // Boolean to check is list is empty and display message in that case
+        // Boolean to check if list is empty and display message in that case
         private bool _isEmptySchedulesShows;
         public bool isEmptySchedulesShows
         {
@@ -53,13 +53,18 @@ namespace ShowMe.ViewModels
             }));
             Task.WaitAll();
         }
-
+       
         public HomeUpcommingViewModel() : base()
         {
             Title = "Up Coming Shows";
             SchedulesShows.CollectionChanged += OnSchedulesShowsChanged;
         }
 
+        /// <summary>
+        /// Called to check if SchedulesShows is empty or not (to know if we have to display message)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnSchedulesShowsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             int totalSchedulesShows = 0;

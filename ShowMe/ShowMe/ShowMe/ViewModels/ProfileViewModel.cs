@@ -41,11 +41,13 @@ namespace ShowMe.ViewModels
                 UpdateNumberOfEpisodesWatched(item.LastEpisodeWatched, item.SeasonsList, false, item.FirstEpisodeToWatch);
             });
 
+            //When we increment one episode, we consider the NextEpisode as the episode to watch
             MessagingCenter.Subscribe<BaseViewModel, MyShow>(this, "IncrementOneEpisode", (obj, item) =>
             {
                 IncrementNumberOfEpisodesWatched(item.NextEpisode().Duration);
             });
 
+            //When we update the LastEpisode number manually, we consider two cases: one where we increased the LastEpisode number, one where we decreased it
             MessagingCenter.Subscribe<BaseViewModel, object[]>(this, "UpdateStats", (obj, item) =>
             {
                 EpisodeSeason oldNextEpisodeWatched = item[0] as EpisodeSeason;
@@ -53,10 +55,12 @@ namespace ShowMe.ViewModels
                 MyShow newShow = item[2] as MyShow;
                 EpisodeSeason lastEpisodeWatched = newShow.LastEpisodeWatched;
 
+                //If the user increased the LastEpisode number seen
                 if (lastEpisodeWatched.IsAfter(oldNextEpisodeWatched))
                 {
                     UpdateNumberOfEpisodesWatched(lastEpisodeWatched, newShow.SeasonsList, true, oldNextEpisodeWatched);
                 }
+                //If the user decreased the LastEpisode number seen
                 else
                 {
                     UpdateNumberOfEpisodesWatched(oldLastEpisodeWatched, newShow.SeasonsList, false, newShow.NextEpisode());
