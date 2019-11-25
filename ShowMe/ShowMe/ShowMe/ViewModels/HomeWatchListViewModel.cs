@@ -32,6 +32,11 @@ namespace ShowMe.ViewModels
             ShowsToDisplay.CollectionChanged += OnShowsToDisplayChanged;
         }
 
+        /// <summary>
+        /// Called to check if ShowsToDisplay is empty or not (to know if we have to display message)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnShowsToDisplayChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             isEmptyShowsToDisplay = (ShowsToDisplay.Count() > 0) ? false : true;
