@@ -154,3 +154,18 @@ c. Log out button
 * Verify that you can log out:
 1. Click on the ```Profile``` page 
 2. Click on the ```Log out``` button
+
+## Code Structure 
+
+1. ShowMe :
+* Models : The classes defining the objects we use in the application (show, episode etc.)
+* Services : Additional services to access API, Firebase, to schedule notifications etc.
+* ViewModels : The backend code corresponding to the views
+* Views : The pages and frontend code
+* Constants.cs : Environment constants for google login and firebase
+
+2. ShowMe.Android : 
+* Resources/drawable : all the images and icons used in the app 
+* BackgroundReceiver.cs : service that wakes up the phone at given time-interval to schedule notifications
+* CustomUrlSchemeInterceptorActivity.cs : activity redirecting the user after log in
+* ToastMessage.cs : allows to send toast messages on Android
