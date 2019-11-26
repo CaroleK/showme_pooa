@@ -105,13 +105,13 @@ c. Log out button
 
 ### Running the tests
 
-*Browse through the pages to verify initialization:
+* Browse through the pages to verify initialization:
 1. Home TV page : Verify that you get the message ```Click on the Discover tab to start adding shows to your list !``` on the To Watch tab, and ```No shows on your list is scheduled on TV, try adding another show!```on the upcoming tab.
 2. Browse : Verify that you are able to discover more shows by swiping up (note: a loading image should appear if the API call is too long)
 3. Browse my show : Empty
 4. Profile page : Verify that your profile picture and user name are displayed and that your statistics are up to 0
 
-*Add a show to your watch list:
+* Add a show to your watch list:
 1. Click on a show (for example ```Under the Dome```) 
 1.a. Verify that you see the Summary, the Cast (with a list of actors - name and picture), the Episodes list (picture and title)
 2. Click on the button ```Add to my shows```
@@ -119,38 +119,38 @@ c. Log out button
 2.b Click on ```Choose season``` and choose a number (do the same to choose the episode)
 2.c Click on ```Save```
 
-*Verify that the show has been added to your Watch list:
+* Verify that the show has been added to your Watch list:
 1. Click on the ```Browse my show``` page 
 2. Verify that the show is displayed
 
-*Verify that you can increment the last episode seen:
+* Verify that you can increment the last episode seen:
 1. Click on the ```Home TV``` page 
 2. Verify that the show is displayed 
 3. Click on the check-button
 4. Verify that the check-button goes green
 5. Verify that the last episode number has been incremented
 
-*Verify that your statistics have been incremented:
+* Verify that your statistics have been incremented:
 1. Click on the ```Profile``` page 
 2. Verify that your statistics have been incremented
 
-*Add several shows to your watch list:
+* Add several shows to your watch list:
 1. Add a show and indicate that it's one of your favorites by clicking on the heart button
 2. Add a show and indicate that you did not start watching it
 3. Add a show and indicate that you finished it (select the last episode of the last season)
 4. Add a show that is scheduled on TV (examples : Big City Greens (on Saturdays), General Hospital (on weekdays), PBS NewsHour (on weekdays))
 
-*Verify several properties:
+* Verify several properties:
 1. Verify that you can filter by ```Favorites``` in the ```Browse my show``` page
 2. Verify that you can filter by ```Progress status``` (All, Not started, In progress, Finished)
 3. Verify that you get the ```UpComing``` on the ```Home TV``` page
 4. Verify that you can delete a show, by going on the ```Browse my shows``` page, clicking on a show then clicking on the trash button
 5. Verify that you can modify your ```Last episode watched```, by going on the ```Browse my shows``` page, clicking on a show then clicking on the pencil button
 
-*Verify that you get the notifications:
+* Verify that you get the notifications:
 1. Close the application on your device
 2. Open the application (you should get the notification 24 hours in advance)
 
-*Verify that you can log out:
+* Verify that you can log out:
 1. Click on the ```Profile``` page 
 2. Click on the ```Log out``` button
