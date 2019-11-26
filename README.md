@@ -37,6 +37,8 @@ We also decided to store our users' data in Firebase (Google's cloud) : it is us
 
 ## Getting Started
 
+ To open the project in Visual Studio, make sure you have installed the package Mobile Development (.NET) in Visual Studio Installer.
+ 
  The instructions will get you a copy of the application on your Android device
 
  * Enable developer options and debugging on your Android device
