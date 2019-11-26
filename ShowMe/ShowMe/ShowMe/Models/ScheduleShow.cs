@@ -11,19 +11,19 @@ namespace ShowMe.Models
     public class ScheduleShow
     {
         [JsonProperty("id")]
-        public int ? IdEpisode { get; set; }
+        public int ? IdEpisode { get; private set; }
 
         [JsonProperty("name")]
-        public string TitleEpisode { get; set; } = "No title";
+        public string TitleEpisode { get; private set; } = "No title";
 
         [JsonProperty("airtime")]
-        public string Airtime { get; set; }
+        public string Airtime { get; private set; }
 
         [JsonProperty("airdate")]
-        public string Airdate { get; set; }
+        public string Airdate { get; private set; }
 
         [JsonProperty("show")]
-        public Show Show { get; set; }
+        public Show Show { get; private set; }
         
         public string TextInformation => Show.Title + " - " + TitleEpisode;
         public string DetailInformation => Airtime + " || " + Show.Network.NetworkName;

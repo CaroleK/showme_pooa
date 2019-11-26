@@ -16,7 +16,7 @@ namespace ShowMe.ViewModels
     /// </summary>
     public class HomeWatchListViewModel : BaseViewModel
     {
-        public TvMazeService service = new TvMazeService();
+        private TvMazeService service = new TvMazeService();
 
         // The list of shows binded to the UI
         public ObservableCollection<MyShow> ShowsToDisplay { get; set; } = new ObservableCollection<MyShow>();

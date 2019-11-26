@@ -16,13 +16,13 @@ namespace ShowMe.ViewModels
         public ObservableCollection<Show> Shows { get; set; }
 
         // TV Maze service
-        TvMazeService service = new TvMazeService();
+        private TvMazeService service = new TvMazeService();
 
         //Instantiate a Singleton of the Semaphore with a value of 1. This means that only 1 thread can be granted access at a time.
-        static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
+        private static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
         // Counter used to increment the ids of shows to display
-        public int counter = 1;
+        private int counter = 1;
 
         public DiscoverViewModel()
         {

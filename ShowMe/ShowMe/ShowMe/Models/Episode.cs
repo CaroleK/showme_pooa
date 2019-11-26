@@ -10,26 +10,24 @@ namespace ShowMe.Models
     /// </summary>
     public class Episode
     {
-        [JsonProperty("id")]
-        public int Id { get; set; }
-
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
+        // Not used in this version, but could be useful for improvements
         [JsonProperty("summary")]
-        public string Description { get; set; }
+        private string Description { get; set; }
 
         [JsonProperty("season")]
-        public int Season { get; set; }
+        public int Season { get; private set; }
 
         [JsonProperty("number")]
-        public int Number { get; set; }
+        public int Number { get; private set; }
 
         [JsonProperty("image")]
-        public Dictionary<string, string> Image { get; set; } = null;
+        private Dictionary<string, string> Image { get; set; } = null;
 
         [JsonProperty ("runtime")]
-        public int DurationInMinutes {get; set;}
+        public int DurationInMinutes {get; private set;}
 
         // Retrieves the (safe) url of the medium-sized image
         public string ImageMedium => (Image != null) ? (Image["medium"]).Replace("http", "https") : "";

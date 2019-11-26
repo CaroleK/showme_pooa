@@ -14,32 +14,27 @@ namespace ShowMe.Models
     public class Show
     {
         [JsonProperty("id")]
-        public int Id { get; set; } = 0;
+        public int Id { get; protected set; } = 0;
 
         [JsonProperty("name")]
-        public string Title { get; set; } = "No title";
+        public string Title { get; protected set; } = "No title";
 
         [JsonProperty("language")]
-        public string Language { get; set; } = "No language";
+        public string Language { get; protected set; } = "No language";
 
         [JsonProperty("genres")]
-        public string[] Genres { get; set; } = null;
-
-        [JsonProperty("officialSite")]
-        public string Url { get; set; } = "No site";
+        public string[] Genres { get; protected set; } = null;
 
         [JsonProperty("network")]
-        public SearchNetwork Network { get; set; }
+        public SearchNetwork Network { get; protected set; }
 
         [JsonProperty("summary")]
-        public string Description { get; set; } = "No description availble";
+        public string Description { get; protected set; } = "No description availble";
 
-        public string Summary { get { return ConvertDescriptionFromHtmlToString(this.Description); } set { } }
+        public string Summary { get { return ConvertDescriptionFromHtmlToString(this.Description); } protected set { } }
         
         [JsonProperty("image")]
-        public Dictionary<string, string> Image { get; set; } = null;
-
-
+        public Dictionary<string, string> Image { get; protected set; } = null;
 
         // Last episode that exists for this show
         public EpisodeSeason LastEpisode { get; set; }
@@ -56,17 +51,12 @@ namespace ShowMe.Models
 
         public List<Actor> Cast { get; set; }
 
-        public override string ToString()
-        {
-            return Title;
-        }
-
         /// <summary>
         /// Parse the HTML description to prettier text
         /// </summary>
         /// <param name="description">The HTML-formatted text</param>
         /// <returns>The text without formatting and tags</returns>
-        public string ConvertDescriptionFromHtmlToString(string description)
+        private string ConvertDescriptionFromHtmlToString(string description)
         {
             string result = Regex.Replace(description, "<.*?>", String.Empty);
             return result;

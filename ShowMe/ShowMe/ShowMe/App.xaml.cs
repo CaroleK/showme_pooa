@@ -30,7 +30,7 @@ namespace ShowMe
             }
         }
 
-        void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        private void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
         {
 
             var access = e.NetworkAccess;
@@ -73,7 +73,7 @@ namespace ShowMe
             get { return !string.IsNullOrWhiteSpace(_Token); } set { }
         }
 
-        static string _Token;
+        private static string _Token;
         public static string Token
         {
             get { return _Token; }

@@ -131,7 +131,7 @@ namespace ShowMe.Services
         /// <param name="userId">The id of the user to update</param>
         /// <param name="user">The user object with its changes</param>
         /// <returns>Void task</returns>
-        static public async Task UpdateUser(string userId, User user)
+        static private async Task UpdateUser(string userId, User user)
         {
             try
             {
@@ -154,7 +154,7 @@ namespace ShowMe.Services
         /// <param name="UserId">The user id</param>
         /// <param name="selectedShow">The show to add</param>
         /// <returns>Void task</returns>
-        static public async Task AddShowToUserList(string UserId, MyShow selectedShow)
+        static private async Task AddShowToUserList(string UserId, MyShow selectedShow)
         {
             try
             {
@@ -209,7 +209,7 @@ namespace ShowMe.Services
         /// <param name="UserId">The user id</param>
         /// <param name="myShowToDelete">The show to delete</param>
         /// <returns>Void task</returns>
-        internal static async Task DeleteShowFromUserList(string UserId, MyShow myShowToDelete)
+        private static async Task DeleteShowFromUserList(string UserId, MyShow myShowToDelete)
         {
             try
             {
@@ -233,7 +233,7 @@ namespace ShowMe.Services
         /// <param name="UserId">The user id</param>
         /// <param name="showToUpdate">The show to update</param>
         /// <returns>Void task</returns>
-        internal async Task UpdateMyShow(string UserId, MyShow showToUpdate)
+        private async Task UpdateMyShow(string UserId, MyShow showToUpdate)
         {
             try
             {
