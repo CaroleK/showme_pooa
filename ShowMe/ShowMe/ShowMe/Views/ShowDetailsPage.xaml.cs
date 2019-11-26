@@ -182,7 +182,9 @@ namespace ShowMe.Views
                 //Adapt UI
                 Btn_AddToMyShows.IsVisible = true;
                 Btn_Favorite.IsVisible = false;
+                Btn_Favorite.Source = "empty_heart.png";
                 Btn_Notification.IsVisible = false;
+                Btn_Notification.Source = "full_bell.png";
                 Btn_DeleteFromMyShows.IsVisible = false;
                 DisplayLastEpisode.IsVisible = false;
                 Btn_EditLastEpisodeWatched.IsVisible = false;
