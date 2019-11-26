@@ -12,6 +12,29 @@ Note : The user can indicate his wish not to be notified.
 
 * The user can also make a list of favorite shows and track his watching statistics
 
+## Code Structure 
+
+We used the MVVM pattern (Model - View - ViewModel) to facilitate the UI/code interactions and to help us organize our code.
+
+We decided to retrieve all the shows' data from the API TV Maze (https://www.tvmaze.com/api).
+
+We also decided to store our users' data in Firebase (Google's cloud) : it is used to retrieve their information (statistics, list of shows) between 2 connections. We have sent you (jean-philippe.poli@centralesupelec.fr) an invitation to access this database. 
+
+1. ShowMe (the Xamarin.forms project that is common for all platforms):
+* Models : The classes defining the objects we use in the application (show, episode etc.)
+* Services : Additional services to access API, Firebase, to schedule notifications etc.
+* Views : The pages and frontend code
+* ViewModels : The backend code corresponding to the views
+* Constants.cs : Environment constants for google login and firebase
+
+2. ShowMe.Android : 
+* Resources/drawable : all the images and icons used in the app 
+* BackgroundReceiver.cs : service that wakes up the phone at given time-interval to schedule notifications
+* CustomUrlSchemeInterceptorActivity.cs : activity redirecting the user after log in
+* ToastMessage.cs : allows to send toast messages on Android
+
+
+
 ## Getting Started
 
  The instructions will get you a copy of the application on your Android device
@@ -30,9 +53,17 @@ Note : The user can indicate his wish not to be notified.
  4. Build the application on your device by clicking on the green arrow on the top of Visual Studio windows
 
  * Play with the application on your device
+ 
+ Regarding the structure of our project, we used the 
 
 ### Prerequisites
 
+Our application is written in Xamarin.Forms that consists in using shared UI code and shared C# backend for all platforms. In this project, we only adapted it and tested it for Android devices but in theory it could also be easily adapted for iOS.
+
+For the demonstration, you should use an Android Device.
+
+Our application requires Internet to fully work but the case where Internet is disconnected is handled.
+ 
  Packages : 
  * FirebaseDatabase.net (4.0.1)
  * Newtonsoft.Json (12.0.2)
@@ -154,18 +185,3 @@ c. Log out button
 * Verify that you can log out:
 1. Click on the ```Profile``` page 
 2. Click on the ```Log out``` button
-
-## Code Structure 
-
-1. ShowMe :
-* Models : The classes defining the objects we use in the application (show, episode etc.)
-* Services : Additional services to access API, Firebase, to schedule notifications etc.
-* ViewModels : The backend code corresponding to the views
-* Views : The pages and frontend code
-* Constants.cs : Environment constants for google login and firebase
-
-2. ShowMe.Android : 
-* Resources/drawable : all the images and icons used in the app 
-* BackgroundReceiver.cs : service that wakes up the phone at given time-interval to schedule notifications
-* CustomUrlSchemeInterceptorActivity.cs : activity redirecting the user after log in
-* ToastMessage.cs : allows to send toast messages on Android
