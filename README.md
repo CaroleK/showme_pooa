@@ -62,36 +62,46 @@ Note : The user can indicate his wish not to be notified.
 
 * ShowMe application is divided into four tab pages:
 1. Home TV 
-```Home TV page is divided into two tab pages: 
+```
+Home TV page is divided into two tab pages: 
 a. To Watch - The user can follow the last episode watched of each show and increment it easily
-b. Upcoming - The user can see the next television transmissions of his shows```
+b. Upcoming - The user can see the next television transmissions of his shows
+```
 
 2. Browse
-```Browse page is divided into two sections:
+```
+Browse page is divided into two sections:
 a. Search bar - To search for specific shows
-b. Browsing section - To discover shows by swiping up```
+b. Browsing section - To discover shows by swiping up
+```
 
 2.bis. Clicking on a show, the user accesses to the Show Details Page
-```The user can : 
+```
+The user can : 
 a. Access the shows details (summary, cast, episodes list)
 b. Add the show to his watch list
 c. Indicate if he started to watch the show, and indicate the last episode watched
 d. Indicate that the show is one of his favorites (by clicking on the heart button)
 e. Indicate that he does not want to be notified of this show transmissions on TV (by click on the bell button)
 f. Change the last episode watched
-g. Delete the show from his watch list``
+g. Delete the show from his watch list
+```
 
 3. Browse my shows
-```Browse my shows page is divided into three sections:
+```
+Browse my shows page is divided into three sections:
 a. Selection bar - To filter the shows of the watching list by advancement criterias (Not started - In progress - Finished)
 b. Favorites button - To`filter favorite shows
-c. Browsing section - To see the status of each show of the watching list```
+c. Browsing section - To see the status of each show of the watching list
+```
 
 4. Profile page
-```Profile page is divided into three sections:
+```
+Profile page is divided into three sections:
 a. User section - Display the user picture and name
 b. User statistics - Display the time spent watching shows and the number of episodes watched
-c. Log out button```
+c. Log out button
+```
 
 ### Running the tests
 
