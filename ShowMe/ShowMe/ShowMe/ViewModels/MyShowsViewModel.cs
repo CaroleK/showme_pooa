@@ -17,7 +17,7 @@ namespace ShowMe.ViewModels
         public ObservableCollection<string> FilterOptions { get; }
 
         // Favorite options selected or not
-        bool onlyFavorites;
+        private bool onlyFavorites;
         public bool OnlyFavorites
         {
             get
@@ -32,7 +32,7 @@ namespace ShowMe.ViewModels
         }
 
         // Selected filter
-        string selectedFilter = "All";
+        private string selectedFilter = "All";
         public string SelectedFilter
         {
             get => selectedFilter;
@@ -62,7 +62,7 @@ namespace ShowMe.ViewModels
         /// Called when the property to only show favorite shows is changed
         /// Display shows according to settings
         /// </summary>
-        public void ToggleFavorite()
+        private void ToggleFavorite()
         {       
             if (OnlyFavorites)
             {
@@ -97,7 +97,7 @@ namespace ShowMe.ViewModels
         /// Called when the filter settings is changed
         /// Displays shows according to filter
         /// </summary>
-        public void FilterItems()
+        private void FilterItems()
         {
             ShowsToDisplay.Clear();
 

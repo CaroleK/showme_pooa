@@ -63,7 +63,7 @@ namespace ShowMe.Services
         /// </summary>
         /// <param name="myShows">The user's shows list</param>
         /// <returns>A list of ScheduleShow with airing details</returns>
-        static public List<ScheduleShow> RetrieveScheduledShows(ObservableCollection<MyShow> myShows)
+        static private List<ScheduleShow> RetrieveScheduledShows(ObservableCollection<MyShow> myShows)
         {
             TvMazeService service = new TvMazeService();
             DateTime DateTime = DateTime.Now;
@@ -88,7 +88,7 @@ namespace ShowMe.Services
         /// </summary>
         /// <param name="id">The ID of the MyShow to retrieve</param>
         /// <returns>The matching MustNotifiy (or false if no show matches the ID)</returns>
-        static protected bool GetMustNotifyByIdFromMyShows(ObservableCollection<MyShow> myShows, int id)
+        static private bool GetMustNotifyByIdFromMyShows(ObservableCollection<MyShow> myShows, int id)
         {
             foreach (MyShow myShow in myShows)
             {

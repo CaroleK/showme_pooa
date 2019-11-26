@@ -181,7 +181,7 @@ namespace ShowMe.ViewModels
         /// </summary>
         /// <param name="Duration"></param> duration of the episode
         /// <param name="increasingOrDecreasingVariation"></param> add or remove episode
-        public void UpdateMinutesInTotalMinutesWatched(int Duration, int increasingOrDecreasingVariation)
+        private void UpdateMinutesInTotalMinutesWatched(int Duration, int increasingOrDecreasingVariation)
         {
 
             App.User.TotalMinutesWatched += increasingOrDecreasingVariation * Duration;
@@ -191,7 +191,7 @@ namespace ShowMe.ViewModels
         /// When users increments one episode in Watchlist page, add this info in stats
         /// </summary>
         /// <param name="Duration"></param> duration of episode watched
-        public void IncrementNumberOfEpisodesWatched(int Duration)
+        private void IncrementNumberOfEpisodesWatched(int Duration)
         {
             App.User.TotalNbrEpisodesWatched += 1;
             App.User.TotalMinutesWatched += Duration;

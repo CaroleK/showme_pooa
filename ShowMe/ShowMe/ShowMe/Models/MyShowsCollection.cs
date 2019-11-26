@@ -40,7 +40,7 @@ namespace ShowMe.Models
         /// <summary>
         /// Retrieves the list of episodes for logged in user from Firebase database
         /// </summary>
-        public static void FetchMyShows()
+        private static void FetchMyShows()
         {
             List<MyShow> s = Task.Run(() => FireBaseHelper.GetUserShowList(App.User.Id)).Result;
             foreach (MyShow myShow in s)

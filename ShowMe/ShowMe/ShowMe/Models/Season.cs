@@ -11,11 +11,8 @@ namespace ShowMe.Models
     /// </summary>
     public class Season
     {
-        [JsonProperty("id")]
-        public int Id { get; set; }
-
         [JsonProperty("number")]
-        public int Number { get; set; }
+        public int Number { get; private set; }
 
         [JsonProperty("episodeOrder")]
         public int ? NumberOfEpisodes { get; set; }

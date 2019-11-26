@@ -28,17 +28,13 @@ namespace ShowMe.Models
         public EpisodeSeason LastEpisodeWatched { get; set; }
         
         // Turns the LastEpisodeWatched dictionnary into a  readable string in the form "Not started watching", "S1E1" or "S2E24 (finished)"
-        [JsonProperty("LastEpisodeWatchedInString")]
-        public string LastEpisodeWatchedInString 
+        [JsonProperty("LastEpisodeWatchedInFullString")]
+        public string LastEpisodeWatchedInFullString 
             => (LastEpisodeWatched != null) ? 
-            "S" + LastEpisodeWatched.SeasonNumber + "E" + LastEpisodeWatched.EpisodeNumber + (LastEpisode.Equals(LastEpisodeWatched) ?
+            "Last watched: S" + LastEpisodeWatched.SeasonNumber + "E" + LastEpisodeWatched.EpisodeNumber + (LastEpisode.Equals(LastEpisodeWatched) ?
                 " (Finished)"
                 : "")
             : "Not started watching";
-
-        // Adds "Last Watched: " at the beginning of LastEpisodeWatchedInString, useful for MyShowsPage 
-        [JsonProperty("LastEpisodeWatchedInFullString")]
-        public string LastEpisodeWatchedInFullString => "Last watched: " + LastEpisodeWatchedInString;
 
         public EpisodeSeason FirstEpisodeToWatch { get { return GetFirstEpisodeSeason(); } set { } }
 
@@ -57,7 +53,7 @@ namespace ShowMe.Models
 
         /// <summary>
         /// Constructor to build MyShow with all attributes
-        /// Can be used by the desiarization of TVMazeAPI json data
+        /// Can be used by the deserialization of TVMazeAPI json data
         /// </summary>
         /// <param name="id"></param>
         /// <param name="title"></param>
@@ -71,13 +67,12 @@ namespace ShowMe.Models
         /// <param name="lastEpisode"></param>
         /// <param name="lastEpisodeWatched"></param>
         [JsonConstructor]
-        public MyShow(int id, string title, string language, string[] genres, string url, string description, Dictionary<string, string> image , bool isFavorite, bool mustNotify, EpisodeSeason lastEpisode, EpisodeSeason lastEpisodeWatched)
+        public MyShow(int id, string title, string language, string[] genres, string description, Dictionary<string, string> image , bool isFavorite, bool mustNotify, EpisodeSeason lastEpisode, EpisodeSeason lastEpisodeWatched)
         { 
             Id = id;
             Title = title;
             Language = language;
             Genres = genres;
-            Url = url;
             Description = description;
             Image = image;
             LastEpisode = lastEpisode;
@@ -100,7 +95,6 @@ namespace ShowMe.Models
             Title = show.Title;
             Language = show.Language;
             Genres = show.Genres;
-            Url = show.Url;
             Description = show.Description;
             Image = show.Image;
             LastEpisode = show.LastEpisode;

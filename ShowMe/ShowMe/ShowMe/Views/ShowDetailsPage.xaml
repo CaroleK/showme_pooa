@@ -77,9 +77,8 @@
                             Text="Add to My Shows"
                             HorizontalOptions="Center"
                             Clicked="OnClickAddToMyShows"/>
-                    <StackLayout x:Name ="DisplayLastEpisode" Orientation="Horizontal" IsVisible="False" HorizontalOptions="CenterAndExpand" Spacing="10">
-                        <Label Text="Last watched: "></Label>
-                        <Label Text="{Binding Show.LastEpisodeWatchedInString}"></Label>
+                    <StackLayout x:Name ="DisplayLastEpisode" Orientation="Horizontal" IsVisible="False" HorizontalOptions="CenterAndExpand" Spacing="10">                        
+                        <Label Text="{Binding Show.LastEpisodeWatchedInFullString}"></Label>
                         <Image x:Name="Btn_EditLastEpisodeWatched" HeightRequest="25" WidthRequest="25" IsVisible="False">
                             <Image.Source>
                                 <OnPlatform x:TypeArguments="ImageSource">

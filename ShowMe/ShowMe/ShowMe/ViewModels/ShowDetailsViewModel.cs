@@ -17,7 +17,7 @@ namespace ShowMe.ViewModels
     public class ShowDetailsViewModel : BaseViewModel
     {
         // TV maze service
-        public TvMazeService service = new TvMazeService();
+        private TvMazeService service = new TvMazeService();
 
         // Show 
         private Show _show { get; set; }
@@ -55,7 +55,7 @@ namespace ShowMe.ViewModels
         /// And stores them in Show object
         /// </summary>
         /// <returns>Void task</returns>
-        public async Task LoadEpisodesAndSeasons()
+        private async Task LoadEpisodesAndSeasons()
         {
             Tuple<List<Episode>, List<Season>> tuple = await service.GetEpisodesAndSeasonsListAsync(Show.Id);
             List<Episode> episodesList = tuple.Item1;
@@ -82,7 +82,7 @@ namespace ShowMe.ViewModels
         /// And stores them in Show object
         /// </summary>
         /// <returns>Void task</returns>
-        public async Task LoadActors()
+        private async Task LoadActors()
         {
             List<Actor> ActorsList = await service.GetCastAsync(Show.Id);
             if (ActorsList != null)

@@ -12,6 +12,29 @@ Note : The user can indicate his wish not to be notified.
 
 * The user can also make a list of favorite shows and track his watching statistics
 
+## Code Structure 
+
+We used the MVVM pattern (Model - View - ViewModel) to facilitate the UI/code interactions and to help us organize our code.
+
+We decided to retrieve all the shows' data from the API TV Maze (https://www.tvmaze.com/api).
+
+We also decided to store our users' data in Firebase (Google's cloud) : it is used to retrieve their information (statistics, list of shows) between 2 connections. We have sent you (jean-philippe.poli@centralesupelec.fr) an invitation to access this database. 
+
+1. ShowMe (the Xamarin.forms project that is common for all platforms):
+* Models : The classes defining the objects we use in the application (show, episode etc.)
+* Services : Additional services to access API, Firebase, to schedule notifications etc.
+* Views : The pages and frontend code
+* ViewModels : The backend code corresponding to the views
+* Constants.cs : Environment constants for google login and firebase
+
+2. ShowMe.Android : 
+* Resources/drawable : all the images and icons used in the app 
+* BackgroundReceiver.cs : service that wakes up the phone at given time-interval to schedule notifications
+* CustomUrlSchemeInterceptorActivity.cs : activity redirecting the user after log in
+* ToastMessage.cs : allows to send toast messages on Android
+
+
+
 ## Getting Started
 
  The instructions will get you a copy of the application on your Android device
@@ -30,9 +53,17 @@ Note : The user can indicate his wish not to be notified.
  4. Build the application on your device by clicking on the green arrow on the top of Visual Studio windows
 
  * Play with the application on your device
+ 
+ Regarding the structure of our project, we used the 
 
 ### Prerequisites
 
+Our application is written in Xamarin.Forms that consists in using shared UI code and shared C# backend for all platforms. In this project, we only adapted it and tested it for Android devices but in theory it could also be easily adapted for iOS.
+
+For the demonstration, you should use an Android Device.
+
+Our application requires Internet to fully work but the case where Internet is disconnected is handled.
+ 
  Packages : 
  * FirebaseDatabase.net (4.0.1)
  * Newtonsoft.Json (12.0.2)
@@ -63,14 +94,14 @@ Note : The user can indicate his wish not to be notified.
 * ShowMe application is divided into four tab pages:
 1. Home TV 
 ```
-Home TV page is divided into two tab pages: 
-a. To Watch - The user can follow the last episode watched of each show and increment it easily
+The Home TV (MainPage) page is divided into two tab pages: 
+a. To Watch (WatchList) - The user can follow the last episode watched of each show and increment it easily
 b. Upcoming - The user can see the next television transmissions of his shows
 ```
 
-2. Browse
+2. Discover (title = Browse)
 ```
-Browse page is divided into two sections:
+The Discover page is divided into two sections:
 a. Search bar - To search for specific shows
 b. Browsing section - To discover shows by swiping up
 ```
@@ -87,7 +118,7 @@ f. Change the last episode watched
 g. Delete the show from his watch list
 ```
 
-3. Browse my shows
+3. MyShows Page (title = browse my shows)
 ```
 Browse my shows page is divided into three sections:
 a. Selection bar - To filter the shows of the watching list by advancement criterias (Not started - In progress - Finished)
@@ -141,31 +172,17 @@ c. Log out button
 4. Add a show that is scheduled on TV (examples : Big City Greens (on Saturdays), General Hospital (on weekdays), PBS NewsHour (on weekdays))
 
 * Verify several properties:
-1. Verify that you can filter by ```Favorites``` in the ```Browse my show``` page
+1. Verify that you can filter by ```Favorites``` in the ```MyShows``` page
 2. Verify that you can filter by ```Progress status``` (All, Not started, In progress, Finished)
-3. Verify that you get the ```UpComing``` on the ```Home TV``` page
-4. Verify that you can delete a show, by going on the ```Browse my shows``` page, clicking on a show then clicking on the trash button
-5. Verify that you can modify your ```Last episode watched```, by going on the ```Browse my shows``` page, clicking on a show then clicking on the pencil button
+3. Verify that you can delete a show, by going on the ```MyShows``` page, clicking on a show then clicking on the trash button
+4. Verify that you can modify your ```Last episode watched```, by going on the ```MyShows``` page, clicking on a show then clicking on the pencil button
+5. Verify that you have shows in the tab ```Upcoming``` of the ```Home TV``` page. These 
+
 
 * Verify that you get the notifications:
 1. Close the application on your device
-2. Open the application (you should get the notification 24 hours in advance)
+2. Open the application : you should get notifications of shows in your list airing in less then 24 hours within 1 min of opening (and that you wish to be notified, which is the case by default). Otherwise, you receive notifications for your shows exactly 24 hours before they air.
 
 * Verify that you can log out:
 1. Click on the ```Profile``` page 
 2. Click on the ```Log out``` button
-
-## Code Structure 
-
-1. ShowMe :
-* Models : The classes defining the objects we use in the application (show, episode etc.)
-* Services : Additional services to access API, Firebase, to schedule notifications etc.
-* ViewModels : The backend code corresponding to the views
-* Views : The pages and frontend code
-* Constants.cs : Environment constants for google login and firebase
-
-2. ShowMe.Android : 
-* Resources/drawable : all the images and icons used in the app 
-* BackgroundReceiver.cs : service that wakes up the phone at given time-interval to schedule notifications
-* CustomUrlSchemeInterceptorActivity.cs : activity redirecting the user after log in
-* ToastMessage.cs : allows to send toast messages on Android

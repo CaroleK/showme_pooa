@@ -16,12 +16,12 @@ namespace ShowMe.ViewModels
     public class HomeUpcommingViewModel : BaseViewModel
     {
         // TV Maze service
-        TvMazeService service = new TvMazeService();
+        private TvMazeService service = new TvMazeService();
 
         // Lists of scheduled shows each day, with titles
-        public PageScheduleShow ScheduleToday { get; set; } = new PageScheduleShow() { TitleDate = "On TV today" };
-        public PageScheduleShow ScheduleTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "On TV tomorrow" };
-        public PageScheduleShow ScheduleAfterTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "On TV after tomorrow" };
+        private PageScheduleShow ScheduleToday { get; set; } = new PageScheduleShow() { TitleDate = "On TV today" };
+        private PageScheduleShow ScheduleTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "On TV tomorrow" };
+        private PageScheduleShow ScheduleAfterTomorrow { get; set; } = new PageScheduleShow() { TitleDate = "On TV after tomorrow" };
 
         // Global list of scheduled shows, binded to the UI
         public ObservableCollection<PageScheduleShow> SchedulesShows { get; set; } = new ObservableCollection<PageScheduleShow>();
@@ -81,7 +81,7 @@ namespace ShowMe.ViewModels
         /// Updates schedules list
         /// </summary>
         /// <returns>Void task</returns>
-        public async Task ExecuteUpCommingCommand()
+        private async Task ExecuteUpCommingCommand()
         {
             DateTime DateTime = DateTime.Now;
             string dateTimeToday = DateTime.ToString("yyyy-MM-dd");

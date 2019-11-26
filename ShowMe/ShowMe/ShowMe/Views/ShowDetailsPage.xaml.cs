@@ -15,8 +15,8 @@ namespace ShowMe.Views
     public partial class ShowDetailsPage : ContentPage
     {
         ShowDetailsViewModel viewModel;
-        MyShow myShow = null;
-        AddShowPopUp _addShowPopUpPage;
+        private MyShow myShow = null;
+        private AddShowPopUp _addShowPopUpPage;
 
         /// <summary>
         /// UI Page that shows to the user all the details of a Show (in 2 tabs called About and Episodes) 
@@ -50,7 +50,7 @@ namespace ShowMe.Views
         /// <summary>
         /// Back-code event triggered when user clicks on "Add to MyShows" button
         /// </summary>
-        async void OnClickAddToMyShows(object sender, EventArgs e)
+        private async void OnClickAddToMyShows(object sender, EventArgs e)
         {
             //First pop-up
             bool userStartedWatchingShow = await DisplayAlert("Show added to your list!", "Did you start watching this show?", "Yes", "No");

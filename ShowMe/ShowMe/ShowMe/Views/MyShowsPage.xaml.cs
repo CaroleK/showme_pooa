@@ -27,7 +27,7 @@ namespace ShowMe.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        async void OnListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private async void OnListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             Show selectedItem = e.SelectedItem as Show;
             if (selectedItem == null)

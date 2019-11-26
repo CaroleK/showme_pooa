@@ -37,7 +37,7 @@ namespace ShowMe.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void OnLoginClicked(object sender, EventArgs e)
+        private void OnLoginClicked(object sender, EventArgs e)
         {
             // retrieves client Id and the redirecting url constants, used to login with Google
             string clientId = Constants.AndroidClientId;
@@ -84,7 +84,7 @@ namespace ShowMe.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        async void OnAuthCompleted(object sender, AuthenticatorCompletedEventArgs e)
+        private async void OnAuthCompleted(object sender, AuthenticatorCompletedEventArgs e)
         {
             if (sender is OAuth2Authenticator authenticator)
             {
@@ -126,7 +126,7 @@ namespace ShowMe.Views
         /// </summary>
         /// <param name="account"></param>
         /// <returns>True is a user was successfully fetched or created, false otherwise</returns>
-        async Task<bool> FetchOrCreateUser(Xamarin.Auth.Account account)
+        private async Task<bool> FetchOrCreateUser(Xamarin.Auth.Account account)
         {
             // If the user is authenticated, request their basic user data from Google
             // UserInfoUrl = https://www.googleapis.com/oauth2/v2/userinfo
@@ -180,7 +180,7 @@ namespace ShowMe.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void OnAuthError(object sender, AuthenticatorErrorEventArgs e)
+        private void OnAuthError(object sender, AuthenticatorErrorEventArgs e)
         {
             var authenticator = sender as OAuth2Authenticator;
             if (authenticator != null)
@@ -196,7 +196,7 @@ namespace ShowMe.Views
         /// <summary>
         /// Move on to main page
         /// </summary>
-        async void ToMainPage()
+        private async void ToMainPage()
         {
             await Navigation.PushAsync(new MainPage());
 
